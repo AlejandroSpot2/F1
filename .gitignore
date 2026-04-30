@@ -1,0 +1,15 @@
+# Ignore local Python virtual environments
+**/.venv/
+
+# Ignore Python cache
+**/__pycache__/
+**/*.pyc
+**/.fastf1_cache/
+
+# Ignore Node dependencies and local browser artifacts
+node_modules/
+.tmp-playwright/
+output/
+
+# Ignore local instructions dropped into subfolders
+**/Instructions.md

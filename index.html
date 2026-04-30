@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From DRS to Mario Mushrooms</title>
+    <link rel="stylesheet" href="css/site.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/alpha-release-data.js"></script>
+</head>
+<body>
+    <div class="page">
+        <header class="site-header">
+            <div class="brand-block">
+                <h1>From DRS to Mario Mushrooms</h1>
+                <p class="site-subtitle">A comparison of Formula 1's first three races in 2025 and 2026</p>
+            </div>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#overview">Overview</a>
+                <a href="#pace">Pace</a>
+                <a href="#position">Position</a>
+                <a href="#disruption">Disruption</a>
+                <a href="#scorecard">Scorecard</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="overview" class="panel">
+                <div class="section-copy">
+                    <h2>Alpha Release Overview</h2>
+                    <p>
+                        This Alpha Release turns the approved proposal into a screenshot-ready static story page.
+                        The visuals compare Australia, China, and Japan across 2025 and 2026 using FastF1 race data,
+                        with the emphasis on pace, top speed, running-order volatility, and race disruption.
+                    </p>
+                    <p>
+                        Everything on this page is static by design so the charts can be captured directly for the
+                        report and the Notion proposal update. The data was generated locally from FastF1 and written
+                        into a browser-ready file so the page can open without a dev server.
+                    </p>
+                </div>
+                <dl class="meta-grid">
+                    <div>
+                        <dt>Project website</dt>
+                        <dd><a href="https://alejandrospot2.github.io/F1/">https://alejandrospot2.github.io/F1/</a></dd>
+                    </div>
+                    <div>
+                        <dt>Data source</dt>
+                        <dd>FastF1 race sessions for six Grands Prix</dd>
+                    </div>
+                    <div>
+                        <dt>Chart count on this page</dt>
+                        <dd>Five D3 sections</dd>
+                    </div>
+                    <div>
+                        <dt>Screenshot target</dt>
+                        <dd>Alpha Release report and proposal page</dd>
+                    </div>
+                </dl>
+                <div id="takeaways" class="takeaways"></div>
+            </section>
+
+            <section id="pace" class="panel">
+                <div class="section-copy">
+                    <h2>Circuit Comparison Bars</h2>
+                    <p>
+                        These paired charts compare 2025 and 2026 on three race-wide summaries: the median of each
+                        driver's best green-flag lap, the fastest green-flag lap in the race, and the median clean-lap
+                        speed trap. They serve as the Alpha Release stand-in for the proposal's pace and speed module.
+                    </p>
+                </div>
+                <div id="pace-comparison" class="metric-panels"></div>
+            </section>
+
+            <section id="position" class="panel">
+                <div class="section-copy">
+                    <h2>Lap-by-Lap Position Step Charts</h2>
+                    <p>
+                        Each small multiple tracks the top five finishers in a single race. The side-by-side layout
+                        preserves the proposal's season comparison goal while keeping all six races on one page for
+                        screenshots.
+                    </p>
+                </div>
+                <div id="step-charts" class="step-grid"></div>
+            </section>
+
+            <section class="panel">
+                <div class="section-copy">
+                    <h2>Position-Change Proxy</h2>
+                    <p>
+                        This summary compresses all lap-by-lap running-order movement into one value per race. Higher
+                        totals indicate a more volatile running order across the full field.
+                    </p>
+                </div>
+                <div class="chart-shell">
+                    <svg id="position-proxy-chart" viewBox="0 0 1080 420" aria-label="Position change proxy"></svg>
+                </div>
+            </section>
+
+            <section id="disruption" class="panel">
+                <div class="section-copy">
+                    <h2>Incident and Neutralization Timeline</h2>
+                    <p>
+                        Each row shows lap states across an entire race. Green laps indicate uninterrupted running,
+                        while yellow, VSC, safety-car, and red-flag segments mark disruption.
+                    </p>
+                </div>
+                <div class="legend-row" id="timeline-legend"></div>
+                <div class="chart-shell">
+                    <svg id="timeline-chart" viewBox="0 0 1080 360" aria-label="Incident and neutralization timeline"></svg>
+                </div>
+            </section>
+
+            <section id="scorecard" class="panel">
+                <div class="section-copy">
+                    <h2>Final Circuit Scorecard</h2>
+                    <p>
+                        This matrix compares 2026 against 2025 for the core metrics at each circuit. Negative lap-time
+                        deltas mean 2026 was faster; positive values indicate slower laps. For the other metrics,
+                        positive values indicate an increase in 2026.
+                    </p>
+                </div>
+                <div class="chart-shell">
+                    <svg id="scorecard-chart" viewBox="0 0 1080 470" aria-label="Circuit scorecard"></svg>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="section-copy">
+                    <h2>Project Materials</h2>
+                    <p>
+                        The report draft and handoff notes are still in the repo for the written submission, but this
+                        page is now the main screenshot surface for the Alpha Release.
+                    </p>
+                </div>
+                <div class="doc-list">
+                    <a class="doc-link" href="docs/alpha-release-report.html">
+                        <span>Alpha Release report for PDF export</span>
+                        <span>HTML</span>
+                    </a>
+                    <a class="doc-link" href="docs/alpha-release-report.md">
+                        <span>Alpha Release report source</span>
+                        <span>Markdown</span>
+                    </a>
+                    <a class="doc-link" href="HANDOFF.md">
+                        <span>Handoff notes for another Codex session</span>
+                        <span>Markdown</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Data generated from FastF1 with <code>python scripts/build_alpha_release_data.py</code>.</p>
+        </footer>
+    </div>
+
+    <script>
+        const DATA = window.ALPHA_RELEASE_DATA;
+        const seasonColors = new Map([
+            [2025, "#c4ad95"],
+            [2026, "#8f4f18"]
+        ]);
+        const timelineColors = new Map([
+            ["Green", "#d9e4dc"],
+            ["Yellow", "#d5b65d"],
+            ["VSC", "#4f7d72"],
+            ["Safety Car", "#cf7b2e"],
+            ["Red Flag", "#9a3d30"]
+        ]);
+
+        if (!DATA) {
+            document.body.innerHTML = "<p style='font-family:sans-serif;padding:2rem;'>Alpha Release data file not found. Run <code>python scripts/build_alpha_release_data.py</code> first.</p>";
+        } else {
+            renderTakeaways(DATA);
+            renderPaceComparison(DATA.races);
+            renderStepCharts(DATA.races);
+            renderPositionProxy(DATA.races);
+            renderTimeline(DATA.races);
+            renderScorecard(DATA.scorecard);
+        }
+
+        function formatLap(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainder = seconds - minutes * 60;
+            return `${minutes}:${remainder.toFixed(3).padStart(6, "0")}`;
+        }
+
+        function formatMetric(key, value) {
+            if (key.includes("LapSec")) {
+                return formatLap(value);
+            }
+            if (key === "medianSpeedTrap") {
+                return `${value.toFixed(1)} km/h`;
+            }
+            return `${value}`;
+        }
+
+        function formatDelta(key, value) {
+            const sign = value > 0 ? "+" : "";
+            if (key.includes("LapSec")) {
+                return `${sign}${value.toFixed(3)} s`;
+            }
+            if (key === "medianSpeedTrap") {
+                return `${sign}${value.toFixed(1)} km/h`;
+            }
+            return `${sign}${value}`;
+        }
+
+        function renderTakeaways(data) {
+            const takeaways = document.querySelector("#takeaways");
+            const byCircuit = d3.group(data.races, (d) => d.circuit);
+
+            const circuitCards = Array.from(byCircuit, ([circuit, races]) => {
+                const season2025 = races.find((d) => d.year === 2025);
+                const season2026 = races.find((d) => d.year === 2026);
+                const paceDelta = season2026.metrics.medianBestLapSec - season2025.metrics.medianBestLapSec;
+                const speedDelta = season2026.metrics.medianSpeedTrap - season2025.metrics.medianSpeedTrap;
+                const positionDelta = season2026.metrics.positionChangeProxy - season2025.metrics.positionChangeProxy;
+
+                return {
+                    circuit,
+                    paceDelta,
+                    speedDelta,
+                    positionDelta
+                };
+            });
+
+            circuitCards.forEach((card) => {
+                const article = document.createElement("article");
+                article.className = "takeaway-card";
+                article.innerHTML = `
+                    <h3>${card.circuit}</h3>
+                    <p>${card.paceDelta < 0 ? "2026 was faster" : "2026 was slower"} by ${Math.abs(card.paceDelta).toFixed(3)} seconds on the median best lap.</p>
+                    <p>Speed trap change: ${card.speedDelta > 0 ? "+" : ""}${card.speedDelta.toFixed(1)} km/h.</p>
+                    <p>Position-change proxy change: ${card.positionDelta > 0 ? "+" : ""}${card.positionDelta.toFixed(1)}.</p>
+                `;
+                takeaways.append(article);
+            });
+        }
+
+        function renderPaceComparison(races) {
+            const metrics = [
+                {
+                    key: "medianBestLapSec",
+                    title: "Median best green-flag lap",
+                    note: "Lower is faster.",
+                    formatter: formatLap
+                },
+                {
+                    key: "fastestLapSec",
+                    title: "Fastest green-flag lap",
+                    note: "Lower is faster.",
+                    formatter: formatLap
+                },
+                {
+                    key: "medianSpeedTrap",
+                    title: "Median clean-lap speed trap",
+                    note: "Higher suggests stronger straight-line speed.",
+                    formatter: (value) => `${value.toFixed(1)} km/h`
+                }
+            ];
+
+            const container = d3.select("#pace-comparison");
+
+            metrics.forEach((metric) => {
+                const wrapper = container.append("article").attr("class", "chart-card");
+                wrapper.append("h3").text(metric.title);
+                wrapper.append("p").attr("class", "chart-note").text(metric.note);
+
+                const svg = wrapper.append("svg")
+                    .attr("viewBox", "0 0 330 280")
+                    .attr("aria-label", metric.title);
+
+                const width = 330;
+                const height = 280;
+                const margin = { top: 28, right: 12, bottom: 54, left: 54 };
+                const innerWidth = width - margin.left - margin.right;
+                const innerHeight = height - margin.top - margin.bottom;
+
+                const root = svg.append("g")
+                    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                const circuits = ["Australia", "China", "Japan"];
+                const x = d3.scaleBand().domain(circuits).range([0, innerWidth]).padding(0.24);
+                const xSeason = d3.scaleBand().domain([2025, 2026]).range([0, x.bandwidth()]).padding(0.2);
+
+                const values = races.map((race) => race.metrics[metric.key]);
+                const minValue = d3.min(values);
+                const maxValue = d3.max(values);
+                const pad = (maxValue - minValue) * 0.2 || maxValue * 0.03;
+                const y = d3.scaleLinear()
+                    .domain([minValue - pad, maxValue + pad])
+                    .range([innerHeight, 0]);
+
+                root.append("g")
+                    .selectAll("line")
+                    .data(y.ticks(5))
+                    .enter()
+                    .append("line")
+                    .attr("x1", 0)
+                    .attr("x2", innerWidth)
+                    .attr("y1", (d) => y(d))
+                    .attr("y2", (d) => y(d))
+                    .attr("stroke", "#eadfd4");
+
+                root.selectAll("rect")
+                    .data(races)
+                    .enter()
+                    .append("rect")
+                    .attr("x", (d) => x(d.circuit) + xSeason(d.year))
+                    .attr("y", (d) => y(d.metrics[metric.key]))
+                    .attr("width", xSeason.bandwidth())
+                    .attr("height", (d) => innerHeight - y(d.metrics[metric.key]))
+                    .attr("fill", (d) => seasonColors.get(d.year));
+
+                root.selectAll(".bar-label")
+                    .data(races)
+                    .enter()
+                    .append("text")
+                    .attr("x", (d) => x(d.circuit) + xSeason(d.year) + xSeason.bandwidth() / 2)
+                    .attr("y", (d) => y(d.metrics[metric.key]) - 6)
+                    .attr("text-anchor", "middle")
+                    .attr("font-size", 10)
+                    .text((d) => metric.formatter(d.metrics[metric.key]));
+
+                root.append("g")
+                    .attr("class", "axis")
+                    .attr("transform", `translate(0,${innerHeight})`)
+                    .call(d3.axisBottom(x));
+
+                root.append("g")
+                    .attr("class", "axis")
+                    .call(d3.axisLeft(y).ticks(5));
+
+                const legend = wrapper.append("div").attr("class", "mini-legend");
+                [2025, 2026].forEach((season) => {
+                    const item = legend.append("span");
+                    item.append("i").style("background", seasonColors.get(season));
+                    item.append("span").text(String(season));
+                });
+            });
+        }
+
+        function renderStepCharts(races) {
+            const container = d3.select("#step-charts");
+
+            races.forEach((race) => {
+                const wrapper = container.append("article").attr("class", "chart-card");
+                wrapper.append("h3").text(race.raceLabel);
+                wrapper.append("p").attr("class", "chart-note").text("Top five finishers, plotted as step lines by lap.");
+
+                const svg = wrapper.append("svg")
+                    .attr("viewBox", "0 0 340 250")
+                    .attr("aria-label", race.raceLabel);
+
+                const width = 340;
+                const height = 250;
+                const margin = { top: 18, right: 44, bottom: 34, left: 44 };
+                const innerWidth = width - margin.left - margin.right;
+                const innerHeight = height - margin.top - margin.bottom;
+
+                const root = svg.append("g")
+                    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                const positionExtent = d3.max(race.topFinishers.flatMap((driver) => driver.positions.map((d) => d.position)));
+                const x = d3.scaleLinear().domain([1, race.totalLaps]).range([0, innerWidth]);
+                const y = d3.scaleLinear().domain([positionExtent, 1]).range([innerHeight, 0]);
+                const line = d3.line()
+                    .curve(d3.curveStepAfter)
+                    .x((d) => x(d.lap))
+                    .y((d) => y(d.position));
+
+                root.append("g")
+                    .selectAll("line")
+                    .data(y.ticks(5))
+                    .enter()
+                    .append("line")
+                    .attr("x1", 0)
+                    .attr("x2", innerWidth)
+                    .attr("y1", (d) => y(d))
+                    .attr("y2", (d) => y(d))
+                    .attr("stroke", "#eadfd4");
+
+                race.topFinishers.forEach((driver) => {
+                    root.append("path")
+                        .datum(driver.positions)
+                        .attr("fill", "none")
+                        .attr("stroke", driver.color)
+                        .attr("stroke-width", 2.4)
+                        .attr("d", line);
+
+                    const finalPoint = driver.positions[driver.positions.length - 1];
+                    root.append("text")
+                        .attr("x", x(finalPoint.lap) + 5)
+                        .attr("y", y(finalPoint.position))
+                        .attr("dy", "0.32em")
+                        .attr("font-size", 10)
+                        .attr("fill", driver.color)
+                        .text(driver.driver);
+                });
+
+                root.append("g")
+                    .attr("class", "axis")
+                    .attr("transform", `translate(0,${innerHeight})`)
+                    .call(d3.axisBottom(x).ticks(4).tickFormat(d3.format("d")));
+
+                root.append("g")
+                    .attr("class", "axis")
+                    .call(d3.axisLeft(y).ticks(Math.min(5, positionExtent)).tickFormat(d3.format("d")));
+            });
+        }
+
+        function renderPositionProxy(races) {
+            const svg = d3.select("#position-proxy-chart");
+            const width = 1080;
+            const height = 420;
+            const margin = { top: 22, right: 20, bottom: 70, left: 70 };
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
+            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(races.map((d) => d.raceLabel))
+                .range([0, innerWidth])
+                .padding(0.22);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(races, (d) => d.metrics.positionChangeProxy)]).nice()
+                .range([innerHeight, 0]);
+
+            root.append("g")
+                .selectAll("line")
+                .data(y.ticks(5))
+                .enter()
+                .append("line")
+                .attr("x1", 0)
+                .attr("x2", innerWidth)
+                .attr("y1", (d) => y(d))
+                .attr("y2", (d) => y(d))
+                .attr("stroke", "#eadfd4");
+
+            root.selectAll("rect")
+                .data(races)
+                .enter()
+                .append("rect")
+                .attr("x", (d) => x(d.raceLabel))
+                .attr("y", (d) => y(d.metrics.positionChangeProxy))
+                .attr("width", x.bandwidth())
+                .attr("height", (d) => innerHeight - y(d.metrics.positionChangeProxy))
+                .attr("fill", (d) => seasonColors.get(d.year));
+
+            root.selectAll(".value-label")
+                .data(races)
+                .enter()
+                .append("text")
+                .attr("x", (d) => x(d.raceLabel) + x.bandwidth() / 2)
+                .attr("y", (d) => y(d.metrics.positionChangeProxy) - 6)
+                .attr("text-anchor", "middle")
+                .attr("font-size", 11)
+                .text((d) => d.metrics.positionChangeProxy.toFixed(0));
+
+            root.append("g")
+                .attr("class", "axis")
+                .attr("transform", `translate(0,${innerHeight})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "rotate(-25)")
+                .style("text-anchor", "end");
+
+            root.append("g")
+                .attr("class", "axis")
+                .call(d3.axisLeft(y).ticks(5));
+        }
+
+        function renderTimeline(races) {
+            const legend = d3.select("#timeline-legend");
+            timelineColors.forEach((color, label) => {
+                const item = legend.append("span");
+                item.append("i").style("background", color);
+                item.append("span").text(label);
+            });
+
+            const svg = d3.select("#timeline-chart");
+            const width = 1080;
+            const height = 360;
+            const margin = { top: 12, right: 20, bottom: 40, left: 150 };
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
+            const rowHeight = innerHeight / races.length;
+            const maxLap = d3.max(races, (d) => d.totalLaps);
+            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear().domain([1, maxLap + 1]).range([0, innerWidth]);
+
+            races.forEach((race, index) => {
+                const yTop = index * rowHeight;
+                root.append("text")
+                    .attr("x", -12)
+                    .attr("y", yTop + rowHeight / 2)
+                    .attr("text-anchor", "end")
+                    .attr("dy", "0.35em")
+                    .attr("font-size", 12)
+                    .text(race.raceLabel);
+
+                root.selectAll(`.lap-${race.raceKey}`)
+                    .data(race.statusTimeline)
+                    .enter()
+                    .append("rect")
+                    .attr("x", (d) => x(d.lap))
+                    .attr("y", yTop + 3)
+                    .attr("width", Math.max(1, x(2) - x(1) - 0.7))
+                    .attr("height", rowHeight - 6)
+                    .attr("fill", (d) => timelineColors.get(d.state) || "#d9e4dc");
+
+                root.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", innerWidth)
+                    .attr("y1", yTop + rowHeight)
+                    .attr("y2", yTop + rowHeight)
+                    .attr("stroke", "#eadfd4");
+            });
+
+            root.append("g")
+                .attr("class", "axis")
+                .attr("transform", `translate(0,${innerHeight})`)
+                .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format("d")));
+        }
+
+        function renderScorecard(scorecardRows) {
+            const svg = d3.select("#scorecard-chart");
+            const width = 1080;
+            const height = 470;
+            const margin = { top: 50, right: 20, bottom: 20, left: 250 };
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
+            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const circuits = ["Australia", "China", "Japan"];
+            const metricRows = [
+                "Median best lap (s)",
+                "Fastest lap (s)",
+                "Median speed trap (km/h)",
+                "Position-change proxy",
+                "Neutralized laps",
+                "DNFs"
+            ];
+
+            const x = d3.scaleBand().domain(circuits).range([0, innerWidth]).padding(0.08);
+            const y = d3.scaleBand().domain(metricRows).range([0, innerHeight]).padding(0.1);
+
+            const rowScales = new Map();
+            metricRows.forEach((metricLabel) => {
+                const values = scorecardRows
+                    .filter((row) => row.metricLabel === metricLabel)
+                    .map((row) => Math.abs(row.delta));
+                const maxAbs = d3.max(values) || 1;
+                rowScales.set(
+                    metricLabel,
+                    d3.scaleLinear().domain([-maxAbs, 0, maxAbs]).range(["#9a3d30", "#f5efe9", "#2f6f63"])
+                );
+            });
+
+            root.selectAll(".metric-label")
+                .data(metricRows)
+                .enter()
+                .append("text")
+                .attr("x", -16)
+                .attr("y", (d) => y(d) + y.bandwidth() / 2)
+                .attr("text-anchor", "end")
+                .attr("dy", "0.35em")
+                .attr("font-size", 12)
+                .text((d) => d);
+
+            root.selectAll(".circuit-label")
+                .data(circuits)
+                .enter()
+                .append("text")
+                .attr("x", (d) => x(d) + x.bandwidth() / 2)
+                .attr("y", -16)
+                .attr("text-anchor", "middle")
+                .attr("font-size", 12)
+                .attr("font-weight", 600)
+                .text((d) => d);
+
+            const cells = root.selectAll(".scorecard-cell")
+                .data(scorecardRows)
+                .enter()
+                .append("g")
+                .attr("transform", (d) => `translate(${x(d.circuit)},${y(d.metricLabel)})`);
+
+            cells.append("rect")
+                .attr("width", x.bandwidth())
+                .attr("height", y.bandwidth())
+                .attr("fill", (d) => rowScales.get(d.metricLabel)(d.delta))
+                .attr("stroke", "#d9cabc");
+
+            cells.append("text")
+                .attr("x", x.bandwidth() / 2)
+                .attr("y", y.bandwidth() / 2 - 7)
+                .attr("text-anchor", "middle")
+                .attr("font-size", 12)
+                .attr("font-weight", 600)
+                .attr("fill", (d) => Math.abs(d.delta) > 0.55 * d3.max(scorecardRows.filter((row) => row.metricLabel === d.metricLabel), (row) => Math.abs(row.delta)) ? "#ffffff" : "#3d2a17")
+                .text((d) => formatDelta(d.metricKey, d.delta));
+
+            cells.append("text")
+                .attr("x", x.bandwidth() / 2)
+                .attr("y", y.bandwidth() / 2 + 11)
+                .attr("text-anchor", "middle")
+                .attr("font-size", 10)
+                .attr("fill", (d) => Math.abs(d.delta) > 0.55 * d3.max(scorecardRows.filter((row) => row.metricLabel === d.metricLabel), (row) => Math.abs(row.delta)) ? "#f7f1ea" : "#6f5840")
+                .text((d) => `${formatMetric(d.metricKey, d.season2025)} -> ${formatMetric(d.metricKey, d.season2026)}`);
+        }
+    </script>
+</body>
+</html>

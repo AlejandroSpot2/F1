@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor Points Template</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+        :root {
+            --bg: #faf8f5;
+            --surface: #ffffff;
+            --text: #3d2a17;
+            --text-soft: #6f5840;
+            --primary: #8f4f18;
+            --border: #d9cabc;
+            --grid: #eadfd4;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+
+        main {
+            width: min(1120px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 1.5rem 0 2rem;
+        }
+
+        h1 {
+            margin: 0 0 0.35rem;
+            font-size: 2rem;
+        }
+
+        p {
+            margin: 0 0 1rem;
+            color: var(--text-soft);
+            max-width: 72ch;
+        }
+
+        .frame {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .axis text,
+        .axis path,
+        .axis line {
+            color: var(--text-soft);
+            stroke: currentColor;
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+
+        .note {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.82rem;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Constructor Points Comparison</h1>
+        <p>
+            Starter D3 page carried over from the earlier coursework structure and simplified for the F1 project.
+            Replace the sample array below with the final constructor or team-level dataset for the Alpha Release.
+        </p>
+        <div class="frame">
+            <svg id="chart" viewBox="0 0 1080 620" aria-labelledby="chart-title"></svg>
+        </div>
+        <p class="note">This page is static by design. No interaction is required for the Alpha Release.</p>
+    </main>
+
+    <script>
+        const sampleData = [
+            { team: "McLaren", points: 188 },
+            { team: "Ferrari", points: 176 },
+            { team: "Red Bull", points: 161 },
+            { team: "Mercedes", points: 142 },
+            { team: "Aston Martin", points: 74 },
+            { team: "Williams", points: 48 }
+        ];
+
+        const svg = d3.select("#chart");
+        const width = 1080;
+        const height = 620;
+        const margin = { top: 30, right: 40, bottom: 90, left: 80 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+
+        const root = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleBand()
+            .domain(sampleData.map((d) => d.team))
+            .range([0, innerWidth])
+            .padding(0.2);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(sampleData, (d) => d.points)]).nice()
+            .range([innerHeight, 0]);
+
+        root.append("g")
+            .selectAll("line")
+            .data(y.ticks(6))
+            .enter()
+            .append("line")
+            .attr("x1", 0)
+            .attr("x2", innerWidth)
+            .attr("y1", (d) => y(d))
+            .attr("y2", (d) => y(d))
+            .attr("stroke", "#eadfd4");
+
+        root.append("g")
+            .selectAll("rect")
+            .data(sampleData)
+            .enter()
+            .append("rect")
+            .attr("x", (d) => x(d.team))
+            .attr("y", (d) => y(d.points))
+            .attr("width", x.bandwidth())
+            .attr("height", (d) => innerHeight - y(d.points))
+            .attr("fill", "#8f4f18");
+
+        root.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${innerHeight})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "rotate(-25)")
+            .style("text-anchor", "end");
+
+        root.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(6));
+
+        root.append("text")
+            .attr("x", 0)
+            .attr("y", -8)
+            .attr("font-size", 14)
+            .attr("font-weight", 600)
+            .text("Sample constructor points");
+
+        root.append("text")
+            .attr("x", 0)
+            .attr("y", innerHeight + 64)
+            .attr("font-size", 12)
+            .attr("fill", "#6f5840")
+            .text("Replace sample values with final data before exporting the chart.");
+
+        root.selectAll(".value-label")
+            .data(sampleData)
+            .enter()
+            .append("text")
+            .attr("x", (d) => x(d.team) + x.bandwidth() / 2)
+            .attr("y", (d) => y(d.points) - 8)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 12)
+            .text((d) => d.points);
+    </script>
+</body>
+</html>

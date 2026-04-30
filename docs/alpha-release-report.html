@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Release Report</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+        :root {
+            --page: #fffdfa;
+            --ink: #2d1e10;
+            --muted: #6a553f;
+            --rule: #d7c8bb;
+            --accent: #8f4f18;
+            --panel: #f7f1ea;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #efe8df;
+            color: var(--ink);
+            font-family: "IBM Plex Sans", sans-serif;
+            line-height: 1.6;
+        }
+
+        article {
+            width: min(880px, calc(100% - 2rem));
+            margin: 1.5rem auto;
+            padding: 2.5rem;
+            background: var(--page);
+            border: 1px solid var(--rule);
+        }
+
+        h1,
+        h2 {
+            line-height: 1.2;
+        }
+
+        h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            margin: 2rem 0 0.75rem;
+            padding-top: 0.35rem;
+            border-top: 1px solid var(--rule);
+            font-size: 1.2rem;
+        }
+
+        p,
+        li {
+            font-size: 1rem;
+        }
+
+        .intro {
+            margin: 0 0 1rem;
+            color: var(--muted);
+        }
+
+        .callout {
+            padding: 0.9rem 1rem;
+            background: var(--panel);
+            border: 1px solid var(--rule);
+            margin: 1rem 0;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        code {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.92em;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0 0;
+        }
+
+        .meta div {
+            border: 1px solid var(--rule);
+            padding: 0.85rem;
+            background: var(--panel);
+        }
+
+        .meta strong {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            article {
+                width: auto;
+                margin: 0;
+                border: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Alpha Release</h1>
+        <p class="intro">
+            Export this page to PDF and submit it with the label <code>Alpha Release</code>.
+        </p>
+
+        <div class="meta">
+            <div>
+                <strong>Project</strong>
+                F1 Data Visualization Project
+            </div>
+            <div>
+                <strong>Website target</strong>
+                <a href="https://alejandrospot2.github.io/F1/">https://alejandrospot2.github.io/F1/</a>
+            </div>
+        </div>
+
+        <h2>Project Overview</h2>
+        <p>
+            This project compares the first three Formula 1 races of 2025 and 2026 in order to see whether the 2026
+            regulation changes are already visible in pace, straight-line speed, race volatility, and disruption patterns.
+            The Alpha Release is implemented as a static, screenshot-ready D3 page so the complete chart set can be
+            inserted into the report without waiting for interaction polish.
+        </p>
+
+        <h2>Project Website</h2>
+        <p>
+            Target project website:
+            <a href="https://alejandrospot2.github.io/F1/">https://alejandrospot2.github.io/F1/</a>
+        </p>
+        <p>This is the intended GitHub Pages deployment URL for the separate final-project site.</p>
+
+        <h2>Features From The Proposal That Have Been Completed</h2>
+        <ul>
+            <li>The separate final-project site scaffold has been created in the new <code>F1</code> project directory.</li>
+            <li>FastF1 race data for Australia, China, and Japan across 2025 and 2026 has been pulled and transformed into chart-ready files.</li>
+            <li>Five static D3 visualization sections are now implemented on the homepage: pace bars, lap-by-lap step charts, a position-change proxy chart, a neutralization timeline, and a final circuit scorecard.</li>
+            <li>The Alpha Release report scaffold and PDF-export page are prepared in the project repo.</li>
+        </ul>
+
+        <h2>Upcoming Immediate Milestones</h2>
+        <ul>
+            <li>Capture final screenshots from the D3 page and insert them into the proposal and the report.</li>
+            <li>Push the separate project repository and verify the GitHub Pages deployment.</li>
+            <li>Add final annotations, labels, and explanatory captions before the Beta Release.</li>
+            <li>Export the report to PDF once the images are placed and the copy is final.</li>
+        </ul>
+
+        <h2>Roadblocks</h2>
+        <ul>
+            <li>The separate GitHub repository still needs to be pushed and published, so the website link above is the deployment target rather than a fully verified live page.</li>
+            <li>The static chart set is ready for screenshots, but the final report assembly in Notion/PDF still requires the exported images to be inserted manually.</li>
+        </ul>
+
+        <h2>Visualization Checklist</h2>
+        <ul>
+            <li><code>Circuit Comparison Bars</code>: implemented on <code>index.html</code>.</li>
+            <li><code>Lap-by-Lap Position Step Charts</code>: implemented on <code>index.html</code>.</li>
+            <li><code>Position-Change Proxy Chart</code>: implemented on <code>index.html</code>.</li>
+            <li><code>Incident and Neutralization Timeline</code>: implemented on <code>index.html</code>.</li>
+            <li><code>Final Circuit Scorecard</code>: implemented on <code>index.html</code>.</li>
+        </ul>
+
+        <h2>Submission Note</h2>
+        <p>
+            The instructor requirement at this stage is a PDF report labeled <code>Alpha Release</code>. The website
+            can remain static and does not need interaction yet, but the complete figure set should be present before submission.
+        </p>
+
+        <p class="footer-note">
+            Print this page to PDF after replacing the scaffold text with the exact project-specific content.
+        </p>
+    </article>
+</body>
+</html>

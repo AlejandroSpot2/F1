@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Position Swings Template</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+        :root {
+            --bg: #faf8f5;
+            --surface: #ffffff;
+            --text: #3d2a17;
+            --text-soft: #6f5840;
+            --border: #d9cabc;
+            --grid: #eadfd4;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+
+        main {
+            width: min(1120px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 1.5rem 0 2rem;
+        }
+
+        h1 {
+            margin: 0 0 0.35rem;
+            font-size: 2rem;
+        }
+
+        p {
+            margin: 0 0 1rem;
+            color: var(--text-soft);
+            max-width: 72ch;
+        }
+
+        .frame {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .axis text,
+        .axis path,
+        .axis line {
+            color: var(--text-soft);
+            stroke: currentColor;
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            color: var(--text-soft);
+            font-size: 0.92rem;
+        }
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Race Position Swings</h1>
+        <p>
+            Starter D3 page for a lap-by-lap line chart. Replace the sample race positions with your final race,
+            stint, or driver comparison data before exporting the visualization.
+        </p>
+        <div class="frame">
+            <svg id="chart" viewBox="0 0 1080 620" aria-labelledby="chart-title"></svg>
+            <div class="legend" id="legend"></div>
+        </div>
+    </main>
+
+    <script>
+        const sampleSeries = [
+            {
+                driver: "Norris",
+                color: "#8f4f18",
+                values: [
+                    { lap: 1, position: 4 },
+                    { lap: 10, position: 3 },
+                    { lap: 20, position: 2 },
+                    { lap: 30, position: 2 },
+                    { lap: 40, position: 1 },
+                    { lap: 50, position: 1 }
+                ]
+            },
+            {
+                driver: "Leclerc",
+                color: "#b35d2c",
+                values: [
+                    { lap: 1, position: 2 },
+                    { lap: 10, position: 2 },
+                    { lap: 20, position: 3 },
+                    { lap: 30, position: 3 },
+                    { lap: 40, position: 2 },
+                    { lap: 50, position: 2 }
+                ]
+            },
+            {
+                driver: "Verstappen",
+                color: "#2f6f63",
+                values: [
+                    { lap: 1, position: 1 },
+                    { lap: 10, position: 1 },
+                    { lap: 20, position: 1 },
+                    { lap: 30, position: 4 },
+                    { lap: 40, position: 4 },
+                    { lap: 50, position: 3 }
+                ]
+            }
+        ];
+
+        const flat = sampleSeries.flatMap((series) => series.values);
+        const svg = d3.select("#chart");
+        const width = 1080;
+        const height = 620;
+        const margin = { top: 30, right: 30, bottom: 60, left: 80 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+
+        const root = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleLinear()
+            .domain(d3.extent(flat, (d) => d.lap))
+            .range([0, innerWidth]);
+
+        const y = d3.scaleLinear()
+            .domain([d3.max(flat, (d) => d.position), 1])
+            .range([innerHeight, 0]);
+
+        root.append("g")
+            .selectAll("line")
+            .data(y.ticks(5))
+            .enter()
+            .append("line")
+            .attr("x1", 0)
+            .attr("x2", innerWidth)
+            .attr("y1", (d) => y(d))
+            .attr("y2", (d) => y(d))
+            .attr("stroke", "#eadfd4");
+
+        root.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${innerHeight})`)
+            .call(d3.axisBottom(x).ticks(6).tickFormat(d3.format("d")));
+
+        root.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("d")));
+
+        const line = d3.line()
+            .x((d) => x(d.lap))
+            .y((d) => y(d.position))
+            .curve(d3.curveMonotoneX);
+
+        sampleSeries.forEach((series) => {
+            root.append("path")
+                .datum(series.values)
+                .attr("fill", "none")
+                .attr("stroke", series.color)
+                .attr("stroke-width", 3)
+                .attr("d", line);
+
+            root.selectAll(`circle-${series.driver}`)
+                .data(series.values)
+                .enter()
+                .append("circle")
+                .attr("cx", (d) => x(d.lap))
+                .attr("cy", (d) => y(d.position))
+                .attr("r", 4)
+                .attr("fill", series.color);
+        });
+
+        root.append("text")
+            .attr("x", 0)
+            .attr("y", -8)
+            .attr("font-size", 14)
+            .attr("font-weight", 600)
+            .text("Sample race positions by lap");
+
+        root.append("text")
+            .attr("x", innerWidth / 2)
+            .attr("y", innerHeight + 45)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 12)
+            .text("Lap number");
+
+        root.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -innerHeight / 2)
+            .attr("y", -55)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 12)
+            .text("Position");
+
+        const legend = d3.select("#legend");
+        sampleSeries.forEach((series) => {
+            const item = legend.append("span");
+            item.append("span")
+                .attr("class", "swatch")
+                .style("background", series.color);
+            item.append("span").text(series.driver);
+        });
+    </script>
+</body>
+</html>
