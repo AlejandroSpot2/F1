@@ -74,99 +74,51 @@ code {
 
 main {
     display: grid;
-    gap: 1.25rem;
-    padding-top: 1.5rem;
+    gap: 2.75rem;
+    padding-top: 2rem;
 }
 
-.panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.2rem;
+.overview-section,
+.chart-section {
+    width: min(1080px, 100%);
+    margin: 0 auto;
 }
 
 .section-copy h2 {
-    margin: 0 0 0.65rem;
+    margin: 0 0 0.75rem;
     font-size: 1.35rem;
 }
 
 .section-copy p {
-    margin: 0 0 0.75rem;
-    color: var(--text-soft);
-    max-width: 82ch;
-}
-
-.meta-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.85rem;
-    margin: 1rem 0 0;
-}
-
-.meta-grid div {
-    background: var(--surface-muted);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.9rem;
-}
-
-.meta-grid dt {
-    margin-bottom: 0.35rem;
-    color: var(--text-soft);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.82rem;
-}
-
-.meta-grid dd {
     margin: 0;
-    font-weight: 600;
-}
-
-.takeaways {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.85rem;
-    margin-top: 1rem;
-}
-
-.takeaway-card,
-.chart-card {
-    background: var(--surface-muted);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.95rem;
-}
-
-.takeaway-card h3,
-.chart-card h3 {
-    margin: 0 0 0.45rem;
-    font-size: 1rem;
-}
-
-.takeaway-card p,
-.chart-note {
-    margin: 0 0 0.45rem;
     color: var(--text-soft);
-    font-size: 0.94rem;
+    max-width: 76ch;
+}
+
+.chart-section .section-copy {
+    text-align: center;
+}
+
+.chart-item h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1rem;
+    text-align: center;
 }
 
 .metric-panels {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 0.9rem;
+    gap: 1.25rem;
 }
 
 .step-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 0.9rem;
+    gap: 1.25rem;
 }
 
 .chart-shell {
-    background: var(--surface-muted);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.9rem;
+    margin-top: 0.75rem;
 }
 
 svg {
@@ -206,40 +158,6 @@ svg {
     height: 12px;
     border-radius: 3px;
     display: inline-block;
-}
-
-.doc-list {
-    display: grid;
-    gap: 0.75rem;
-    margin-top: 0.4rem;
-}
-
-.doc-link {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.9rem 1rem;
-    text-decoration: none;
-    background: var(--surface-muted);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-}
-
-.doc-link span:last-child {
-    color: var(--text-soft);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.82rem;
-}
-
-.site-footer {
-    padding-top: 1rem;
-    color: var(--text-soft);
-    font-size: 0.92rem;
-}
-
-.site-footer p {
-    margin: 0;
 }
 
 @media (max-width: 760px) {
