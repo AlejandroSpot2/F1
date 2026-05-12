@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>From DRS to Mario Mushrooms</title>
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/site.css?v=step-grid-4x2">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="js/alpha-release-data.js?v=miami-2026"></script>
 </head>
@@ -459,8 +459,15 @@
 
         function renderStepCharts(races) {
             const container = d3.select("#step-charts");
+            const circuits = circuitsFromRaces(races);
+            const seasons = seasonsFromRaces(races);
+            const orderedRaces = seasons.flatMap((year) =>
+                circuits
+                    .map((circuit) => races.find((race) => race.year === year && race.circuit === circuit))
+                    .filter(Boolean)
+            );
 
-            races.forEach((race) => {
+            orderedRaces.forEach((race) => {
                 const wrapper = container.append("article").attr("class", "chart-item");
                 wrapper.append("h3").text(race.raceLabel);
 

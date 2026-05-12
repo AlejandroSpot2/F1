@@ -9,6 +9,7 @@
 # Ignore Node dependencies and local browser artifacts
 node_modules/
 .tmp-playwright/
+.playwright-mcp/
 output/
 
 # Ignore local instructions dropped into subfolders
