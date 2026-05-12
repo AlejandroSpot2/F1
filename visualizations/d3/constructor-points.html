@@ -63,6 +63,67 @@
             font-family: "IBM Plex Sans", sans-serif;
         }
 
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            color: var(--text-soft);
+            font-size: 0.92rem;
+        }
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border: 1px solid rgba(61, 42, 23, 0.16);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .chart-mark {
+            cursor: help;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            max-width: 240px;
+            padding: 0.55rem 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(61, 42, 23, 0.12);
+            font-size: 0.82rem;
+            line-height: 1.35;
+            opacity: 0;
+            transition: opacity 120ms ease;
+        }
+
+        .chart-tooltip strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.86rem;
+        }
+
+        .chart-tooltip span {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .chart-tooltip b {
+            color: var(--text-soft);
+            font-weight: 500;
+        }
+
         .note {
             font-family: "IBM Plex Mono", monospace;
             font-size: 0.82rem;
@@ -74,25 +135,31 @@
         <h1>Constructor Points Comparison</h1>
         <p>
             Starter D3 page carried over from the earlier coursework structure and simplified for the F1 project.
-            Replace the sample array below with the final constructor or team-level dataset for the Alpha Release.
+            Replace the sample array below with the final constructor or team-level dataset if this page is reused.
         </p>
         <div class="frame">
             <svg id="chart" viewBox="0 0 1080 620" aria-labelledby="chart-title"></svg>
+            <div class="legend" id="legend"></div>
         </div>
-        <p class="note">This page is static by design. No interaction is required for the Alpha Release.</p>
+        <p class="note">This page is static by design and kept as a starter visualization reference.</p>
     </main>
 
     <script>
         const sampleData = [
-            { team: "McLaren", points: 188 },
-            { team: "Ferrari", points: 176 },
-            { team: "Red Bull", points: 161 },
-            { team: "Mercedes", points: 142 },
-            { team: "Aston Martin", points: 74 },
-            { team: "Williams", points: 48 }
+            { team: "McLaren", points: 188, color: "#FF8000" },
+            { team: "Ferrari", points: 176, color: "#E80020" },
+            { team: "Red Bull", points: 161, color: "#3671C6" },
+            { team: "Mercedes", points: 142, color: "#27F4D2" },
+            { team: "Aston Martin", points: 74, color: "#2D826D" },
+            { team: "Williams", points: 48, color: "#64C4FF" }
         ];
 
         const svg = d3.select("#chart");
+        const tooltip = d3.select("body")
+            .append("div")
+            .attr("class", "chart-tooltip")
+            .attr("role", "tooltip")
+            .attr("aria-hidden", "true");
         const width = 1080;
         const height = 620;
         const margin = { top: 30, right: 40, bottom: 90, left: 80 };
@@ -111,6 +178,64 @@
             .domain([0, d3.max(sampleData, (d) => d.points)]).nice()
             .range([innerHeight, 0]);
 
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function tooltipMarkup(title, rows) {
+            const details = rows
+                .map(([label, value]) => `<span><b>${escapeHtml(label)}</b>${escapeHtml(value)}</span>`)
+                .join("");
+            return `<strong>${escapeHtml(title)}</strong>${details}`;
+        }
+
+        function moveTooltip(event) {
+            let anchorX = event.pageX;
+            let anchorY = event.pageY;
+
+            if ((!anchorX || !anchorY) && event.currentTarget) {
+                const rect = event.currentTarget.getBoundingClientRect();
+                anchorX = window.scrollX + rect.left + rect.width / 2;
+                anchorY = window.scrollY + rect.top + rect.height / 2;
+            }
+
+            const offset = 14;
+            const tooltipRect = tooltip.node().getBoundingClientRect();
+            const viewportRight = window.scrollX + document.documentElement.clientWidth - tooltipRect.width - 8;
+            const viewportBottom = window.scrollY + document.documentElement.clientHeight - tooltipRect.height - 8;
+            const left = Math.max(window.scrollX + 8, Math.min(anchorX + offset, viewportRight));
+            const top = Math.max(window.scrollY + 8, Math.min(anchorY + offset, viewportBottom));
+
+            tooltip.style("left", `${left}px`).style("top", `${top}px`);
+        }
+
+        function showTooltip(event, html) {
+            tooltip
+                .html(html)
+                .attr("aria-hidden", "false")
+                .style("opacity", 1);
+            moveTooltip(event);
+        }
+
+        function hideTooltip() {
+            tooltip
+                .attr("aria-hidden", "true")
+                .style("opacity", 0);
+        }
+
+        function attachTooltip(selection, content) {
+            selection
+                .attr("tabindex", 0)
+                .on("mouseenter focus", (event, d) => showTooltip(event, content(d)))
+                .on("mousemove", moveTooltip)
+                .on("mouseleave blur", hideTooltip);
+        }
+
         root.append("g")
             .selectAll("line")
             .data(y.ticks(6))
@@ -122,16 +247,21 @@
             .attr("y2", (d) => y(d))
             .attr("stroke", "#eadfd4");
 
-        root.append("g")
+        const bars = root.append("g")
             .selectAll("rect")
             .data(sampleData)
             .enter()
             .append("rect")
+            .attr("class", "chart-mark")
             .attr("x", (d) => x(d.team))
             .attr("y", (d) => y(d.points))
             .attr("width", x.bandwidth())
             .attr("height", (d) => innerHeight - y(d.points))
-            .attr("fill", "#8f4f18");
+            .attr("fill", (d) => d.color);
+
+        attachTooltip(bars, (d) => tooltipMarkup(d.team, [
+            ["Points", d.points]
+        ]));
 
         root.append("g")
             .attr("class", "axis")
@@ -168,6 +298,15 @@
             .attr("text-anchor", "middle")
             .attr("font-size", 12)
             .text((d) => d.points);
+
+        const legend = d3.select("#legend");
+        sampleData.forEach((team) => {
+            const item = legend.append("span");
+            item.append("span")
+                .attr("class", "swatch")
+                .style("background", team.color);
+            item.append("span").text(team.team);
+        });
     </script>
 </body>
 </html>

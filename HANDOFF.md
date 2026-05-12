@@ -2,11 +2,10 @@
 
 ## Current State
 
-- The `F1` directory started empty and now has a working Alpha Release site scaffold.
-- `index.html` has been replaced with a single screenshot-ready D3 page that renders five static visualization sections from FastF1 data.
+- The `F1` directory started empty and now has a working project site scaffold.
+- `index.html` has been replaced with a single screenshot-ready D3 page that renders five visualization sections from FastF1 data.
 - `scripts/build_alpha_release_data.py` rebuilds the dataset and writes both `assets/data/alpha-release.json` and `js/alpha-release-data.js`.
-- The Alpha Release writeup source lives in `docs/alpha-release-report.md`, and the print-friendly export page is `docs/alpha-release-report.html`.
-- The Notion proposal page `Project Proposal` has already been updated with an Alpha Release section and the project website link.
+- The project writeup source lives in `docs/alpha-release-report.md`, and the print-friendly export page is `docs/alpha-release-report.html`.
 
 ## Files To Review First
 
@@ -21,14 +20,14 @@
 
 1. Capture the five chart screenshots from `index.html` and place them into Notion/the report.
 2. Push the separate repository to GitHub and publish GitHub Pages so the target URL is live.
-3. Decide whether to keep the current chart styling or do one final polish pass before Beta.
-4. Export the report to PDF and name it `Alpha Release`.
+3. Decide whether to keep the current chart styling or do one final polish pass.
+4. Export the report to PDF when the copy and figures are final.
 
 ## Assumptions Made
 
 - The intended deployment URL is `https://alejandrospot2.github.io/F1/`.
 - The project is a static site and does not need app-style interaction at this stage.
-- The current priority is Alpha Release completeness and screenshot readiness, not interaction.
+- The current priority is final project completeness and screenshot readiness, with lightweight interaction through tooltips.
 
 ## Notes For The Next Agent
 

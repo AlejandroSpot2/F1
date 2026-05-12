@@ -1,6 +1,6 @@
 # Static Visualization Exports
 
-Store exported figures for the Alpha Release here.
+Store exported figures for the project report here.
 
 Recommended file naming:
 

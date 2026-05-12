@@ -38,27 +38,27 @@ code {
 .page {
     width: min(1180px, calc(100% - 2rem));
     margin: 0 auto;
-    padding: 1.5rem 0 3rem;
+    padding: 3.5rem 0 3rem;
 }
 
 .site-header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 247, 237, 0.28);
+    color: #fff7ed;
 }
 
-.brand-block h1 {
+.site-author {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    line-height: 1.08;
+    font-weight: 600;
 }
 
 .site-subtitle {
-    margin: 0.45rem 0 0;
-    color: var(--text-soft);
+    margin: 0.2rem 0 0;
+    color: rgba(255, 247, 237, 0.72);
 }
 
 .site-nav {
@@ -68,14 +68,111 @@ code {
 }
 
 .site-nav a {
+    color: rgba(255, 247, 237, 0.84);
     text-decoration: none;
     font-weight: 500;
+}
+
+.site-nav a:hover {
+    color: #fffdfa;
 }
 
 main {
     display: grid;
     gap: 2.75rem;
-    padding-top: 2rem;
+}
+
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-image: url("../assets/images/hero-f1-background.png");
+    background-position: center;
+    background-size: cover;
+    color: #fff7ed;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(9, 10, 10, 0.86) 0%, rgba(28, 18, 10, 0.62) 42%, rgba(18, 12, 8, 0.5) 100%),
+        linear-gradient(180deg, rgba(9, 10, 10, 0.15) 0%, rgba(9, 10, 10, 0.05) 58%, rgba(246, 240, 232, 0.12) 100%);
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: min(1180px, calc(100% - 2rem));
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 1.25rem 0 1.35rem;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+    align-items: center;
+    gap: 4rem;
+    padding: 3rem 0;
+}
+
+.hero-copy {
+    justify-self: end;
+    max-width: 34rem;
+}
+
+.hero-copy h1 {
+    margin: 0;
+    color: #fffdfa;
+    font-size: 5.5rem;
+    line-height: 0.92;
+    letter-spacing: 0;
+    text-wrap: balance;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+.hero-copy p {
+    margin: 1.4rem 0 0;
+    max-width: 34rem;
+    color: rgba(255, 247, 237, 0.82);
+    font-size: 1.12rem;
+    line-height: 1.75;
+}
+
+.hero-ascii-wrap {
+    align-self: center;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.hero-ascii {
+    margin: 0;
+    color: rgba(255, 219, 170, 0.84);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.22rem;
+    line-height: 1;
+    letter-spacing: 0;
+    text-shadow: 0 0 12px rgba(255, 176, 86, 0.24);
+    white-space: pre;
+}
+
+.scroll-cue {
+    justify-self: end;
+    color: rgba(255, 247, 237, 0.84);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.scroll-cue:hover {
+    color: #fffdfa;
 }
 
 .overview-section,
@@ -97,6 +194,10 @@ main {
 
 .chart-section .section-copy {
     text-align: center;
+}
+
+.chart-section .section-copy p {
+    margin: 0 auto;
 }
 
 .chart-item h3 {
@@ -158,11 +259,107 @@ svg {
     height: 12px;
     border-radius: 3px;
     display: inline-block;
+    border: 1px solid rgba(61, 42, 23, 0.16);
+}
+
+.chart-mark {
+    cursor: help;
+}
+
+.scorecard-cell text {
+    pointer-events: none;
+}
+
+.chart-tooltip {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    max-width: 260px;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(61, 42, 23, 0.12);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.chart-tooltip strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.86rem;
+}
+
+.chart-tooltip span {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.chart-tooltip b {
+    color: var(--text-soft);
+    font-weight: 500;
+}
+
+@media (min-width: 1120px) {
+    .hero-ascii {
+        font-size: 0.24rem;
+    }
+}
+
+@media (max-width: 980px) {
+    .hero-content {
+        grid-template-columns: minmax(0, 0.9fr) minmax(20rem, 1.1fr);
+        gap: 2.25rem;
+    }
+
+    .hero-copy h1 {
+        font-size: 4.2rem;
+    }
+
+    .hero-ascii {
+        font-size: 0.18rem;
+    }
 }
 
 @media (max-width: 760px) {
+    .page {
+        padding-top: 2.75rem;
+    }
+
     .site-header {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 2rem 0;
+    }
+
+    .hero-copy {
+        justify-self: start;
+        order: 1;
+    }
+
+    .hero-copy h1 {
+        font-size: 3.15rem;
+        line-height: 0.98;
+    }
+
+    .hero-ascii-wrap {
+        order: 2;
+    }
+
+    .hero-ascii {
+        font-size: 0.16rem;
+    }
+
+    .scroll-cue {
+        justify-self: start;
     }
 }

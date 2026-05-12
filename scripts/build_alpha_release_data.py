@@ -16,9 +16,11 @@ EVENTS = [
     (2025, "Australian Grand Prix", "Australia"),
     (2025, "Chinese Grand Prix", "China"),
     (2025, "Japanese Grand Prix", "Japan"),
+    (2025, "Miami Grand Prix", "Miami"),
     (2026, "Australian Grand Prix", "Australia"),
     (2026, "Chinese Grand Prix", "China"),
     (2026, "Japanese Grand Prix", "Japan"),
+    (2026, "Miami Grand Prix", "Miami"),
 ]
 
 DEFAULT_COLORS = [
@@ -95,10 +97,11 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
         ordered = driver_laps.sort_values("LapNumber")
         position_change_proxy += ordered["Position"].diff().abs().fillna(0).sum()
 
-    max_lap = int(valid_laps["LapNumber"].max())
+    status_laps = laps[laps["LapNumber"].notna() & laps["TrackStatus"].notna()].copy()
+    max_lap = int(status_laps["LapNumber"].max())
     status_rows = []
     for lap_number in range(1, max_lap + 1):
-        lap_statuses = valid_laps.loc[valid_laps["LapNumber"] == lap_number, "TrackStatus"]
+        lap_statuses = status_laps.loc[status_laps["LapNumber"] == lap_number, "TrackStatus"]
         combined = "".join(sorted({str(value) for value in lap_statuses.dropna()}))
         status_rows.append(
             {
@@ -204,7 +207,7 @@ def main() -> None:
 
     payload = {
         "projectTitle": "From DRS to Mario Mushrooms",
-        "subtitle": "A comparison of Formula 1's first three races in 2025 and 2026",
+        "subtitle": "A comparison of Formula 1's first four races in 2025 and 2026",
         "generatedFrom": "FastF1",
         "races": races,
         "scorecard": build_scorecard(races),

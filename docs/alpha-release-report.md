@@ -1,10 +1,10 @@
-# Alpha Release
+# F1 Data Visualization Report
 
-Export this document to PDF and submit it with the label `Alpha Release`.
+Export this document to PDF when the copy and figures are final.
 
 ## Project Overview
 
-This project compares the first three Formula 1 races of 2025 and 2026 in order to see whether the 2026 regulation changes are already visible in pace, straight-line speed, race volatility, and disruption patterns. The Alpha Release is implemented as a static, screenshot-ready D3 page so the complete chart set can be inserted into the report without waiting for interaction polish.
+This project compares the first four Formula 1 races of 2025 and 2026 in order to see whether the 2026 regulation changes are already visible in pace, straight-line speed, race volatility, and disruption patterns. The site is implemented as a static, screenshot-ready D3 page so the complete chart set can be inserted into the report.
 
 ## Project Website
 
@@ -15,15 +15,15 @@ This is the intended GitHub Pages deployment URL for the separate final-project 
 ## Features From The Proposal That Have Been Completed
 
 - The separate final-project site scaffold has been created in the new `F1` project directory.
-- FastF1 race data for Australia, China, and Japan across 2025 and 2026 has been pulled and transformed into chart-ready files.
+- FastF1 race data for Australia, China, Japan, and Miami across 2025 and 2026 has been pulled and transformed into chart-ready files.
 - Five static D3 visualization sections are now implemented on the homepage: pace bars, lap-by-lap step charts, a position-change proxy chart, a neutralization timeline, and a final circuit scorecard.
-- The Alpha Release report scaffold and PDF-export page are prepared in the project repo.
+- The report scaffold and PDF-export page are prepared in the project repo.
 
 ## Upcoming Immediate Milestones
 
 - Capture final screenshots from the D3 page and insert them into the proposal and the report.
 - Push the separate project repository and verify the GitHub Pages deployment.
-- Add final annotations, labels, and explanatory captions before the Beta Release.
+- Add final annotations, labels, and explanatory captions.
 - Export the report to PDF once the images are placed and the copy is final.
 
 ## Roadblocks
@@ -41,4 +41,4 @@ This is the intended GitHub Pages deployment URL for the separate final-project 
 
 ## Submission Note
 
-The instructor requirement at this stage is a PDF report labeled `Alpha Release`. The website can remain static and does not need interaction yet, but the complete figure set should be present before submission.
+The website can remain static, but the complete figure set should be present before submission.

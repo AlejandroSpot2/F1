@@ -80,8 +80,48 @@
         .swatch {
             width: 14px;
             height: 14px;
+            border: 1px solid rgba(61, 42, 23, 0.16);
             border-radius: 4px;
             display: inline-block;
+        }
+
+        .chart-hitline,
+        .chart-mark {
+            cursor: help;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            max-width: 240px;
+            padding: 0.55rem 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(61, 42, 23, 0.12);
+            font-size: 0.82rem;
+            line-height: 1.35;
+            opacity: 0;
+            transition: opacity 120ms ease;
+        }
+
+        .chart-tooltip strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.86rem;
+        }
+
+        .chart-tooltip span {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .chart-tooltip b {
+            color: var(--text-soft);
+            font-weight: 500;
         }
     </style>
 </head>
@@ -140,6 +180,11 @@
 
         const flat = sampleSeries.flatMap((series) => series.values);
         const svg = d3.select("#chart");
+        const tooltip = d3.select("body")
+            .append("div")
+            .attr("class", "chart-tooltip")
+            .attr("role", "tooltip")
+            .attr("aria-hidden", "true");
         const width = 1080;
         const height = 620;
         const margin = { top: 30, right: 30, bottom: 60, left: 80 };
@@ -182,6 +227,64 @@
             .y((d) => y(d.position))
             .curve(d3.curveMonotoneX);
 
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function tooltipMarkup(title, rows) {
+            const details = rows
+                .map(([label, value]) => `<span><b>${escapeHtml(label)}</b>${escapeHtml(value)}</span>`)
+                .join("");
+            return `<strong>${escapeHtml(title)}</strong>${details}`;
+        }
+
+        function moveTooltip(event) {
+            let anchorX = event.pageX;
+            let anchorY = event.pageY;
+
+            if ((!anchorX || !anchorY) && event.currentTarget) {
+                const rect = event.currentTarget.getBoundingClientRect();
+                anchorX = window.scrollX + rect.left + rect.width / 2;
+                anchorY = window.scrollY + rect.top + rect.height / 2;
+            }
+
+            const offset = 14;
+            const tooltipRect = tooltip.node().getBoundingClientRect();
+            const viewportRight = window.scrollX + document.documentElement.clientWidth - tooltipRect.width - 8;
+            const viewportBottom = window.scrollY + document.documentElement.clientHeight - tooltipRect.height - 8;
+            const left = Math.max(window.scrollX + 8, Math.min(anchorX + offset, viewportRight));
+            const top = Math.max(window.scrollY + 8, Math.min(anchorY + offset, viewportBottom));
+
+            tooltip.style("left", `${left}px`).style("top", `${top}px`);
+        }
+
+        function showTooltip(event, html) {
+            tooltip
+                .html(html)
+                .attr("aria-hidden", "false")
+                .style("opacity", 1);
+            moveTooltip(event);
+        }
+
+        function hideTooltip() {
+            tooltip
+                .attr("aria-hidden", "true")
+                .style("opacity", 0);
+        }
+
+        function attachTooltip(selection, content) {
+            selection
+                .attr("tabindex", 0)
+                .on("mouseenter focus", (event, d) => showTooltip(event, content(d)))
+                .on("mousemove", moveTooltip)
+                .on("mouseleave blur", hideTooltip);
+        }
+
         sampleSeries.forEach((series) => {
             root.append("path")
                 .datum(series.values)
@@ -190,14 +293,38 @@
                 .attr("stroke-width", 3)
                 .attr("d", line);
 
-            root.selectAll(`circle-${series.driver}`)
+            const hitline = root.append("path")
+                .datum(series)
+                .attr("class", "chart-hitline")
+                .attr("fill", "none")
+                .attr("stroke", "transparent")
+                .attr("stroke-width", 12)
+                .attr("d", (d) => line(d.values));
+
+            attachTooltip(hitline, (d) => {
+                const first = d.values[0];
+                const last = d.values[d.values.length - 1];
+                return tooltipMarkup(d.driver, [
+                    ["First lap", `P${first.position}`],
+                    ["Final lap", `P${last.position}`],
+                    ["Laps shown", d.values.length]
+                ]);
+            });
+
+            const points = root.selectAll(`circle-${series.driver}`)
                 .data(series.values)
                 .enter()
                 .append("circle")
+                .attr("class", "chart-mark")
                 .attr("cx", (d) => x(d.lap))
                 .attr("cy", (d) => y(d.position))
                 .attr("r", 4)
                 .attr("fill", series.color);
+
+            attachTooltip(points, (d) => tooltipMarkup(series.driver, [
+                ["Lap", d.lap],
+                ["Position", d.position]
+            ]));
         });
 
         root.append("text")

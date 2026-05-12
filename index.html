@@ -4,34 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>From DRS to Mario Mushrooms</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="css/site.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="js/alpha-release-data.js"></script>
+    <script src="js/alpha-release-data.js?v=miami-2026"></script>
 </head>
 <body>
-    <div class="page">
-        <header class="site-header">
-            <div class="brand-block">
-                <h1>From DRS to Mario Mushrooms</h1>
-                <p class="site-subtitle">A comparison of Formula 1's first three races in 2025 and 2026</p>
-            </div>
-            <nav class="site-nav" aria-label="Primary">
-                <a href="#overview">Overview</a>
-                <a href="#pace">Pace</a>
-                <a href="#position">Position</a>
-                <a href="#disruption">Disruption</a>
-                <a href="#scorecard">Scorecard</a>
-            </nav>
-        </header>
+    <section id="hero" class="hero-section">
+        <div class="hero-inner">
+            <header class="site-header">
+                <div class="brand-block">
+                    <p class="site-author">Alejandro Gonzalez</p>
+                    <p class="site-subtitle">Formula 1 race data, 2025 vs 2026</p>
+                </div>
+                <nav class="site-nav" aria-label="Primary">
+                    <a href="#overview">Overview</a>
+                    <a href="#pace">Pace</a>
+                    <a href="#position">Position</a>
+                    <a href="#disruption">Disruption</a>
+                    <a href="#scorecard">Scorecard</a>
+                </nav>
+            </header>
 
+            <div class="hero-content">
+                <figure class="hero-ascii-wrap" aria-label="ASCII art of a Formula 1 car">
+                    <pre class="hero-ascii" aria-hidden="true">
+                                                                                                            %%##%##
+                                                                                                           @@@@%%%%%
+                                                                                                            %%%@%%##%
+  %%%%%%%%%%@%%@%                                                                    @@@@@@@@@%%##***####%%%%@@@@@@@@@@
+  %%%@@@@%@@@@@@@@@@%@@@%%%%%%#******                                      @@@@@@@@@@@@%##*+**###+*=*%+*=*#=+++++=-##+#
+  %%%@@@@@@@@@@@@@@@@@@@%@%%%%%%%%%%%%%%                           %@@@@@@@@@@@@@%##++*##%%%%@@@@++-+@@@@@@@%%%######*%
+  %#-#%#@@%@@@@@@@@@@@@@@%@@%%%%%@%#%%%%%%%%       #%%##@#*@@@@@@@@@@@@@@@@%##%++###%%%@@@@@@@@@@@@@@@@%%%###%%@@@@@@@@                           %@%%%
+  %+#:-#@@%=#=#*%=#++#+*++++%%%@@@%#%%%%%%#%      #@@#*#%#%%%@@@@@@@@@%*#%=+###%%@@@@@@@@@-%=#***#:+-*:##*+++*%@@@%%*%%                 %@@%*=--=-+*#%#%@@@
+  %%%=#%%%%%%%%%%%%%%%#+%%%###%@@@@@%%%%@@@@      @@@@@%*%%%@@@@@%*#%++#####%%%%%%%%%%%%%%%%%%%%%@@@#%#@@####%%@@@#@*%%%%@   %#%%#%@%##%%%@@@@%**%  %%@@@#%**#
+  %%%%%%%%%%%%%%%%%%%%%%%%%@@@@%@@@@%%@@@@%%      @@@@@%%%%####%#++##*#####%%%%%%##############*######********##%%%%%#%%%%@@@@@#*+*@@%##              **#%@@%#+*
+   %%%%%%%%%%%%%%%%%%%%%%%@@@@@@@%%%%#%%@@@      %@@@@%%#%%#*+*#*###%%%%%%%#############%%%%%%%%@%*#*%##@@@@@@@@@@@@@@@@@@@@@%#*+++@@          *---##%**--#%%%@#+*#                                      %%%%@@@@%
+    %%%*+***###*#*#*#***%@%%###%%%%%########## **##%###****###%%%%%%%%%####%%%%%%@@@@@@@@@@@@@@@@*#*+@=+***-+++=+%*=+**+***%#***+++#@@@        #---##%*#%%*#%%%%#*+#@%         #@     %%%%%%%%%     %%%%%%%%%######%%%%
+     %%%%%%%%%%%%%%%%%%%##%%*#=-#=*=########%%%#**######%%%%%@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@%%%###%%%%%%@@@%%%%%%%%@@%%###**%%%#++++:=----:::::::::::---===+*##*+++**%%%%#%%%%%%#+=====*=+*=###%%
+      %%%%%%%%%%%%%%%%#%%=#=+#%%%%%%%#%%#######%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@***+*@@#***+#@@*****+++%@%**********%%#*****##***#######%%%%@@@%%@@@#*++++-::=+===================++==-:::-=*#%%%%%#+#*#%%%%%%%%%#%*###%%
+       %%%%%%%%%%%%%#%###+%%%@@@@@@@@@%%%%%#**#####%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++++%@%+++++%%#++===--*#*+++++++******++++++**%#+===+%@@@@@@@@@%@@%%%%%%%%%+::::::+*+++++***#######**********#%%%%%*##%%%%###***#%@%%%%##%%%
+        %%%%%%%%%%%%%#=%%%@@@##%%@@@@###@@%%%#+*#####@@@@@@@@@@@@@@@@@@@%%%%%%%%+===*%%+==--##++++==++++++++##+--=+*#%#*++==========+#**+++++++*%@@@@@%%%%%%%*:::::::::::::--=+****%%%%%%@@@%##*%%%%##%%%@@@%####****%@@%%#--#%
+         %%%%%%%%##%%%%%%@%#@@@@@@@@@@@#++%%%%#=*#####@@@@@@@@@@@@%%%%%#######+==-+#*=+++*+++*#%*=--==+****+++++++++++++++++++++*#%%##**++++++*#@%+*******++++**+::::-*++=+*#%%###%%%%#*****###%%%%##%%@@@%%%@@@@%@@#**%@%%#-=%
+         %%%%%%%%#%%%#%@@%%@@@@@@@@@%@@@@*+*%%%+=*####%@@@@@@@@@%%#****###**=+***++*#*====++==-=*====+---=+++::-+*:-#%:+@@-:#@@+::=%%%%%%%%%%%@@@@++++++++++*******+-------=*******####****#%%%%%%##%%@@@%@%@%@@%@@%@@#*%@%%=+*%++*
+          %%%@@@%%%%#%@@@@@@@@@%%%%@%@%@@%**#%%*-**#%#%@@@@@@@@#***##%%%*++**+=====++**:**:=:++*@@:=@%:*#:+-:@@*:*:::+:+%=:--%%::+#%%%%%%##%@@@@@@%+++++*#%%%%%%%%%%%%%**%**+*#############%%%%%%##%#@@@#@@%%%%%@@%@@@@##@@%#+=#=-==+***
+           %%%%%#%%%%%@@@@@@@%%@%%**##@@%@%**%%*=+*#%%%%@@@%%@@@%%##*******######%%%%%#:*#@+:++*@@:+@#:+-:#*:==:=%:+%-:*=:--:-#=++:*%%%%@@@@@@@%#%%@%*%%%%%%%%%%%%%%%%%*#%***@@@@@@@@@@@@@@%%%%%*=+#%@@@%%%%#=*=#%%%%%@%*@@%%#*#%*+++++++++++=+
+           %#%%%#@%#%#@@@@@@@@@*#*##+#%@@@%++%%#+=*#%%%%@%%@%%%%%%@@@@@@@@@@@@@@@%%%%%######%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@@@@@@@@@@@@@@@@@@@@#%%%%%%%%%%%%%%%%%%%%*#%**#%@@@@@@@#%##%@%@@@%#*+#%@@@####*+#+#@%%@@@%#@@@%%##@*==-==-=--+++++*#+*
+                *%*#%%%@#%@@%@@@##%%%%@@%@%%%@%#+**#%%%%@@@@@@@@@@@@@@@@@@@@@%##############%%%%%%%%%%%%@@@@@@@@@@@@@@@@@@%%@@@@@@@@@@@@@@@@@@%%%%#+****+%+=++%+#-+%*%#*%%*#%@%%@@%%%@@@@@@%%@@%#++#*%%%#@@%%#*%%@#@@@@%%@@%%###@*+==::-.+*##%%%@@@@@#+=*
+                 %%*%%#@@%%@@@%@@@@@%@%@@%%%%@##%###%%%@@@%@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%+##*##%#**%%=+#%+%%#*%%*%%@@@@%@@@@@@%##%%%%%%=**#%%%%%@@@%@@%@%%@@%#%@@%###%#************###%%#*++=-===
+                 %%*#%%#@%#%@@@@@@@@%@@@#%%%%#######%%@%###%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%@@@@@#####%%%%%%%%%%%%%%%%%%%%#*%#+#%@@@%%@@@@@@@%@@@%%%%#=-#+#%%%%@%@@@@%@@%%#@@%%##+%@#*********==-*:==*+++===:==-+
+                  %%=*%%#@@%%%%@@@@@@%%%%%%@%##**##%%@%@%%%%*%%#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%@@@@@%##%%%@@@@@@###**######################%#+*%@@@%#%%%%%%@@@@@@%%%%%--*#*%%%%%%%##%%%%@@@%##*+%%%**********=+=+**#*******+++=
+                   %%+##%%#%@@%%%%%%%%%%%%%###*####%@@%@%%%%%%%%@@@@%@@%%@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##***************###%%##%@%%%%%%%%%%###########*#######%%%%%%%##*%@@@  %%@@@@@@%@@@@%%%%%%**#*+#%%%@%%%@@%@%%#++*%@%****************###%%@%%@@@@%#
+                    %%%++#%%%%@@%%%%%@%%%#+######%%@@@%@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%%%%%###########%%%%%%%%%%%#############****#########%%%%%%%%%%%%%%#%@@%%      @@@@@%%%##%@%%%%****##******####++=*%%%%%##%%%%%%%%@@@@@@@%%###%%%%%%%%
+                      %@%***######%%#*+==+++#####                                                                                                 #######       #**#****++                       %@@@%%%%###*##*+*=+==+#%%%
+                        @@%%%%#####***+*#%%%%%%                                                                                                                                                     @@@@%%%%%%%%%#%%%%%#
+                           @@@%%%%%%%%%%%%                                                                                                                                                                @@@@%%%%%
+</pre>
+                </figure>
+                <div class="hero-copy">
+                    <h1>From DRS to Mario Mushrooms</h1>
+                    <p>
+                        A compact visual look at how Formula 1's opening races changed from 2025 to 2026, built for
+                        readers who want the story without needing every racing term upfront.
+                    </p>
+                </div>
+            </div>
+            <a class="scroll-cue" href="#overview">Explore charts</a>
+        </div>
+    </section>
+
+    <div class="page">
         <main>
             <section id="overview" class="overview-section">
                 <div class="section-copy">
-                    <h2>Alpha Release Overview</h2>
+                    <h2>Race Comparison Overview</h2>
                     <p>
-                        This Alpha Release has visual drafts that compare Australia, China, and Japan across 2025 and
-                        2026 using FastF1 race data, with the emphasis on pace, top speed, running-order volatility,
-                        and race disruption.
+                        This project compares Australia, China, Japan, and Miami across 2025 and 2026 using FastF1
+                        race data, with the emphasis on pace, top speed, running-order volatility, and race disruption.
                     </p>
                 </div>
             </section>
@@ -39,6 +88,10 @@
             <section id="pace" class="chart-section">
                 <div class="section-copy">
                     <h2>Circuit Comparison Bars</h2>
+                    <p>
+                        These bars compare lap-time and straight-line speed measures by race. Lower lap times mean
+                        faster laps, while higher speed-trap values mean more speed at the end of a straight.
+                    </p>
                 </div>
                 <div id="pace-comparison" class="metric-panels"></div>
             </section>
@@ -46,6 +99,10 @@
             <section id="position" class="chart-section">
                 <div class="section-copy">
                     <h2>Lap-by-Lap Position Step Charts</h2>
+                    <p>
+                        Each line follows one leading driver through the race. Position 1 is first place, so lines
+                        near the top show drivers running closer to the lead.
+                    </p>
                 </div>
                 <div id="step-charts" class="step-grid"></div>
             </section>
@@ -53,7 +110,12 @@
             <section class="chart-section">
                 <div class="section-copy">
                     <h2>Position-Change Proxy</h2>
+                    <p>
+                        This compares how much the race order moved around at each circuit. Higher values suggest
+                        more passing, pit-stop reshuffling, incidents, or recovery drives.
+                    </p>
                 </div>
+                <div class="legend-row" id="position-proxy-legend"></div>
                 <div class="chart-shell">
                     <svg id="position-proxy-chart" viewBox="0 0 1080 420" aria-label="Position change proxy"></svg>
                 </div>
@@ -62,6 +124,10 @@
             <section id="disruption" class="chart-section">
                 <div class="section-copy">
                     <h2>Incident and Neutralization Timeline</h2>
+                    <p>
+                        Each row is one race and each block is one lap. Green means normal racing; yellow, Safety
+                        Car, VSC, and red flag blocks mark caution or stoppage periods.
+                    </p>
                 </div>
                 <div class="legend-row" id="timeline-legend"></div>
                 <div class="chart-shell">
@@ -72,7 +138,12 @@
             <section id="scorecard" class="chart-section">
                 <div class="section-copy">
                     <h2>Final Circuit Scorecard</h2>
+                    <p>
+                        Each cell compares 2026 with 2025 at the same circuit. The color shows whether the number
+                        increased or decreased; the text gives the exact 2025 to 2026 change.
+                    </p>
                 </div>
+                <div class="legend-row" id="scorecard-legend"></div>
                 <div class="chart-shell">
                     <svg id="scorecard-chart" viewBox="0 0 1080 470" aria-label="Circuit scorecard"></svg>
                 </div>
@@ -87,6 +158,17 @@
             [2025, "#c4ad95"],
             [2026, "#8f4f18"]
         ]);
+        const circuitColors = new Map([
+            ["Australia", "#8f4f18"],
+            ["China", "#2f6f63"],
+            ["Japan", "#5a4a3b"],
+            ["Miami", "#7569a7"]
+        ]);
+        const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c"];
+        const driverLineColors = new Map([
+            ["RUS", "#006f60"],
+            ["ANT", "#008d7b"]
+        ]);
         const timelineColors = new Map([
             ["Green", "#d9e4dc"],
             ["Yellow", "#d5b65d"],
@@ -94,13 +176,30 @@
             ["Safety Car", "#cf7b2e"],
             ["Red Flag", "#9a3d30"]
         ]);
+        const scorecardColors = new Map([
+            ["2026 lower", "#9a3d30"],
+            ["No change", "#f5efe9"],
+            ["2026 higher", "#2f6f63"]
+        ]);
+        const lapRemainderFormat = d3.format("06.3f");
+        const oneDecimalFormat = d3.format(",.1f");
+        const twoDecimalFormat = d3.format(",.2f");
+        const wholeNumberFormat = d3.format(",.0f");
+        const signedOneDecimalFormat = d3.format("+,.1f");
+        const signedTwoDecimalFormat = d3.format("+,.2f");
+        const signedLapDeltaFormat = d3.format("+.3f");
+        const tooltip = d3.select("body")
+            .append("div")
+            .attr("class", "chart-tooltip")
+            .attr("role", "tooltip")
+            .attr("aria-hidden", "true");
 
         if (!DATA) {
-            document.body.innerHTML = "<p style='font-family:sans-serif;padding:2rem;'>Alpha Release data file not found. Run <code>python scripts/build_alpha_release_data.py</code> first.</p>";
+            document.body.innerHTML = "<p style='font-family:sans-serif;padding:2rem;'>Race data file not found. Run <code>python scripts/build_alpha_release_data.py</code> first.</p>";
         } else {
             renderPaceComparison(DATA.races);
             renderStepCharts(DATA.races);
-            renderPositionProxy(DATA.races);
+            renderPositionSlope(DATA.races);
             renderTimeline(DATA.races);
             renderScorecard(DATA.scorecard);
         }
@@ -108,7 +207,7 @@
         function formatLap(seconds) {
             const minutes = Math.floor(seconds / 60);
             const remainder = seconds - minutes * 60;
-            return `${minutes}:${remainder.toFixed(3).padStart(6, "0")}`;
+            return `${minutes}:${lapRemainderFormat(remainder)}`;
         }
 
         function formatMetric(key, value) {
@@ -116,20 +215,132 @@
                 return formatLap(value);
             }
             if (key === "medianSpeedTrap") {
-                return `${value.toFixed(1)} km/h`;
+                return `${oneDecimalFormat(value)} km/h`;
             }
-            return `${value}`;
+            if (Number.isInteger(value)) {
+                return wholeNumberFormat(value);
+            }
+            return twoDecimalFormat(value);
         }
 
         function formatDelta(key, value) {
-            const sign = value > 0 ? "+" : "";
             if (key.includes("LapSec")) {
-                return `${sign}${value.toFixed(3)} s`;
+                return `${signedLapDeltaFormat(value)} s`;
             }
             if (key === "medianSpeedTrap") {
-                return `${sign}${value.toFixed(1)} km/h`;
+                return `${signedOneDecimalFormat(value)} km/h`;
             }
-            return `${sign}${value}`;
+            if (Number.isInteger(value)) {
+                return d3.format("+,.0f")(value);
+            }
+            return signedTwoDecimalFormat(value);
+        }
+
+        function axisFormatForMetric(key) {
+            if (key.includes("LapSec")) {
+                return twoDecimalFormat;
+            }
+            if (key === "medianSpeedTrap") {
+                return oneDecimalFormat;
+            }
+            return wholeNumberFormat;
+        }
+
+        function driverDisplayColor(driver) {
+            return driverLineColors.get(driver.driver) || driver.color;
+        }
+
+        function orderedUnique(values) {
+            const seen = new Set();
+            return values.filter((value) => {
+                if (seen.has(value)) {
+                    return false;
+                }
+                seen.add(value);
+                return true;
+            });
+        }
+
+        function circuitsFromRaces(races) {
+            return orderedUnique(races.map((race) => race.circuit));
+        }
+
+        function seasonsFromRaces(races) {
+            return orderedUnique(races.map((race) => race.year)).sort();
+        }
+
+        function circuitColor(circuit, index = 0) {
+            return circuitColors.get(circuit) || circuitFallbackColors[index % circuitFallbackColors.length];
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function tooltipMarkup(title, rows) {
+            const details = rows
+                .map(([label, value]) => `<span><b>${escapeHtml(label)}</b>${escapeHtml(value)}</span>`)
+                .join("");
+            return `<strong>${escapeHtml(title)}</strong>${details}`;
+        }
+
+        function moveTooltip(event) {
+            let anchorX = event.pageX;
+            let anchorY = event.pageY;
+
+            if ((!anchorX || !anchorY) && event.currentTarget) {
+                const rect = event.currentTarget.getBoundingClientRect();
+                anchorX = window.scrollX + rect.left + rect.width / 2;
+                anchorY = window.scrollY + rect.top + rect.height / 2;
+            }
+
+            const offset = 14;
+            const node = tooltip.node();
+            const tooltipRect = node.getBoundingClientRect();
+            const viewportRight = window.scrollX + document.documentElement.clientWidth - tooltipRect.width - 8;
+            const viewportBottom = window.scrollY + document.documentElement.clientHeight - tooltipRect.height - 8;
+            const left = Math.max(window.scrollX + 8, Math.min(anchorX + offset, viewportRight));
+            const top = Math.max(window.scrollY + 8, Math.min(anchorY + offset, viewportBottom));
+
+            tooltip
+                .style("left", `${left}px`)
+                .style("top", `${top}px`);
+        }
+
+        function showTooltip(event, html) {
+            tooltip
+                .html(html)
+                .attr("aria-hidden", "false")
+                .style("opacity", 1);
+            moveTooltip(event);
+        }
+
+        function hideTooltip() {
+            tooltip
+                .attr("aria-hidden", "true")
+                .style("opacity", 0);
+        }
+
+        function attachTooltip(selection, content) {
+            selection
+                .attr("tabindex", 0)
+                .on("mouseenter focus", (event, d) => showTooltip(event, content(d)))
+                .on("mousemove", moveTooltip)
+                .on("mouseleave blur", hideTooltip);
+        }
+
+        function renderSeasonLegend(selector) {
+            const legend = d3.select(selector);
+            [2025, 2026].forEach((season) => {
+                const item = legend.append("span");
+                item.append("i").style("background", seasonColors.get(season));
+                item.append("span").text(String(season));
+            });
         }
 
         function renderPaceComparison(races) {
@@ -150,7 +361,7 @@
                     key: "medianSpeedTrap",
                     title: "Median clean-lap speed trap",
                     note: "Higher suggests stronger straight-line speed.",
-                    formatter: (value) => `${value.toFixed(1)} km/h`
+                    formatter: (value) => `${oneDecimalFormat(value)} km/h`
                 }
             ];
 
@@ -166,67 +377,79 @@
 
                 const width = 330;
                 const height = 280;
-                const margin = { top: 28, right: 12, bottom: 54, left: 54 };
+                const margin = { top: 18, right: 66, bottom: 42, left: 78 };
                 const innerWidth = width - margin.left - margin.right;
                 const innerHeight = height - margin.top - margin.bottom;
 
                 const root = svg.append("g")
                     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-                const circuits = ["Australia", "China", "Japan"];
-                const x = d3.scaleBand().domain(circuits).range([0, innerWidth]).padding(0.24);
-                const xSeason = d3.scaleBand().domain([2025, 2026]).range([0, x.bandwidth()]).padding(0.2);
+                const circuits = circuitsFromRaces(races);
+                const seasons = seasonsFromRaces(races);
+                const y = d3.scaleBand().domain(circuits).range([0, innerHeight]).padding(0.26);
+                const ySeason = d3.scaleBand().domain(seasons).range([0, y.bandwidth()]).padding(0.22);
 
                 const values = races.map((race) => race.metrics[metric.key]);
                 const minValue = d3.min(values);
                 const maxValue = d3.max(values);
                 const pad = (maxValue - minValue) * 0.2 || maxValue * 0.03;
-                const y = d3.scaleLinear()
+                const x = d3.scaleLinear()
                     .domain([minValue - pad, maxValue + pad])
-                    .range([innerHeight, 0]);
+                    .range([0, innerWidth]);
+                const xBase = x(minValue - pad);
+                const axisFormatter = axisFormatForMetric(metric.key);
 
                 root.append("g")
                     .selectAll("line")
-                    .data(y.ticks(5))
+                    .data(x.ticks(4))
                     .enter()
                     .append("line")
-                    .attr("x1", 0)
-                    .attr("x2", innerWidth)
-                    .attr("y1", (d) => y(d))
-                    .attr("y2", (d) => y(d))
+                    .attr("x1", (d) => x(d))
+                    .attr("x2", (d) => x(d))
+                    .attr("y1", 0)
+                    .attr("y2", innerHeight)
                     .attr("stroke", "#eadfd4");
 
-                root.selectAll("rect")
+                const bars = root.selectAll("rect")
                     .data(races)
                     .enter()
                     .append("rect")
-                    .attr("x", (d) => x(d.circuit) + xSeason(d.year))
-                    .attr("y", (d) => y(d.metrics[metric.key]))
-                    .attr("width", xSeason.bandwidth())
-                    .attr("height", (d) => innerHeight - y(d.metrics[metric.key]))
+                    .attr("class", "chart-mark")
+                    .attr("x", xBase)
+                    .attr("y", (d) => y(d.circuit) + ySeason(d.year))
+                    .attr("width", (d) => x(d.metrics[metric.key]) - xBase)
+                    .attr("height", ySeason.bandwidth())
                     .attr("fill", (d) => seasonColors.get(d.year));
+
+                attachTooltip(bars, (d) => tooltipMarkup(d.raceLabel, [
+                    [metric.title, metric.formatter(d.metrics[metric.key])],
+                    ["Circuit", d.circuit],
+                    ["Season", d.year],
+                    ["Note", metric.note]
+                ]));
 
                 root.selectAll(".bar-label")
                     .data(races)
                     .enter()
                     .append("text")
-                    .attr("x", (d) => x(d.circuit) + xSeason(d.year) + xSeason.bandwidth() / 2)
-                    .attr("y", (d) => y(d.metrics[metric.key]) - 6)
-                    .attr("text-anchor", "middle")
+                    .attr("x", (d) => x(d.metrics[metric.key]) + 4)
+                    .attr("y", (d) => y(d.circuit) + ySeason(d.year) + ySeason.bandwidth() / 2)
+                    .attr("dy", "0.35em")
+                    .attr("text-anchor", "start")
                     .attr("font-size", 10)
                     .text((d) => metric.formatter(d.metrics[metric.key]));
 
                 root.append("g")
                     .attr("class", "axis")
                     .attr("transform", `translate(0,${innerHeight})`)
-                    .call(d3.axisBottom(x));
+                    .call(d3.axisBottom(x).ticks(4).tickFormat(axisFormatter));
 
                 root.append("g")
                     .attr("class", "axis")
-                    .call(d3.axisLeft(y).ticks(5));
+                    .call(d3.axisLeft(y));
 
                 const legend = wrapper.append("div").attr("class", "mini-legend");
-                [2025, 2026].forEach((season) => {
+                seasons.forEach((season) => {
                     const item = legend.append("span");
                     item.append("i").style("background", seasonColors.get(season));
                     item.append("span").text(String(season));
@@ -274,10 +497,11 @@
                     .attr("stroke", "#eadfd4");
 
                 race.topFinishers.forEach((driver) => {
+                    const lineColor = driverDisplayColor(driver);
                     root.append("path")
                         .datum(driver.positions)
                         .attr("fill", "none")
-                        .attr("stroke", driver.color)
+                        .attr("stroke", lineColor)
                         .attr("stroke-width", 2.4)
                         .attr("d", line);
 
@@ -287,8 +511,24 @@
                         .attr("y", y(finalPoint.position))
                         .attr("dy", "0.32em")
                         .attr("font-size", 10)
-                        .attr("fill", driver.color)
+                        .attr("fill", lineColor)
                         .text(driver.driver);
+
+                    const points = root.selectAll(`.position-point-${race.raceKey}-${driver.driver}`)
+                        .data(driver.positions)
+                        .enter()
+                        .append("circle")
+                        .attr("class", "chart-mark position-point")
+                        .attr("cx", (d) => x(d.lap))
+                        .attr("cy", (d) => y(d.position))
+                        .attr("r", 5)
+                        .attr("fill", "transparent")
+                        .attr("stroke", "transparent");
+
+                    attachTooltip(points, (d) => tooltipMarkup(`${race.raceLabel} - ${driver.driver}`, [
+                        ["Lap", d.lap],
+                        ["Position", d.position]
+                    ]));
                 });
 
                 root.append("g")
@@ -299,26 +539,52 @@
                 root.append("g")
                     .attr("class", "axis")
                     .call(d3.axisLeft(y).ticks(Math.min(5, positionExtent)).tickFormat(d3.format("d")));
+
+                const legend = wrapper.append("div").attr("class", "mini-legend");
+                race.topFinishers.forEach((driver) => {
+                    const item = legend.append("span");
+                    item.append("i").style("background", driverDisplayColor(driver));
+                    item.append("span").text(driver.driver);
+                });
             });
         }
 
-        function renderPositionProxy(races) {
+        function renderPositionSlope(races) {
+            const circuits = circuitsFromRaces(races);
+            const legend = d3.select("#position-proxy-legend");
+            circuits.forEach((circuit, index) => {
+                const item = legend.append("span");
+                item.append("i").style("background", circuitColor(circuit, index));
+                item.append("span").text(circuit);
+            });
+
             const svg = d3.select("#position-proxy-chart");
             const width = 1080;
             const height = 420;
-            const margin = { top: 22, right: 20, bottom: 70, left: 70 };
+            const margin = { top: 28, right: 120, bottom: 52, left: 120 };
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
             const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-            const x = d3.scaleBand()
-                .domain(races.map((d) => d.raceLabel))
-                .range([0, innerWidth])
-                .padding(0.22);
+            const seasons = seasonsFromRaces(races);
+            const byCircuit = circuits.map((circuit) => ({
+                circuit,
+                index: circuits.indexOf(circuit),
+                values: seasons
+                    .map((year) => races.find((race) => race.circuit === circuit && race.year === year))
+                    .filter(Boolean)
+            }));
 
+            const x = d3.scalePoint()
+                .domain(seasons)
+                .range([0, innerWidth])
+                .padding(0.16);
             const y = d3.scaleLinear()
-                .domain([0, d3.max(races, (d) => d.metrics.positionChangeProxy)]).nice()
+                .domain([100, d3.max(races, (d) => d.metrics.positionChangeProxy)]).nice()
                 .range([innerHeight, 0]);
+            const line = d3.line()
+                .x((d) => x(d.year))
+                .y((d) => y(d.metrics.positionChangeProxy));
 
             root.append("g")
                 .selectAll("line")
@@ -331,37 +597,54 @@
                 .attr("y2", (d) => y(d))
                 .attr("stroke", "#eadfd4");
 
-            root.selectAll("rect")
+            root.selectAll(".position-slope")
+                .data(byCircuit)
+                .enter()
+                .append("path")
+                .attr("class", "position-slope")
+                .attr("fill", "none")
+                .attr("stroke", (d) => circuitColor(d.circuit, d.index))
+                .attr("stroke-width", 2.6)
+                .attr("d", (d) => line(d.values));
+
+            const points = root.selectAll(".position-slope-point")
                 .data(races)
                 .enter()
-                .append("rect")
-                .attr("x", (d) => x(d.raceLabel))
-                .attr("y", (d) => y(d.metrics.positionChangeProxy))
-                .attr("width", x.bandwidth())
-                .attr("height", (d) => innerHeight - y(d.metrics.positionChangeProxy))
-                .attr("fill", (d) => seasonColors.get(d.year));
+                .append("circle")
+                .attr("class", "chart-mark position-slope-point")
+                .attr("cx", (d) => x(d.year))
+                .attr("cy", (d) => y(d.metrics.positionChangeProxy))
+                .attr("r", 5)
+                .attr("fill", (d) => circuitColor(d.circuit, circuits.indexOf(d.circuit)))
+                .attr("stroke", "#fffdfa")
+                .attr("stroke-width", 1.5);
 
-            root.selectAll(".value-label")
+            attachTooltip(points, (d) => tooltipMarkup(d.raceLabel, [
+                ["Position-change proxy", wholeNumberFormat(d.metrics.positionChangeProxy)],
+                ["Circuit", d.circuit],
+                ["Season", d.year]
+            ]));
+
+            root.selectAll(".slope-value-label")
                 .data(races)
                 .enter()
                 .append("text")
-                .attr("x", (d) => x(d.raceLabel) + x.bandwidth() / 2)
-                .attr("y", (d) => y(d.metrics.positionChangeProxy) - 6)
-                .attr("text-anchor", "middle")
+                .attr("x", (d) => x(d.year) + (d.year === 2025 ? -12 : 12))
+                .attr("y", (d) => y(d.metrics.positionChangeProxy))
+                .attr("dy", "0.35em")
+                .attr("text-anchor", (d) => d.year === 2025 ? "end" : "start")
                 .attr("font-size", 11)
-                .text((d) => d.metrics.positionChangeProxy.toFixed(0));
+                .attr("fill", (d) => circuitColor(d.circuit, circuits.indexOf(d.circuit)))
+                .text((d) => `${d.circuit} ${wholeNumberFormat(d.metrics.positionChangeProxy)}`);
 
             root.append("g")
                 .attr("class", "axis")
                 .attr("transform", `translate(0,${innerHeight})`)
-                .call(d3.axisBottom(x))
-                .selectAll("text")
-                .attr("transform", "rotate(-25)")
-                .style("text-anchor", "end");
+                .call(d3.axisBottom(x).tickFormat(d3.format("d")));
 
             root.append("g")
                 .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(5));
+                .call(d3.axisLeft(y).ticks(5).tickFormat(wholeNumberFormat));
         }
 
         function renderTimeline(races) {
@@ -398,11 +681,16 @@
                     .data(race.statusTimeline)
                     .enter()
                     .append("rect")
+                    .attr("class", "chart-mark")
                     .attr("x", (d) => x(d.lap))
                     .attr("y", yTop + 3)
                     .attr("width", Math.max(1, x(2) - x(1) - 0.7))
                     .attr("height", rowHeight - 6)
-                    .attr("fill", (d) => timelineColors.get(d.state) || "#d9e4dc");
+                    .attr("fill", (d) => timelineColors.get(d.state) || "#d9e4dc")
+                    .call((selection) => attachTooltip(selection, (d) => tooltipMarkup(race.raceLabel, [
+                        ["Lap", d.lap],
+                        ["Status", d.state]
+                    ])));
 
                 root.append("line")
                     .attr("x1", 0)
@@ -419,6 +707,13 @@
         }
 
         function renderScorecard(scorecardRows) {
+            const legend = d3.select("#scorecard-legend");
+            scorecardColors.forEach((color, label) => {
+                const item = legend.append("span");
+                item.append("i").style("background", color);
+                item.append("span").text(label);
+            });
+
             const svg = d3.select("#scorecard-chart");
             const width = 1080;
             const height = 470;
@@ -427,7 +722,7 @@
             const innerHeight = height - margin.top - margin.bottom;
             const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-            const circuits = ["Australia", "China", "Japan"];
+            const circuits = orderedUnique(scorecardRows.map((row) => row.circuit));
             const metricRows = [
                 "Median best lap (s)",
                 "Fastest lap (s)",
@@ -478,7 +773,14 @@
                 .data(scorecardRows)
                 .enter()
                 .append("g")
+                .attr("class", "scorecard-cell chart-mark")
                 .attr("transform", (d) => `translate(${x(d.circuit)},${y(d.metricLabel)})`);
+
+            attachTooltip(cells, (d) => tooltipMarkup(`${d.circuit} - ${d.metricLabel}`, [
+                ["2025", formatMetric(d.metricKey, d.season2025)],
+                ["2026", formatMetric(d.metricKey, d.season2026)],
+                ["Change", formatDelta(d.metricKey, d.delta)]
+            ]));
 
             cells.append("rect")
                 .attr("width", x.bandwidth())
