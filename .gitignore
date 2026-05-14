@@ -10,7 +10,9 @@
 node_modules/
 .tmp-playwright/
 .playwright-mcp/
+.superpowers/
 output/
+f1-static-server*.log
 
 # Ignore local instructions dropped into subfolders
 **/Instructions.md

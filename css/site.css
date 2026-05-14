@@ -20,6 +20,7 @@ body {
     color: var(--text);
     font-family: "IBM Plex Sans", sans-serif;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 a {
@@ -176,7 +177,8 @@ main {
 }
 
 .overview-section,
-.chart-section {
+.chart-section,
+.methodology-section {
     width: min(1080px, 100%);
     margin: 0 auto;
 }
@@ -198,6 +200,330 @@ main {
 
 .chart-section .section-copy p {
     margin: 0 auto;
+}
+
+.arcade-transition {
+    --drive-x: -32vw;
+    --scroll-progress: 0;
+    --road-x: 0px;
+    --copy-opacity: 0;
+    --copy-y: 28px;
+    --copy-scale: 0.98;
+    --wipe-opacity: 0;
+    --wipe-y: 100%;
+    --speed-opacity: 0;
+    --jump-y: 0px;
+    --tilt: 0deg;
+    position: relative;
+    isolation: isolate;
+    width: 100vw;
+    min-height: 176vh;
+    min-height: 176svh;
+    margin: 0 0 0 calc(50% - 50vw);
+    overflow: hidden;
+    color: #fff7ed;
+    background:
+        linear-gradient(180deg, rgba(255, 247, 237, 0.08), rgba(255, 247, 237, 0) 42%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 36px),
+        #13110f;
+    border-block: 1px solid rgba(255, 247, 237, 0.16);
+}
+
+.arcade-stage {
+    position: sticky;
+    top: 0;
+    display: grid;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+}
+
+.arcade-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    opacity: var(--wipe-opacity);
+    transform: translateY(var(--wipe-y));
+    background:
+        repeating-conic-gradient(from 45deg, rgba(255, 247, 237, 0.72) 0% 25%, rgba(12, 12, 11, 0.72) 0% 50%) 0 0 / 42px 42px,
+        rgba(0, 0, 0, 0.2);
+}
+
+.arcade-transition::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+        linear-gradient(rgba(255, 247, 237, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 247, 237, 0.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.arcade-transition::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: min(18vh, 140px);
+    background:
+        linear-gradient(180deg, transparent, rgba(246, 240, 232, 0.1)),
+        repeating-conic-gradient(from 45deg, rgba(255, 247, 237, 0.68) 0% 25%, rgba(21, 18, 14, 0.68) 0% 50%) 0 0 / 44px 44px;
+    opacity: 0.44;
+}
+
+.arcade-transition-kart {
+    background:
+        linear-gradient(180deg, rgba(255, 204, 59, 0.1), rgba(255, 247, 237, 0) 48%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 2px, transparent 2px 36px),
+        #17130d;
+}
+
+.arcade-transition-overtake {
+    background:
+        linear-gradient(180deg, rgba(47, 111, 99, 0.16), rgba(255, 247, 237, 0) 46%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 36px),
+        #101614;
+}
+
+.arcade-transition-caution {
+    background:
+        linear-gradient(180deg, rgba(213, 182, 93, 0.16), rgba(255, 247, 237, 0) 46%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 36px),
+        #17140e;
+}
+
+.arcade-transition-finale {
+    background:
+        linear-gradient(180deg, rgba(154, 61, 48, 0.18), rgba(255, 247, 237, 0) 46%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 36px),
+        #15100f;
+}
+
+.arcade-copy {
+    position: relative;
+    z-index: 2;
+    width: min(900px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding-bottom: 30vh;
+    opacity: var(--copy-opacity);
+    transform: translateY(var(--copy-y)) scale(var(--copy-scale));
+    transition: opacity 80ms linear, transform 80ms linear;
+}
+
+.arcade-transition.is-active .arcade-copy,
+.arcade-transition.has-entered .arcade-copy {
+    opacity: var(--copy-opacity);
+    transform: translateY(var(--copy-y)) scale(var(--copy-scale));
+}
+
+.arcade-label {
+    margin: 0 0 0.8rem;
+    color: #f3c66f;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.arcade-copy h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #fffdfa;
+    font-size: clamp(3.4rem, 9vw, 8.4rem);
+    line-height: 0.92;
+    letter-spacing: 0;
+}
+
+.arcade-copy p:last-child {
+    max-width: 44rem;
+    margin: 1.25rem 0 0;
+    color: rgba(255, 247, 237, 0.78);
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+}
+
+.arcade-track {
+    position: absolute;
+    inset: auto 0 10vh;
+    height: min(34vh, 260px);
+    min-height: 190px;
+    overflow: hidden;
+}
+
+.arcade-track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 24%;
+    height: 42%;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 78px, rgba(255, 247, 237, 0.72) 78px 132px, transparent 132px 210px),
+        linear-gradient(180deg, #2b2926 0%, #171614 100%);
+    background-position-x: var(--road-x), 0;
+    border-block: 4px solid rgba(255, 247, 237, 0.72);
+}
+
+.arcade-track::after {
+    content: "";
+    position: absolute;
+    inset: 24% -20% 20%;
+    z-index: 0;
+    opacity: var(--speed-opacity);
+    background:
+        linear-gradient(90deg, transparent, rgba(255, 247, 237, 0.34), transparent 34%),
+        linear-gradient(90deg, transparent 22%, rgba(243, 198, 111, 0.32), transparent 48%),
+        linear-gradient(90deg, transparent 44%, rgba(255, 247, 237, 0.22), transparent 70%);
+    transform: translateX(calc(var(--road-x) * -0.35));
+}
+
+.track-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 247, 237, 0.16);
+    transform: translateX(calc(var(--road-x) * -0.18));
+}
+
+.track-line-top {
+    bottom: 71%;
+}
+
+.track-line-mid {
+    bottom: 45%;
+}
+
+.track-line-bottom {
+    bottom: 21%;
+}
+
+.arcade-vehicle {
+    position: absolute;
+    left: 0;
+    bottom: 24%;
+    z-index: 1;
+    max-width: none;
+    transform: translateX(var(--drive-x)) translateY(var(--jump-y)) rotate(var(--tilt));
+    transition: transform 80ms linear;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 14px 0 rgba(0, 0, 0, 0.28));
+}
+
+.arcade-vehicle-f1 {
+    width: min(46vw, 560px);
+}
+
+.arcade-vehicle-kart {
+    width: min(28vw, 310px);
+    bottom: 29%;
+}
+
+.methodology-section {
+    padding: 1.25rem 0 0.5rem;
+}
+
+.methodology-section .section-copy {
+    text-align: center;
+}
+
+.methodology-section .section-copy p {
+    margin: 0 auto;
+}
+
+.methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.methodology-grid article {
+    min-height: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+}
+
+.methodology-grid h3 {
+    margin: 0 0 0.45rem;
+    font-size: 1rem;
+}
+
+.methodology-grid p {
+    margin: 0;
+    color: var(--text-soft);
+}
+
+.site-footer {
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+    color: #22211c;
+    background:
+        linear-gradient(180deg, rgba(246, 240, 232, 0.98) 0%, rgba(246, 240, 232, 0.9) 28%, rgba(246, 240, 232, 0.1) 68%),
+        url("../assets/images/footer-f1-landscape.png") center bottom / cover no-repeat,
+        #f6f0e8;
+}
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 253, 250, 0.58), transparent 42%),
+        linear-gradient(90deg, rgba(246, 240, 232, 0.86), rgba(246, 240, 232, 0.26) 46%, transparent 74%);
+    opacity: 1;
+}
+
+.footer-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: min(1180px, calc(100% - 2rem));
+    min-height: clamp(560px, 82vh, 820px);
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 5rem) 0 1.2rem;
+}
+
+.footer-copy {
+    position: relative;
+    z-index: 2;
+    max-width: min(980px, 100%);
+}
+
+.footer-title {
+    margin: 0;
+    color: #22211c;
+    font-size: clamp(4.2rem, 10vw, 10.5rem);
+    font-weight: 600;
+    line-height: 0.84;
+    letter-spacing: -0.04em;
+    max-width: 9ch;
+}
+
+.footer-copy p:last-child {
+    max-width: 32rem;
+    margin: 1.1rem 0 0;
+    color: rgba(34, 33, 28, 0.66);
+    font-size: 0.98rem;
+}
+
+.footer-meta {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 1.4rem;
+    width: min(620px, 100%);
+    color: rgba(34, 33, 28, 0.58);
+    font-size: 0.82rem;
 }
 
 .chart-item h3 {
@@ -314,6 +640,10 @@ svg {
     .step-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .methodology-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 980px) {
@@ -371,5 +701,58 @@ svg {
 
     .step-grid {
         grid-template-columns: 1fr;
+    }
+
+    .arcade-transition {
+        min-height: 168vh;
+        min-height: 168svh;
+    }
+
+    .arcade-copy {
+        padding-bottom: 36vh;
+    }
+
+    .arcade-copy h2 {
+        max-width: 11ch;
+        font-size: clamp(2.7rem, 15vw, 4.4rem);
+    }
+
+    .arcade-track {
+        bottom: 7vh;
+        min-height: 160px;
+    }
+
+    .arcade-vehicle-f1 {
+        width: 86vw;
+    }
+
+    .arcade-vehicle-kart {
+        width: 54vw;
+    }
+
+    .footer-inner {
+        min-height: 620px;
+        padding-top: 3rem;
+    }
+
+    .footer-title {
+        font-size: clamp(3.4rem, 16vw, 5.6rem);
+        max-width: 8.5ch;
+    }
+
+    .footer-meta {
+        justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .arcade-copy,
+    .arcade-vehicle,
+    .chart-tooltip {
+        transition: none;
+    }
+
+    .arcade-vehicle {
+        transform: translateX(8vw) !important;
     }
 }
