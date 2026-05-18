@@ -23,6 +23,8 @@ EVENTS = [
     (2026, "Miami Grand Prix", "Miami"),
 ]
 
+# Fallback colors keep the step charts readable when FastF1 does not provide a
+# team color for a driver result row.
 DEFAULT_COLORS = [
     "#8f4f18",
     "#2f6f63",
@@ -42,6 +44,9 @@ def to_seconds(series: pd.Series) -> pd.Series:
 
 
 def classify_track_status(value: str) -> str:
+    # FastF1 track status can contain multiple status digits for a lap. Keep the
+    # most disruptive state so the timeline does not collapse everything into
+    # generic yellow-flag periods.
     text = "" if pd.isna(value) else str(value)
     if "5" in text:
         return "Red Flag"
@@ -94,6 +99,8 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
 
     position_change_proxy = 0.0
     for _, driver_laps in valid_laps.groupby("Driver"):
+        # This is a movement proxy, not a clean-overtake counter. Pit stops,
+        # retirements, Safety Cars, and recovery drives all contribute.
         ordered = driver_laps.sort_values("LapNumber")
         position_change_proxy += ordered["Position"].diff().abs().fillna(0).sum()
 
@@ -101,6 +108,8 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
     max_lap = int(status_laps["LapNumber"].max())
     status_rows = []
     for lap_number in range(1, max_lap + 1):
+        # Several drivers can report status values on the same lap; combine them
+        # before classification so a single race-control event marks the lap.
         lap_statuses = status_laps.loc[status_laps["LapNumber"] == lap_number, "TrackStatus"]
         combined = "".join(sorted({str(value) for value in lap_statuses.dropna()}))
         status_rows.append(

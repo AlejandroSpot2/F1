@@ -11,8 +11,20 @@ node_modules/
 .tmp-playwright/
 .playwright-mcp/
 .superpowers/
+.miktex/
+.tex-appdata/
+.tools/
 output/
 f1-static-server*.log
+final_deliverable/
+
+# Ignore LaTeX build intermediates
+**/*.aux
+**/*.bbl
+**/*.blg
+**/*.log
+**/*.out
+**/*.toc
 
 # Ignore local instructions dropped into subfolders
 **/Instructions.md
