@@ -17,10 +17,12 @@ EVENTS = [
     (2025, "Chinese Grand Prix", "China"),
     (2025, "Japanese Grand Prix", "Japan"),
     (2025, "Miami Grand Prix", "Miami"),
+    (2025, "Canadian Grand Prix", "Canada"),
     (2026, "Australian Grand Prix", "Australia"),
     (2026, "Chinese Grand Prix", "China"),
     (2026, "Japanese Grand Prix", "Japan"),
     (2026, "Miami Grand Prix", "Miami"),
+    (2026, "Canadian Grand Prix", "Canada"),
 ]
 
 # Fallback colors keep the step charts readable when FastF1 does not provide a
@@ -216,7 +218,7 @@ def main() -> None:
 
     payload = {
         "projectTitle": "From DRS to Mario Mushrooms",
-        "subtitle": "A comparison of Formula 1's first four races in 2025 and 2026",
+        "subtitle": "A comparison of Formula 1's first five races in 2025 and 2026",
         "generatedFrom": "FastF1",
         "races": races,
         "scorecard": build_scorecard(races),
