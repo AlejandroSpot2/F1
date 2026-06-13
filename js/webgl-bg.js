@@ -2,21 +2,19 @@ import * as THREE from "three";
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
-const isLowPower = prefersReducedMotion || isMobile;
+const isLiteMode = prefersReducedMotion;
 
 const canvas = document.getElementById("webgl-bg");
-if (!canvas || isLowPower) {
-    if (canvas) {
-        canvas.remove();
-    }
+if (!canvas) {
+    // no-op
 } else {
     const renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
         antialias: false,
-        powerPreference: "low-power"
+        powerPreference: isMobile ? "low-power" : "default"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight, false);
 
     const scene = new THREE.Scene();
@@ -27,7 +25,9 @@ if (!canvas || isLowPower) {
         uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
         uMouse: { value: new THREE.Vector2(0.5, 0.5) },
         uScroll: { value: 0 },
-        uAccent: { value: new THREE.Color("#dc0000") }
+        uVelocity: { value: 0 },
+        uAccent: { value: new THREE.Color("#dc0000") },
+        uLite: { value: isLiteMode ? 1 : 0 }
     };
 
     const vertexShader = `
@@ -43,7 +43,9 @@ if (!canvas || isLowPower) {
         uniform vec2 uResolution;
         uniform vec2 uMouse;
         uniform float uScroll;
+        uniform float uVelocity;
         uniform vec3 uAccent;
+        uniform float uLite;
         varying vec2 vUv;
 
         float hash(vec2 p) {
@@ -70,29 +72,36 @@ if (!canvas || isLowPower) {
             p += mouse * 0.08;
 
             float scrollShift = uScroll * 0.4;
-            float t = uTime * 0.15 + scrollShift;
+            float velBoost = uVelocity * 1.8;
+            float t = uTime * (0.15 + uLite * 0.05) + scrollShift;
 
             float carbon = 0.0;
             for (int i = 0; i < 4; i++) {
                 float fi = float(i);
-                vec2 q = p * (3.0 + fi * 1.8) + vec2(t * (0.6 + fi * 0.15), -t * 0.4);
+                vec2 q = p * (3.0 + fi * 1.8) + vec2(t * (0.6 + fi * 0.15 + velBoost), -t * 0.4);
                 carbon += noise(q) * pow(0.55, fi);
             }
 
             float streaks = 0.0;
             for (int j = 0; j < 6; j++) {
                 float fj = float(j);
-                float lane = sin((p.y + fj * 0.18 + t * 1.4) * 28.0 + p.x * 6.0);
+                float lane = sin((p.y + fj * 0.18 + t * (1.4 + velBoost * 2.0)) * 28.0 + p.x * 6.0);
                 float speed = smoothstep(0.82, 1.0, lane);
-                streaks += speed * (0.04 + 0.02 * sin(t + fj));
+                float weight = 1.0 - step(2.5, fj) * uLite;
+                streaks += speed * (0.04 + 0.02 * sin(t + fj)) * weight;
             }
 
             vec3 base = vec3(0.04, 0.04, 0.05);
             vec3 fiber = mix(base, uAccent * 0.15, carbon * 0.35);
-            vec3 color = fiber + vec3(streaks * 0.55) * uAccent;
+            vec3 color = fiber + vec3(streaks * (0.55 + velBoost * 0.4)) * uAccent;
+
+            float aberration = uVelocity * 0.004;
+            color.r += aberration * sin(p.x * 40.0 + t);
+            color.b -= aberration * cos(p.y * 30.0 + t);
+
             float vignette = 1.0 - dot(p * 0.85, p * 0.85);
             color *= clamp(vignette, 0.35, 1.0);
-            color *= 0.55;
+            color *= 0.55 + velBoost * 0.15;
 
             gl_FragColor = vec4(color, 0.72);
         }
@@ -117,9 +126,13 @@ if (!canvas || isLowPower) {
         targetMouse.y = 1 - event.clientY / window.innerHeight;
     }, { passive: true });
 
+    let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         uniforms.uScroll.value = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+        const vel = Math.abs(window.scrollY - lastScrollY);
+        lastScrollY = window.scrollY;
+        uniforms.uVelocity.value = Math.min(vel / 30, 1);
     }, { passive: true });
 
     function syncAccent() {
@@ -127,6 +140,8 @@ if (!canvas || isLowPower) {
         if (accent) {
             uniforms.uAccent.value.set(accent);
         }
+        const cssVel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--scroll-velocity")) || 0;
+        uniforms.uVelocity.value = Math.max(uniforms.uVelocity.value, cssVel);
     }
 
     const accentObserver = new MutationObserver(syncAccent);
@@ -157,6 +172,8 @@ if (!canvas || isLowPower) {
         currentMouse.lerp(targetMouse, 0.06);
         uniforms.uMouse.value.copy(currentMouse);
         uniforms.uTime.value = clock.getElapsedTime();
+        uniforms.uVelocity.value *= 0.92;
+        syncAccent();
         renderer.render(scene, camera);
     }
 

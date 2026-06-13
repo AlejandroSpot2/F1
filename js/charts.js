@@ -241,8 +241,8 @@
             const bars = root.selectAll("rect")
                 .data(races)
                 .enter()
-                .append("rect")
-                .attr("class", "chart-mark")
+                    .append("rect")
+                    .attr("class", "chart-mark chart-bar")
                 .attr("x", xBase)
                 .attr("y", (d) => y(d.circuit) + ySeason(d.year))
                 .attr("width", (d) => x(d.metrics[metric.key]) - xBase)
@@ -333,8 +333,9 @@
 
             race.topFinishers.forEach((driver) => {
                 const lineColor = driverDisplayColor(driver);
-                root.append("path")
-                    .datum(driver.positions)
+                    root.append("path")
+                        .datum(driver.positions)
+                        .attr("class", "chart-step-path")
                     .attr("fill", "none")
                     .attr("stroke", lineColor)
                     .attr("stroke-width", 2.4)

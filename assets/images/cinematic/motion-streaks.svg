@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 400" fill="none">
+  <defs>
+    <linearGradient id="streak1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#fff" stop-opacity="0.15"/>
+      <stop offset="70%" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="streak2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9800" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#ff9800" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff9800" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="400" fill="transparent"/>
+  <rect x="0" y="80" width="1920" height="3" fill="url(#streak1)" opacity="0.6"/>
+  <rect x="0" y="120" width="1920" height="2" fill="url(#streak1)" opacity="0.4"/>
+  <rect x="0" y="180" width="1920" height="4" fill="url(#streak2)" opacity="0.5"/>
+  <rect x="0" y="240" width="1920" height="2" fill="url(#streak1)" opacity="0.35"/>
+  <rect x="0" y="300" width="1920" height="3" fill="url(#streak1)" opacity="0.5"/>
+  <rect x="200" y="150" width="400" height="1" fill="#fff" opacity="0.25"/>
+  <rect x="600" y="200" width="300" height="1" fill="#fff" opacity="0.2"/>
+  <rect x="1000" y="100" width="500" height="1" fill="#fff" opacity="0.3"/>
+  <rect x="1400" y="260" width="350" height="1" fill="#fff" opacity="0.22"/>
+</svg>

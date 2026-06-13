@@ -15,36 +15,6 @@
 
     let lenis = null;
 
-    function smoothstep(start, end, value) {
-        const amount = Math.max(0, Math.min(1, (value - start) / (end - start)));
-        return amount * amount * (3 - 2 * amount);
-    }
-
-    function setTransitionProgress(element, progress) {
-        const clamped = Math.max(0, Math.min(1, progress));
-        const eased = smoothstep(0.04, 0.96, clamped);
-        const textIn = smoothstep(0.04, 0.18, clamped);
-        const textOut = smoothstep(0.64, 0.82, clamped);
-        const copyOpacity = textIn * (1 - textOut);
-        const wipe = smoothstep(0.72, 0.96, clamped);
-        const speed = smoothstep(0.12, 0.42, clamped) * (1 - smoothstep(0.74, 0.96, clamped));
-        const start = -32;
-        const end = 126;
-        const hop = Math.sin(clamped * Math.PI * 5) * 5 * speed;
-        const tilt = Math.sin(clamped * Math.PI * 3) * 1.5 * speed;
-        element.style.setProperty("--scroll-progress", clamped.toFixed(3));
-        element.style.setProperty("--drive-x", `${start + (end - start) * eased}vw`);
-        element.style.setProperty("--road-x", `${Math.round(-980 * clamped)}px`);
-        element.style.setProperty("--copy-opacity", copyOpacity.toFixed(3));
-        element.style.setProperty("--copy-y", `${Math.round(34 - 92 * clamped)}px`);
-        element.style.setProperty("--copy-scale", (0.98 + 0.04 * textIn).toFixed(3));
-        element.style.setProperty("--wipe-opacity", (0.38 * wipe).toFixed(3));
-        element.style.setProperty("--wipe-y", `${Math.round(104 - 114 * wipe)}%`);
-        element.style.setProperty("--speed-opacity", (0.78 * speed).toFixed(3));
-        element.style.setProperty("--jump-y", `${hop.toFixed(2)}px`);
-        element.style.setProperty("--tilt", `${tilt.toFixed(2)}deg`);
-    }
-
     function splitWords(selector) {
         document.querySelectorAll(selector).forEach((el) => {
             if (el.dataset.split) {
@@ -56,6 +26,28 @@
                 .split(/\s+/)
                 .map((word) => `<span class="word"><span class="word-inner">${word}</span></span>`)
                 .join(" ");
+        });
+    }
+
+    function splitLines(selector) {
+        document.querySelectorAll(selector).forEach((el) => {
+            if (el.dataset.lineSplit) {
+                return;
+            }
+            el.dataset.lineSplit = "true";
+            const lines = el.innerHTML.split(/<br\s*\/?>/i).map((s) => s.trim()).filter(Boolean);
+            if (lines.length <= 1) {
+                const words = el.textContent.trim().split(/\s+/);
+                const mid = Math.ceil(words.length / 2);
+                el.innerHTML = [
+                    `<span class="hero-line"><span class="hero-line-inner">${words.slice(0, mid).join(" ")}</span></span>`,
+                    `<span class="hero-line"><span class="hero-line-inner">${words.slice(mid).join(" ")}</span></span>`
+                ].join(" ");
+                return;
+            }
+            el.innerHTML = lines
+                .map((line) => `<span class="hero-line"><span class="hero-line-inner">${line}</span></span>`)
+                .join("");
         });
     }
 
@@ -73,11 +65,20 @@
 
         lenis.on("scroll", ScrollTrigger.update);
 
+        let lastScroll = 0;
+        let velocity = 0;
+        lenis.on("scroll", ({ scroll }) => {
+            velocity = Math.abs(scroll - lastScroll);
+            lastScroll = scroll;
+            document.documentElement.style.setProperty("--scroll-velocity", String(Math.min(velocity / 40, 1)));
+        });
+
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
         });
         gsap.ticker.lagSmoothing(0);
 
+        window.F1ScrollVelocity = () => velocity;
         return lenis;
     }
 
@@ -115,8 +116,7 @@
             }
         });
 
-        const sections = document.querySelectorAll("[data-chapter]");
-        sections.forEach((section) => {
+        document.querySelectorAll("[data-chapter]").forEach((section) => {
             ScrollTrigger.create({
                 trigger: section,
                 start: "top 55%",
@@ -128,7 +128,8 @@
 
         function highlightNav(id) {
             links.forEach((link) => {
-                link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+                const active = link.getAttribute("href") === `#${id}`;
+                link.classList.toggle("is-active", active);
             });
         }
     }
@@ -144,12 +145,7 @@
                 const rect = button.getBoundingClientRect();
                 const x = event.clientX - rect.left - rect.width / 2;
                 const y = event.clientY - rect.top - rect.height / 2;
-                gsap.to(button, {
-                    x: x * strength,
-                    y: y * strength,
-                    duration: 0.35,
-                    ease: "power2.out"
-                });
+                gsap.to(button, { x: x * strength, y: y * strength, duration: 0.35, ease: "power2.out" });
             });
             button.addEventListener("mouseleave", () => {
                 gsap.to(button, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.45)" });
@@ -163,14 +159,11 @@
             return;
         }
 
-        const chapters = document.querySelectorAll("[data-theme]");
-        chapters.forEach((chapter) => {
-            const themeId = chapter.dataset.theme;
-            const theme = CHAPTER_THEMES.find((item) => item.id === themeId);
+        document.querySelectorAll("[data-theme]").forEach((chapter) => {
+            const theme = CHAPTER_THEMES.find((item) => item.id === chapter.dataset.theme);
             if (!theme) {
                 return;
             }
-
             ScrollTrigger.create({
                 trigger: chapter,
                 start: "top 70%",
@@ -200,44 +193,50 @@
 
     function initHero() {
         const hero = document.querySelector(".chapter-hero");
-        if (!hero || prefersReducedMotion) {
+        if (!hero) {
+            return;
+        }
+
+        if (prefersReducedMotion) {
             return;
         }
 
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.from(".hero-bg-layer", { scale: 1.12, duration: 2.2 })
-            .from(".hero-ascii-wrap", { x: -40, opacity: 0, duration: 1.1 }, "-=1.6")
-            .from(".hero-copy .word-inner", { y: "110%", duration: 0.9, stagger: 0.04 }, "-=1")
-            .from(".hero-lede", { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
+        tl.from(".hero-bg-layer", { scale: 1.14, duration: 2.4 })
+            .from(".hero-car-layer", { x: -80, opacity: 0, duration: 1.2 }, "-=1.8")
+            .from(".hero-speed-lines", { opacity: 0, duration: 1 }, "-=1.2")
+            .from(".hero-line-inner", { yPercent: 110, duration: 0.85, stagger: 0.12 }, "-=0.9")
+            .from(".hero-lede", { y: 24, opacity: 0, duration: 0.8 }, "-=0.4")
             .from(".scroll-cue", { y: 16, opacity: 0, duration: 0.6 }, "-=0.3");
 
-        gsap.to(".hero-bg-layer", {
-            yPercent: 12,
+        gsap.to(".hero-bg-layer img", {
+            scale: 1.08,
+            yPercent: 8,
             ease: "none",
-            scrollTrigger: {
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
+            scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true }
         });
 
-        gsap.to(".hero-ascii-wrap", {
-            yPercent: -8,
+        gsap.to(".hero-car-layer", {
+            x: 60,
+            yPercent: -6,
             ease: "none",
-            scrollTrigger: {
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
+            scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true }
+        });
+
+        gsap.to(".scroll-cue", {
+            opacity: 0.5,
+            y: 6,
+            duration: 1.8,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
         });
     }
 
     function initChapterReveals() {
         document.querySelectorAll(".chapter-content").forEach((section) => {
             const words = section.querySelectorAll(".chapter-title .word-inner");
-            const body = section.querySelectorAll(".chapter-lede, .section-copy p");
+            const body = section.querySelectorAll(".chapter-lede");
             const cards = section.querySelectorAll(".content-card, .chart-item, .method-card");
 
             if (prefersReducedMotion) {
@@ -251,28 +250,28 @@
                     duration: 0.85,
                     stagger: 0.035,
                     ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 78%",
-                        toggleActions: "play none none reverse"
-                    }
+                    scrollTrigger: { trigger: section, start: "top 78%", toggleActions: "play none none reverse" }
                 });
             }
 
-            if (body.length) {
-                gsap.from(body, {
-                    y: 28,
-                    opacity: 0,
-                    duration: 0.75,
-                    stagger: 0.08,
-                    ease: "power2.out",
+            body.forEach((lede) => {
+                const ledeWords = lede.textContent.trim().split(/\s+/);
+                lede.innerHTML = ledeWords
+                    .map((w) => `<span class="lede-word">${w}</span>`)
+                    .join(" ");
+                gsap.from(lede.querySelectorAll(".lede-word"), {
+                    opacity: 0.15,
+                    duration: 0.5,
+                    stagger: 0.015,
+                    ease: "none",
                     scrollTrigger: {
-                        trigger: section,
-                        start: "top 72%",
-                        toggleActions: "play none none reverse"
+                        trigger: lede,
+                        start: "top 85%",
+                        end: "top 55%",
+                        scrub: true
                     }
                 });
-            }
+            });
 
             if (cards.length) {
                 gsap.from(cards, {
@@ -281,13 +280,57 @@
                     duration: 0.7,
                     stagger: 0.06,
                     ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 68%",
-                        toggleActions: "play none none reverse"
-                    }
+                    scrollTrigger: { trigger: section, start: "top 68%", toggleActions: "play none none reverse" }
                 });
             }
+        });
+    }
+
+    function initPinnedChapterNumbers() {
+        if (prefersReducedMotion || isMobile || window.matchMedia("(max-width: 1080px)").matches) {
+            return;
+        }
+
+        document.querySelectorAll(".chapter-content").forEach((section) => {
+            const num = section.querySelector(".chapter-num");
+            if (!num) {
+                return;
+            }
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top top",
+                end: "bottom top",
+                pin: num,
+                pinSpacing: false
+            });
+        });
+    }
+
+    function initStatCountUp() {
+        const stats = document.querySelectorAll(".stat-value");
+        if (prefersReducedMotion) {
+            return;
+        }
+
+        stats.forEach((stat) => {
+            const target = parseInt(stat.textContent, 10);
+            if (Number.isNaN(target)) {
+                return;
+            }
+            const obj = { val: 0 };
+            gsap.to(obj, {
+                val: target,
+                duration: 1.4,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: stat.closest(".overview-stats"),
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                onUpdate: () => {
+                    stat.textContent = Math.round(obj.val);
+                }
+            });
         });
     }
 
@@ -309,48 +352,49 @@
                 }
             });
         });
+
+        const footerSilhouette = document.querySelector(".footer-parallax img");
+        if (footerSilhouette) {
+            gsap.to(footerSilhouette, {
+                xPercent: -8,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".site-footer",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        }
     }
 
-    function initArcadeTransitions() {
-        const steps = Array.from(document.querySelectorAll(".arcade-transition"));
-        if (!steps.length) {
+    function initCardTilt() {
+        if (prefersReducedMotion || isMobile) {
             return;
         }
 
-        steps.forEach((step) => {
-            setTransitionProgress(step, 0);
-            const stage = step.querySelector(".arcade-stage");
-
-            if (prefersReducedMotion) {
-                setTransitionProgress(step, 0.5);
-                step.classList.add("is-active", "has-entered");
-                return;
-            }
-
-            ScrollTrigger.create({
-                trigger: step,
-                start: "top top",
-                end: "+=160%",
-                pin: stage,
-                scrub: 0.6,
-                anticipatePin: 1,
-                onEnter: () => step.classList.add("is-active", "has-entered"),
-                onEnterBack: () => step.classList.add("is-active", "has-entered"),
-                onUpdate: (self) => setTransitionProgress(step, self.progress)
-            });
-        });
-    }
-
-    function initCardHovers() {
         document.querySelectorAll(".content-card, .chart-item, .method-card").forEach((card) => {
-            card.addEventListener("mouseenter", () => {
-                if (prefersReducedMotion) {
-                    return;
-                }
-                gsap.to(card, { y: -4, duration: 0.35, ease: "power2.out" });
+            card.addEventListener("mousemove", (event) => {
+                const rect = card.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotateY: x * 6,
+                    rotateX: -y * 6,
+                    y: -4,
+                    duration: 0.35,
+                    ease: "power2.out",
+                    transformPerspective: 800
+                });
             });
             card.addEventListener("mouseleave", () => {
-                gsap.to(card, { y: 0, duration: 0.45, ease: "power2.out" });
+                gsap.to(card, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
             });
         });
     }
@@ -362,22 +406,31 @@
 
         gsap.registerPlugin(ScrollTrigger);
 
-        splitWords(".chapter-title, .hero-title");
+        splitWords(".chapter-title");
+        splitLines(".hero-title");
         initLenis();
         initNav();
         initMagneticButtons();
         initChapterColors();
         initHero();
         initChapterReveals();
+        initPinnedChapterNumbers();
+        initStatCountUp();
         initParallaxLayers();
-        initArcadeTransitions();
-        initCardHovers();
+
+        if (window.F1MotionTransitions) {
+            window.F1MotionTransitions.init();
+        }
+
+        if (window.F1MotionCharts) {
+            window.F1MotionCharts.init();
+        }
+
+        initCardTilt();
 
         ScrollTrigger.refresh();
 
-        window.addEventListener("resize", () => {
-            ScrollTrigger.refresh();
-        });
+        window.addEventListener("resize", () => ScrollTrigger.refresh());
     }
 
     window.F1Motion = { init, getLenis: () => lenis };

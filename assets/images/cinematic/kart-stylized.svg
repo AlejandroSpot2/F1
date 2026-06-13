@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" fill="none">
+  <defs>
+    <linearGradient id="kartBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd54f"/>
+      <stop offset="50%" stop-color="#ff9800"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <linearGradient id="kartSeat" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0d0d1a"/>
+    </linearGradient>
+    <filter id="kartGlow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#kartGlow)">
+    <ellipse cx="120" cy="220" rx="55" ry="55" fill="#111"/>
+    <ellipse cx="120" cy="220" rx="35" ry="35" fill="#333"/>
+    <ellipse cx="120" cy="220" rx="18" ry="18" fill="#666"/>
+    <ellipse cx="480" cy="220" rx="55" ry="55" fill="#111"/>
+    <ellipse cx="480" cy="220" rx="35" ry="35" fill="#333"/>
+    <ellipse cx="480" cy="220" rx="18" ry="18" fill="#666"/>
+    <path fill="url(#kartBody)" d="M80 200 L140 180 L200 165 L280 155 L360 150 L440 155 L520 165 L560 180 L580 200 L560 215 L480 225 L360 230 L240 228 L140 220 Z"/>
+    <path fill="url(#kartSeat)" d="M260 155 L340 148 L400 155 L420 175 L400 195 L340 200 L280 198 L250 185 Z"/>
+    <path fill="#ff5722" opacity="0.8" d="M540 175 L580 165 L590 180 L570 195 Z"/>
+    <circle cx="300" cy="175" r="8" fill="#fff" opacity="0.9"/>
+    <circle cx="380" cy="172" r="8" fill="#4fc3f7" opacity="0.9"/>
+  </g>
+</svg>

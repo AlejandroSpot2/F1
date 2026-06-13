@@ -8,8 +8,10 @@
     <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/site.css?v=cinematic-1">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/site.css?v=cinematic-2">
+    <link rel="preload" href="assets/images/cinematic/hero-car-layer.svg" as="image">
+    <link rel="preload" href="assets/images/cinematic/f1-silhouette-red.svg" as="image">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -63,42 +65,16 @@
                 </div>
 
                 <div class="hero-content">
-                    <figure class="hero-ascii-wrap parallax-layer" data-parallax="-0.08" aria-label="ASCII art of a Formula 1 car">
-                        <pre class="hero-ascii" aria-hidden="true">
-                                                                                                            %%##%##
-                                                                                                           @@@@%%%%%
-                                                                                                            %%%@%%##%
-  %%%%%%%%%%@%%@%                                                                    @@@@@@@@@%%##***####%%%%@@@@@@@@@@
-  %%%@@@@%@@@@@@@@@@%@@@%%%%%%#******                                      @@@@@@@@@@@@%##*+**###+*=*%+*=*#=+++++=-##+#
-  %%%@@@@@@@@@@@@@@@@@@@%@%%%%%%%%%%%%%%                           %@@@@@@@@@@@@@%##++*##%%%%@@@@++-+@@@@@@@%%%######*%
-  %#-#%#@@%@@@@@@@@@@@@@@%@@%%%%%@%#%%%%%%%%       #%%##@#*@@@@@@@@@@@@@@@@%##%++###%%%@@@@@@@@@@@@@@@@%%%###%%@@@@@@@@                           %@%%%
-  %+#:-#@@%=#=#*%=#++#+*++++%%%@@@%#%%%%%%#%      #@@#*#%#%%%@@@@@@@@@%*#%=+###%%@@@@@@@@@-%=#***#:+-*:##*+++*%@@@%%*%%                 %@@%*=--=-+*#%#%@@@
-  %%%=#%%%%%%%%%%%%%%%#+%%%###%@@@@@%%%%@@@@      @@@@@%*%%%@@@@@%*#%++#####%%%%%%%%%%%%%%%%%%%%%@@@#%#@@####%%@@@#@*%%%%@   %#%%#%@%##%%%@@@@%**%  %%@@@#%**#
-  %%%%%%%%%%%%%%%%%%%%%%%%%@@@@%@@@@%%@@@@%%      @@@@@%%%%####%#++##*#####%%%%%%##############*######********##%%%%%#%%%%@@@@@#*+*@@%##              **#%@@%#+*
-   %%%%%%%%%%%%%%%%%%%%%%%@@@@@@@%%%%#%%@@@      %@@@@%%#%%#*+*#*###%%%%%%%#############%%%%%%%%@%*#*%##@@@@@@@@@@@@@@@@@@@@@%#*+++@@          *---##%**--#%%%@#+*#                                      %%%%@@@@%
-    %%%*+***###*#*#*#***%@%%###%%%%%########## **##%###****###%%%%%%%%%####%%%%%%@@@@@@@@@@@@@@@@*#*+@=+***-+++=+%*=+**+***%#***+++#@@@        #---##%*#%%*#%%%%#*+#@%         #@     %%%%%%%%%     %%%%%%%%%######%%%%
-     %%%%%%%%%%%%%%%%%%%##%%*#=-#=*=########%%%#**######%%%%%@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@%%%###%%%%%%@@@%%%%%%%%@@%%###**%%%#++++:=----:::::::::::---===+*##*+++**%%%%#%%%%%%#+=====*=+*=###%%
-      %%%%%%%%%%%%%%%%#%%=#=+#%%%%%%%#%%#######%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@***+*@@#***+#@@*****+++%@%**********%%#*****##***#######%%%%@@@%%@@@#*++++-::=+===================++==-:::-=*#%%%%%#+#*#%%%%%%%%%#%*###%%
-       %%%%%%%%%%%%%#%###+%%%@@@@@@@@@%%%%%#**#####%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++++%@%+++++%%#++===--*#*+++++++******++++++**%#+===+%@@@@@@@@@%@@%%%%%%%%%+::::::+*+++++***#######**********#%%%%%*##%%%%###***#%@%%%%##%%%
-        %%%%%%%%%%%%%#=%%%@@@##%%@@@@###@@%%%#+*#####@@@@@@@@@@@@@@@@@@@%%%%%%%%+===*%%+==--##++++==++++++++##+--=+*#%%#*++==========+#**+++++++*%@@@@@%%%%%%%*:::::::::::::--=+****%%%%%%@@@%##*%%%%##%%%@@@%####****%@@%%#--#%
-         %%%%%%%%##%%%%%%@%#@@@@@@@@@@@#++%%%%#=*#####@@@@@@@@@@@@%%%%%#######+==-+#*=+++*+++*#%*=--==+****+++++++++++++++++++++*#%%##**++++++*#@%+*******++++**+::::-*++=+*#%%###%%%%#*****###%%%%##%%@@@%%%@@@@%@@#**%@%%#-=%
-         %%%%%%%%#%%%#%@@%%@@@@@@@@@%@@@@*+*%%%+=*####%@@@@@@@@@%%#****###**=+***++*#*====++==-=*====+---=+++::-+*:-#%:+@@-:#@@+::=%%%%%%%%%%%@@@@++++++++++*******+-------=*******####****#%%%%%%##%%@@@%@%@%@@%@@%@@#*%@%%=+*%++*
-          %%%@@@%%%%#%@@@@@@@@@%%%%@%@%@@%**#%%*-**#%#%@@@@@@@@#***##%%%*++**+=====++**:**:=:++*@@:=@%:*#:+-:@@*:*:::+:+%=:--%%::+#%%%%%%##%@@@@@@%+++++*#%%%%%%%%%%%%%**%**+*#############%%%%%%##%#@@@#@@%%%%%@@%@@@@##@@%#+=#=-==+***
-           %%%%%#%%%%%@@@@@@@%%@%%**##@@%@%**%%*=+*#%%%%@@@%%@@@%%##*******######%%%%%#:*#@+:++*@@:+@#:+-:#*:==:=%:+%-:*=:--:-#=++:*%%%%@@@@@@@%#%%@%*%%%%%%%%%%%%%%%%%*#%***@@@@@@@@@@@@@@%%%%%*=+#%@@@%%%%#=*=#%%%%%@%*@@%%#*#%*+++++++++++=+
-           %#%%%#@%#%#@@@@@@@@@*#*##+#%@@@%++%%#+=*#%%%%@%%@%%%%%%@@@@@@@@@@@@@@@%%%%%######%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@@@@@@@@@@@@@@@@@@@@#%%%%%%%%%%%%%%%%%%%%*#%**#%@@@@@@@#%##%@%@@@%#*+#%@@@####*+#+#@%%@@@%#@@@%%##@*==-==-=--+++++*#+*
-                *%*#%%%@#%@@%@@@##%%%%@@%@%%%@%#+**#%%%%@@@@@@@@@@@@@@@@@@@@@%##############%%%%%%%%%%%%@@@@@@@@@@@@@@@@@@%%@@@@@@@@@@@@@@@@@@%%%%#+****+%+=++%+#-+%*%#*%%*#%@%%@@%%%@@@@@@%%@@%#++#*%%%#@@%%#*%%@#@@@@%%@@%%###@*+==::-.+*##%%%@@@@@#+=*
-                 %%*%%#@@%%@@@%@@@@@%@%@@%%%%@##%###%%%@@@%@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%+##*##%#**%%=+#%+%%#*%%*%%@@@@%@@@@@@%##%%%%%%=**#%%%%%@@@%@@%@%%@@%#%@@%###%#************###%%#*++=-===
-                 %%*#%%#@%#%@@@@@@@@%@@@#%%%%#######%%@%###%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%@@@@@#####%%%%%%%%%%%%%%%%%%%%#*%#+#%@@@%%@@@@@@@%@@@%%%%#=-#+#%%%%@%@@@@%@@%%#@@%%##+%@#*********==-*:==*+++===:==-+
-                  %%=*%%#@@%%%%@@@@@@%%%%%%@%##**##%%@%@%%%%*%%#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%@@@@@%##%%%@@@@@@###**######################%#+*%@@@%#%%%%%%@@@@@@%%%%%--*#*%%%%%%%##%%%%@@@%##*+%%%**********=+=+**#*******+++=
-                   %%+##%%#%@@%%%%%%%%%%%%%###*####%@@%@%%%%%%%%@@@@%@@%%@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##***************###%%##%@%%%%%%%%%%###########*#######%%%%%%%##*%@@@  %%@@@@@@%@@@@%%%%%%**#*+#%%%@%%%@@%@%%#++*%@%****************###%%@%%@@@@%#
-                    %%%++#%%%%@@%%%%%@%%%#+######%%@@@%@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%%%%%###########%%%%%%%%%%%#############****#########%%%%%%%%%%%%%%##%@@%%      @@@@@%%%##%@%%%%****##******####++=*%%%%%##%%%%%%%%@@@@@@@%%###%%%%%%%%
-                      %@%***######%%#*+==+++#####                                                                                                 #######       #**#****++                       %@@@%%%%###*##*+*=+==+#%%%
-                        @@%%%%#####***+*#%%%%%%                                                                                                                                                     @@@@%%%%%%%%%#%%%%%#
-                           @@@%%%%%%%%%%%%                                                                                                                                                                @@@@%%%%%
-</pre>
-                    </figure>
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="hero-car-layer">
+                            <img src="assets/images/cinematic/hero-car-layer.svg" alt="" width="1400" height="500" decoding="async" fetchpriority="high">
+                        </div>
+                        <div class="hero-speed-lines">
+                            <img src="assets/images/cinematic/motion-streaks.svg" alt="" width="1920" height="400" decoding="async">
+                        </div>
+                    </div>
                     <div class="hero-copy">
-                        <h1 class="hero-title chapter-title">From DRS to Mario Mushrooms</h1>
+                        <h1 class="hero-title">From DRS to Mario Mushrooms</h1>
                         <p class="hero-lede">
                             A cinematic visual story of how Formula 1's opening races changed from 2025 to 2026 — pace,
                             running order, disruption, and the final scorecard.
@@ -149,21 +125,24 @@
             </div>
         </section>
 
-        <section class="arcade-transition arcade-transition-f1" data-theme="pace" aria-label="Transition into pace comparison">
-            <div class="arcade-stage">
-                <div class="arcade-copy">
-                    <p class="arcade-label">Lap 01</p>
-                    <h2 class="arcade-title">First, compare raw pace.</h2>
-                    <p>
-                        Lap time and speed-trap numbers are the cleanest way to see whether a circuit got faster,
-                        slower, or simply different from one season to the next.
-                    </p>
+        <section class="cinematic-transition cinematic-transition-pace" data-theme="pace" data-vehicle="f1" data-variant="pace" aria-label="Transition into pace comparison">
+            <div class="cinematic-stage">
+                <div class="cinematic-layers" aria-hidden="true">
+                    <div class="layer layer-bg"></div>
+                    <div class="layer layer-track"></div>
+                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-vehicle-wrap">
+                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
+                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="layer layer-smoke"></div>
+                    <div class="layer layer-fx"></div>
+                    <div class="layer layer-wipe"></div>
                 </div>
-                <div class="arcade-track" aria-hidden="true">
-                    <span class="track-line track-line-top"></span>
-                    <span class="track-line track-line-mid"></span>
-                    <span class="track-line track-line-bottom"></span>
-                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                <div class="cinematic-copy">
+                    <p class="cinematic-label">Lap 01</p>
+                    <h2 class="cinematic-title">First, compare raw pace.</h2>
+                    <p>Lap time and speed-trap numbers are the cleanest way to see whether a circuit got faster, slower, or simply different from one season to the next.</p>
                 </div>
             </div>
         </section>
@@ -187,21 +166,24 @@
             </div>
         </section>
 
-        <section class="arcade-transition arcade-transition-kart" data-theme="position" aria-label="Transition into lap-by-lap position charts">
-            <div class="arcade-stage">
-                <div class="arcade-copy">
-                    <p class="arcade-label">Boost Pad</p>
-                    <h2 class="arcade-title">Then watch the running order.</h2>
-                    <p>
-                        F1 race position is not just who is fastest. Pit stops, tire life, Safety Cars, and traffic
-                        can all reshuffle the order lap by lap.
-                    </p>
+        <section class="cinematic-transition cinematic-transition-kart" data-theme="position" data-vehicle="kart" data-variant="boost" aria-label="Transition into lap-by-lap position charts">
+            <div class="cinematic-stage">
+                <div class="cinematic-layers" aria-hidden="true">
+                    <div class="layer layer-bg"></div>
+                    <div class="layer layer-track"></div>
+                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-vehicle-wrap">
+                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
+                        <img class="layer-vehicle" src="assets/images/cinematic/kart-stylized.svg" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="layer layer-smoke"></div>
+                    <div class="layer layer-fx"></div>
+                    <div class="layer layer-wipe"></div>
                 </div>
-                <div class="arcade-track arcade-track-kart" aria-hidden="true">
-                    <span class="track-line track-line-top"></span>
-                    <span class="track-line track-line-mid"></span>
-                    <span class="track-line track-line-bottom"></span>
-                    <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="" width="310" height="180" loading="lazy" decoding="async">
+                <div class="cinematic-copy">
+                    <p class="cinematic-label">Boost Pad</p>
+                    <h2 class="cinematic-title">Then watch the running order.</h2>
+                    <p>F1 race position is not just who is fastest. Pit stops, tire life, Safety Cars, and traffic can all reshuffle the order lap by lap.</p>
                 </div>
             </div>
         </section>
@@ -225,21 +207,24 @@
             </div>
         </section>
 
-        <section class="arcade-transition arcade-transition-overtake" data-theme="chaos" aria-label="Transition into position-change proxy">
-            <div class="arcade-stage">
-                <div class="arcade-copy">
-                    <p class="arcade-label">Overtake Zone</p>
-                    <h2 class="arcade-title">Now summarize the chaos.</h2>
-                    <p>
-                        The proxy chart compresses movement into one score: higher values mean the race order changed
-                        more often, even if the cause was strategy instead of a clean pass.
-                    </p>
+        <section class="cinematic-transition cinematic-transition-overtake" data-theme="chaos" data-vehicle="f1" data-variant="overtake" aria-label="Transition into position-change proxy">
+            <div class="cinematic-stage">
+                <div class="cinematic-layers" aria-hidden="true">
+                    <div class="layer layer-bg"></div>
+                    <div class="layer layer-track"></div>
+                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-vehicle-wrap">
+                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
+                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="layer layer-smoke"><img src="assets/images/cinematic/tire-smoke.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-fx"></div>
+                    <div class="layer layer-wipe"></div>
                 </div>
-                <div class="arcade-track" aria-hidden="true">
-                    <span class="track-line track-line-top"></span>
-                    <span class="track-line track-line-mid"></span>
-                    <span class="track-line track-line-bottom"></span>
-                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                <div class="cinematic-copy">
+                    <p class="cinematic-label">Overtake Zone</p>
+                    <h2 class="cinematic-title">Now summarize the chaos.</h2>
+                    <p>The proxy chart compresses movement into one score: higher values mean the race order changed more often, even if the cause was strategy instead of a clean pass.</p>
                 </div>
             </div>
         </section>
@@ -266,21 +251,24 @@
             </div>
         </section>
 
-        <section class="arcade-transition arcade-transition-caution" data-theme="disruption" aria-label="Transition into incident timeline">
-            <div class="arcade-stage">
-                <div class="arcade-copy">
-                    <p class="arcade-label">Caution Lap</p>
-                    <h2 class="arcade-title">Race control changes the story.</h2>
-                    <p>
-                        A Safety Car or red flag can erase gaps and reset strategy. The timeline shows where those
-                        neutralized laps happened.
-                    </p>
+        <section class="cinematic-transition cinematic-transition-caution" data-theme="disruption" data-vehicle="kart" data-variant="caution" aria-label="Transition into incident timeline">
+            <div class="cinematic-stage">
+                <div class="cinematic-layers" aria-hidden="true">
+                    <div class="layer layer-bg"></div>
+                    <div class="layer layer-track"></div>
+                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-vehicle-wrap">
+                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
+                        <img class="layer-vehicle" src="assets/images/cinematic/kart-stylized.svg" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="layer layer-smoke"><img src="assets/images/cinematic/tire-smoke.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-fx"></div>
+                    <div class="layer layer-wipe"></div>
                 </div>
-                <div class="arcade-track arcade-track-caution" aria-hidden="true">
-                    <span class="track-line track-line-top"></span>
-                    <span class="track-line track-line-mid"></span>
-                    <span class="track-line track-line-bottom"></span>
-                    <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="" width="310" height="180" loading="lazy" decoding="async">
+                <div class="cinematic-copy">
+                    <p class="cinematic-label">Caution Lap</p>
+                    <h2 class="cinematic-title">Race control changes the story.</h2>
+                    <p>A Safety Car or red flag can erase gaps and reset strategy. The timeline shows where those neutralized laps happened.</p>
                 </div>
             </div>
         </section>
@@ -307,21 +295,24 @@
             </div>
         </section>
 
-        <section class="arcade-transition arcade-transition-finale" data-theme="scorecard" aria-label="Transition into final scorecard">
-            <div class="arcade-stage">
-                <div class="arcade-copy">
-                    <p class="arcade-label">Final Lap</p>
-                    <h2 class="arcade-title">Finish with the scorecard.</h2>
-                    <p>
-                        The last chart puts every circuit and metric in one grid so the 2025 to 2026 changes are easy
-                        to scan at presentation speed.
-                    </p>
+        <section class="cinematic-transition cinematic-transition-finale" data-theme="scorecard" data-vehicle="f1" data-variant="finale" aria-label="Transition into final scorecard">
+            <div class="cinematic-stage">
+                <div class="cinematic-layers" aria-hidden="true">
+                    <div class="layer layer-bg"></div>
+                    <div class="layer layer-track"></div>
+                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
+                    <div class="layer layer-vehicle-wrap">
+                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
+                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
+                    </div>
+                    <div class="layer layer-smoke"></div>
+                    <div class="layer layer-fx"></div>
+                    <div class="layer layer-wipe"></div>
                 </div>
-                <div class="arcade-track" aria-hidden="true">
-                    <span class="track-line track-line-top"></span>
-                    <span class="track-line track-line-mid"></span>
-                    <span class="track-line track-line-bottom"></span>
-                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                <div class="cinematic-copy">
+                    <p class="cinematic-label">Final Lap</p>
+                    <h2 class="cinematic-title">Finish with the scorecard.</h2>
+                    <p>The last chart puts every circuit and metric in one grid so the 2025 to 2026 changes are easy to scan at presentation speed.</p>
                 </div>
             </div>
         </section>
@@ -380,7 +371,7 @@
                     </article>
                     <article class="method-card content-card">
                         <h3>Story Layer</h3>
-                        <p>GSAP ScrollTrigger and Lenis drive pinned arcade transitions, chapter color shifts, and scroll-scrubbed motion across the story.</p>
+                        <p>GSAP ScrollTrigger and Lenis drive pinned cinematic transitions, chapter color shifts, and scroll-scrubbed motion across the story.</p>
                     </article>
                 </div>
             </div>
@@ -395,7 +386,7 @@
             <div class="footer-copy">
                 <p class="footer-title">From DRS to Mario Mushrooms</p>
                 <p>
-                    Built by Alejandro Gonzalez with FastF1, D3.js, GSAP, Lenis, Three.js, and a little arcade energy for the final lap.
+                    Built by Alejandro Gonzalez with FastF1, D3.js, GSAP, Lenis, Three.js, and cinematic scroll energy for the final lap.
                 </p>
             </div>
             <div class="footer-meta" aria-label="Project credits">
@@ -408,9 +399,11 @@
         </div>
     </footer>
 
-    <script src="js/charts.js?v=cinematic-1"></script>
-    <script src="js/motion.js?v=cinematic-1"></script>
-    <script type="module" src="js/webgl-bg.js?v=cinematic-1"></script>
+    <script src="js/charts.js?v=cinematic-2"></script>
+    <script src="js/motion-charts.js?v=cinematic-2"></script>
+    <script src="js/motion-transitions.js?v=cinematic-2"></script>
+    <script src="js/motion.js?v=cinematic-2"></script>
+    <script type="module" src="js/webgl-bg.js?v=cinematic-2"></script>
     <script>
         if (window.F1Charts && window.F1Charts.init()) {
             window.F1Motion && window.F1Motion.init();

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 500" fill="none">
+  <defs>
+    <linearGradient id="heroBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff4d3d"/>
+      <stop offset="40%" stop-color="#cc0000"/>
+      <stop offset="100%" stop-color="#660000"/>
+    </linearGradient>
+    <linearGradient id="heroSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffb3a7" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ff4d3d" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="heroGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#heroGlow)" opacity="0.95">
+    <path fill="url(#heroBody)" d="M60 340 L160 320 L280 300 L420 285 L580 275 L740 270 L900 268 L1060 270 L1200 278 L1320 290 L1380 305 L1400 320 L1380 350 L1280 370 L1100 385 L880 395 L640 400 L400 398 L220 388 L100 370 Z"/>
+    <path fill="url(#heroSheen)" opacity="0.5" d="M280 300 L580 275 L900 268 L1200 278 L1320 290 L1280 310 L900 320 L500 330 L280 320 Z"/>
+    <path fill="#1a1a1a" d="M40 310 L80 270 L120 250 L160 245 L200 250 L240 270 L280 310 L240 330 L180 340 L120 338 L80 325 Z"/>
+    <path fill="#1a1a1a" d="M1240 265 L1280 235 L1320 220 L1360 215 L1390 225 L1400 250 L1380 280 L1340 295 L1300 300 L1260 290 Z"/>
+    <ellipse cx="280" cy="395" rx="65" ry="65" fill="#0a0a0a"/>
+    <ellipse cx="280" cy="395" rx="42" ry="42" fill="#222"/>
+    <ellipse cx="280" cy="395" rx="20" ry="20" fill="#555"/>
+    <ellipse cx="580" cy="400" rx="68" ry="68" fill="#0a0a0a"/>
+    <ellipse cx="580" cy="400" rx="44" ry="44" fill="#222"/>
+    <ellipse cx="580" cy="400" rx="22" ry="22" fill="#555"/>
+    <ellipse cx="980" cy="395" rx="68" ry="68" fill="#0a0a0a"/>
+    <ellipse cx="980" cy="395" rx="44" ry="44" fill="#222"/>
+    <ellipse cx="980" cy="395" rx="22" ry="22" fill="#555"/>
+    <ellipse cx="1280" cy="385" rx="65" ry="65" fill="#0a0a0a"/>
+    <ellipse cx="1280" cy="385" rx="42" ry="42" fill="#222"/>
+    <ellipse cx="1280" cy="385" rx="20" ry="20" fill="#555"/>
+    <path fill="#080808" d="M620 275 L680 180 L740 150 L800 140 L860 150 L920 180 L980 275 L920 295 L800 305 L680 295 Z"/>
+  </g>
+</svg>
