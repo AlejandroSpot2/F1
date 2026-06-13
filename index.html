@@ -4,33 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>From DRS to Mario Mushrooms</title>
+    <meta name="description" content="A cinematic comparison of Formula 1's opening races in 2025 and 2026 — pace, position, disruption, and scorecard.">
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="css/site.css?v=canada-2026">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/site.css?v=cinematic-1">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/scrollama"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <script src="js/alpha-release-data.js?v=canada-2026"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+        }
+    }
+    </script>
 </head>
-<body>
-    <section id="hero" class="hero-section">
-        <div class="hero-inner">
-            <header class="site-header">
-                <div class="brand-block">
-                    <p class="site-author">Alejandro Gonzalez</p>
-                    <p class="site-subtitle">Formula 1 race data, 2025 vs 2026</p>
-                </div>
-                <nav class="site-nav" aria-label="Primary">
-                    <a href="#overview">Overview</a>
-                    <a href="#pace">Pace</a>
-                    <a href="#position">Position</a>
-                    <a href="#disruption">Disruption</a>
-                    <a href="#scorecard">Scorecard</a>
-                    <a href="#methodology">Method</a>
-                </nav>
-            </header>
+<body data-active-theme="hero">
+    <canvas id="webgl-bg" aria-hidden="true"></canvas>
+    <div class="color-atmosphere" aria-hidden="true"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
 
-            <div class="hero-content">
-                <figure class="hero-ascii-wrap" aria-label="ASCII art of a Formula 1 car">
-                    <pre class="hero-ascii" aria-hidden="true">
+    <div class="scroll-progress" aria-hidden="true">
+        <span class="scroll-progress-bar"></span>
+    </div>
+
+    <header class="site-nav-fixed">
+        <div class="nav-inner">
+            <a class="nav-brand" href="#hero">
+                <span class="nav-brand-mark">F1</span>
+                <span class="nav-brand-text">2025 vs 2026</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#overview"><span>Overview</span></a>
+                <a href="#pace"><span>Pace</span></a>
+                <a href="#position"><span>Position</span></a>
+                <a href="#chaos"><span>Chaos</span></a>
+                <a href="#disruption"><span>Disruption</span></a>
+                <a href="#scorecard"><span>Scorecard</span></a>
+                <a href="#methodology"><span>Method</span></a>
+            </nav>
+            <a class="magnetic nav-cta" href="#overview">Explore</a>
+        </div>
+    </header>
+
+    <main class="story">
+        <section id="hero" class="chapter chapter-hero" data-chapter="hero" data-theme="hero">
+            <div class="hero-bg-layer" aria-hidden="true">
+                <img src="assets/images/hero-f1-background.png" alt="" width="1920" height="1080" decoding="async" fetchpriority="high">
+            </div>
+            <div class="chapter-inner hero-inner">
+                <div class="hero-meta">
+                    <p class="hero-author">Alejandro Gonzalez</p>
+                    <p class="hero-season">Formula 1 race data · 2025 vs 2026</p>
+                </div>
+
+                <div class="hero-content">
+                    <figure class="hero-ascii-wrap parallax-layer" data-parallax="-0.08" aria-label="ASCII art of a Formula 1 car">
+                        <pre class="hero-ascii" aria-hidden="true">
                                                                                                             %%##%##
                                                                                                            @@@@%%%%%
                                                                                                             %%%@%%##%
@@ -46,7 +80,7 @@
      %%%%%%%%%%%%%%%%%%%##%%*#=-#=*=########%%%#**######%%%%%@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@%%%###%%%%%%@@@%%%%%%%%@@%%###**%%%#++++:=----:::::::::::---===+*##*+++**%%%%#%%%%%%#+=====*=+*=###%%
       %%%%%%%%%%%%%%%%#%%=#=+#%%%%%%%#%%#######%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@***+*@@#***+#@@*****+++%@%**********%%#*****##***#######%%%%@@@%%@@@#*++++-::=+===================++==-:::-=*#%%%%%#+#*#%%%%%%%%%#%*###%%
        %%%%%%%%%%%%%#%###+%%%@@@@@@@@@%%%%%#**#####%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++++%@%+++++%%#++===--*#*+++++++******++++++**%#+===+%@@@@@@@@@%@@%%%%%%%%%+::::::+*+++++***#######**********#%%%%%*##%%%%###***#%@%%%%##%%%
-        %%%%%%%%%%%%%#=%%%@@@##%%@@@@###@@%%%#+*#####@@@@@@@@@@@@@@@@@@@%%%%%%%%+===*%%+==--##++++==++++++++##+--=+*#%#*++==========+#**+++++++*%@@@@@%%%%%%%*:::::::::::::--=+****%%%%%%@@@%##*%%%%##%%%@@@%####****%@@%%#--#%
+        %%%%%%%%%%%%%#=%%%@@@##%%@@@@###@@%%%#+*#####@@@@@@@@@@@@@@@@@@@%%%%%%%%+===*%%+==--##++++==++++++++##+--=+*#%%#*++==========+#**+++++++*%@@@@@%%%%%%%*:::::::::::::--=+****%%%%%%@@@%##*%%%%##%%%@@@%####****%@@%%#--#%
          %%%%%%%%##%%%%%%@%#@@@@@@@@@@@#++%%%%#=*#####@@@@@@@@@@@@%%%%%#######+==-+#*=+++*+++*#%*=--==+****+++++++++++++++++++++*#%%##**++++++*#@%+*******++++**+::::-*++=+*#%%###%%%%#*****###%%%%##%%@@@%%%@@@@%@@#**%@%%#-=%
          %%%%%%%%#%%%#%@@%%@@@@@@@@@%@@@@*+*%%%+=*####%@@@@@@@@@%%#****###**=+***++*#*====++==-=*====+---=+++::-+*:-#%:+@@-:#@@+::=%%%%%%%%%%%@@@@++++++++++*******+-------=*******####****#%%%%%%##%%@@@%@%@%@@%@@%@@#*%@%%=+*%++*
           %%%@@@%%%%#%@@@@@@@@@%%%%@%@%@@%**#%%*-**#%#%@@@@@@@@#***##%%%*++**+=====++**:**:=:++*@@:=@%:*#:+-:@@*:*:::+:+%=:--%%::+#%%%%%%##%@@@@@@%+++++*#%%%%%%%%%%%%%**%**+*#############%%%%%%##%#@@@#@@%%%%%@@%@@@@##@@%#+=#=-==+***
@@ -57,987 +91,329 @@
                  %%*#%%#@%#%@@@@@@@@%@@@#%%%%#######%%@%###%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%@@@@@#####%%%%%%%%%%%%%%%%%%%%#*%#+#%@@@%%@@@@@@@%@@@%%%%#=-#+#%%%%@%@@@@%@@%%#@@%%##+%@#*********==-*:==*+++===:==-+
                   %%=*%%#@@%%%%@@@@@@%%%%%%@%##**##%%@%@%%%%*%%#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%@@@@@%##%%%@@@@@@###**######################%#+*%@@@%#%%%%%%@@@@@@%%%%%--*#*%%%%%%%##%%%%@@@%##*+%%%**********=+=+**#*******+++=
                    %%+##%%#%@@%%%%%%%%%%%%%###*####%@@%@%%%%%%%%@@@@%@@%%@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##***************###%%##%@%%%%%%%%%%###########*#######%%%%%%%##*%@@@  %%@@@@@@%@@@@%%%%%%**#*+#%%%@%%%@@%@%%#++*%@%****************###%%@%%@@@@%#
-                    %%%++#%%%%@@%%%%%@%%%#+######%%@@@%@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%%%%%###########%%%%%%%%%%%#############****#########%%%%%%%%%%%%%%#%@@%%      @@@@@%%%##%@%%%%****##******####++=*%%%%%##%%%%%%%%@@@@@@@%%###%%%%%%%%
+                    %%%++#%%%%@@%%%%%@%%%#+######%%@@@%@@ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%%%%%###########%%%%%%%%%%%#############****#########%%%%%%%%%%%%%%##%@@%%      @@@@@%%%##%@%%%%****##******####++=*%%%%%##%%%%%%%%@@@@@@@%%###%%%%%%%%
                       %@%***######%%#*+==+++#####                                                                                                 #######       #**#****++                       %@@@%%%%###*##*+*=+==+#%%%
                         @@%%%%#####***+*#%%%%%%                                                                                                                                                     @@@@%%%%%%%%%#%%%%%#
                            @@@%%%%%%%%%%%%                                                                                                                                                                @@@@%%%%%
 </pre>
-                </figure>
-                <div class="hero-copy">
-                    <h1>From DRS to Mario Mushrooms</h1>
-                    <p>
-                        A compact visual look at how Formula 1's opening races changed from 2025 to 2026, built for
-                        readers who want the story without needing every racing term upfront.
-                    </p>
+                    </figure>
+                    <div class="hero-copy">
+                        <h1 class="hero-title chapter-title">From DRS to Mario Mushrooms</h1>
+                        <p class="hero-lede">
+                            A cinematic visual story of how Formula 1's opening races changed from 2025 to 2026 — pace,
+                            running order, disruption, and the final scorecard.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <a class="scroll-cue" href="#overview">Explore charts</a>
-        </div>
-    </section>
 
-    <div class="page">
-        <main>
-            <section id="overview" class="overview-section">
+                <a class="scroll-cue magnetic" href="#overview">
+                    <span>Scroll to begin</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 14L4 8h12z" fill="currentColor"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <section id="overview" class="chapter chapter-content" data-chapter="overview" data-theme="overview">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">01</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Prologue</p>
+                        <h2 class="chapter-title">Race Comparison Overview</h2>
+                    </div>
+                </div>
                 <div class="section-copy">
-                    <h2>Race Comparison Overview</h2>
-                    <p>
+                    <p class="chapter-lede">
                         This project compares Australia, China, Japan, Miami, and Canada across 2025 and 2026 using FastF1
                         race data, with the emphasis on pace, top speed, running-order volatility, and race disruption.
                     </p>
                 </div>
-            </section>
-
-            <section class="arcade-transition arcade-transition-f1" aria-label="Arcade transition into pace comparison">
-                <div class="arcade-stage">
-                    <div class="arcade-copy">
-                        <p class="arcade-label">Lap 01</p>
-                        <h2>First, compare raw pace.</h2>
-                        <p>
-                            Lap time and speed-trap numbers are the cleanest way to see whether a circuit got faster,
-                            slower, or simply different from one season to the next.
-                        </p>
+                <div class="overview-stats content-card" data-parallax="0.06">
+                    <div class="stat-item">
+                        <span class="stat-value">5</span>
+                        <span class="stat-label">Circuits</span>
                     </div>
-                    <div class="arcade-track" aria-hidden="true">
-                        <span class="track-line track-line-top"></span>
-                        <span class="track-line track-line-mid"></span>
-                        <span class="track-line track-line-bottom"></span>
-                        <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="">
+                    <div class="stat-item">
+                        <span class="stat-value">2</span>
+                        <span class="stat-label">Seasons</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">10</span>
+                        <span class="stat-label">Races</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">6</span>
+                        <span class="stat-label">Metrics</span>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="pace" class="chart-section">
-                <div class="section-copy">
-                    <h2>Circuit Comparison Bars</h2>
+        <section class="arcade-transition arcade-transition-f1" data-theme="pace" aria-label="Transition into pace comparison">
+            <div class="arcade-stage">
+                <div class="arcade-copy">
+                    <p class="arcade-label">Lap 01</p>
+                    <h2 class="arcade-title">First, compare raw pace.</h2>
                     <p>
+                        Lap time and speed-trap numbers are the cleanest way to see whether a circuit got faster,
+                        slower, or simply different from one season to the next.
+                    </p>
+                </div>
+                <div class="arcade-track" aria-hidden="true">
+                    <span class="track-line track-line-top"></span>
+                    <span class="track-line track-line-mid"></span>
+                    <span class="track-line track-line-bottom"></span>
+                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <section id="pace" class="chapter chapter-content" data-chapter="pace" data-theme="pace">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">02</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Pace</p>
+                        <h2 class="chapter-title">Circuit Comparison Bars</h2>
+                    </div>
+                </div>
+                <div class="section-copy">
+                    <p class="chapter-lede">
                         These bars compare lap-time and straight-line speed measures by race. Lower lap times mean
                         faster laps, while higher speed-trap values mean more speed at the end of a straight.
                     </p>
                 </div>
                 <div id="pace-comparison" class="metric-panels"></div>
-            </section>
+            </div>
+        </section>
 
-            <section class="arcade-transition arcade-transition-kart" aria-label="Arcade transition into lap-by-lap position charts">
-                <div class="arcade-stage">
-                    <div class="arcade-copy">
-                        <p class="arcade-label">Boost Pad</p>
-                        <h2>Then watch the running order.</h2>
-                        <p>
-                            F1 race position is not just who is fastest. Pit stops, tire life, Safety Cars, and traffic
-                            can all reshuffle the order lap by lap.
-                        </p>
-                    </div>
-                    <div class="arcade-track arcade-track-kart" aria-hidden="true">
-                        <span class="track-line track-line-top"></span>
-                        <span class="track-line track-line-mid"></span>
-                        <span class="track-line track-line-bottom"></span>
-                        <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="">
+        <section class="arcade-transition arcade-transition-kart" data-theme="position" aria-label="Transition into lap-by-lap position charts">
+            <div class="arcade-stage">
+                <div class="arcade-copy">
+                    <p class="arcade-label">Boost Pad</p>
+                    <h2 class="arcade-title">Then watch the running order.</h2>
+                    <p>
+                        F1 race position is not just who is fastest. Pit stops, tire life, Safety Cars, and traffic
+                        can all reshuffle the order lap by lap.
+                    </p>
+                </div>
+                <div class="arcade-track arcade-track-kart" aria-hidden="true">
+                    <span class="track-line track-line-top"></span>
+                    <span class="track-line track-line-mid"></span>
+                    <span class="track-line track-line-bottom"></span>
+                    <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="" width="310" height="180" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <section id="position" class="chapter chapter-content" data-chapter="position" data-theme="position">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">03</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Position</p>
+                        <h2 class="chapter-title">Lap-by-Lap Position Step Charts</h2>
                     </div>
                 </div>
-            </section>
-
-            <section id="position" class="chart-section">
                 <div class="section-copy">
-                    <h2>Lap-by-Lap Position Step Charts</h2>
-                    <p>
+                    <p class="chapter-lede">
                         Each line follows one leading driver through the race. Position 1 is first place, so lines
                         near the top show drivers running closer to the lead.
                     </p>
                 </div>
                 <div id="step-charts" class="step-grid"></div>
-            </section>
+            </div>
+        </section>
 
-            <section class="arcade-transition arcade-transition-overtake" aria-label="Arcade transition into position-change proxy">
-                <div class="arcade-stage">
-                    <div class="arcade-copy">
-                        <p class="arcade-label">Overtake Zone</p>
-                        <h2>Now summarize the chaos.</h2>
-                        <p>
-                            The proxy chart compresses movement into one score: higher values mean the race order changed
-                            more often, even if the cause was strategy instead of a clean pass.
-                        </p>
-                    </div>
-                    <div class="arcade-track" aria-hidden="true">
-                        <span class="track-line track-line-top"></span>
-                        <span class="track-line track-line-mid"></span>
-                        <span class="track-line track-line-bottom"></span>
-                        <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="">
+        <section class="arcade-transition arcade-transition-overtake" data-theme="chaos" aria-label="Transition into position-change proxy">
+            <div class="arcade-stage">
+                <div class="arcade-copy">
+                    <p class="arcade-label">Overtake Zone</p>
+                    <h2 class="arcade-title">Now summarize the chaos.</h2>
+                    <p>
+                        The proxy chart compresses movement into one score: higher values mean the race order changed
+                        more often, even if the cause was strategy instead of a clean pass.
+                    </p>
+                </div>
+                <div class="arcade-track" aria-hidden="true">
+                    <span class="track-line track-line-top"></span>
+                    <span class="track-line track-line-mid"></span>
+                    <span class="track-line track-line-bottom"></span>
+                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <section id="chaos" class="chapter chapter-content" data-chapter="chaos" data-theme="chaos">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">04</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Chaos</p>
+                        <h2 class="chapter-title">Position-Change Proxy</h2>
                     </div>
                 </div>
-            </section>
-
-            <section id="proxy" class="chart-section">
                 <div class="section-copy">
-                    <h2>Position-Change Proxy</h2>
-                    <p>
+                    <p class="chapter-lede">
                         This compares how much the race order moved around at each circuit. Higher values suggest
                         more passing, pit-stop reshuffling, incidents, or recovery drives.
                     </p>
                 </div>
                 <div class="legend-row" id="position-proxy-legend"></div>
-                <div class="chart-shell">
+                <div class="chart-shell content-card">
                     <svg id="position-proxy-chart" viewBox="0 0 1080 420" aria-label="Position change proxy"></svg>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="arcade-transition arcade-transition-caution" aria-label="Arcade transition into incident timeline">
-                <div class="arcade-stage">
-                    <div class="arcade-copy">
-                        <p class="arcade-label">Caution Lap</p>
-                        <h2>Race control changes the story.</h2>
-                        <p>
-                            A Safety Car or red flag can erase gaps and reset strategy. The timeline shows where those
-                            neutralized laps happened.
-                        </p>
-                    </div>
-                    <div class="arcade-track arcade-track-caution" aria-hidden="true">
-                        <span class="track-line track-line-top"></span>
-                        <span class="track-line track-line-mid"></span>
-                        <span class="track-line track-line-bottom"></span>
-                        <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="">
+        <section class="arcade-transition arcade-transition-caution" data-theme="disruption" aria-label="Transition into incident timeline">
+            <div class="arcade-stage">
+                <div class="arcade-copy">
+                    <p class="arcade-label">Caution Lap</p>
+                    <h2 class="arcade-title">Race control changes the story.</h2>
+                    <p>
+                        A Safety Car or red flag can erase gaps and reset strategy. The timeline shows where those
+                        neutralized laps happened.
+                    </p>
+                </div>
+                <div class="arcade-track arcade-track-caution" aria-hidden="true">
+                    <span class="track-line track-line-top"></span>
+                    <span class="track-line track-line-mid"></span>
+                    <span class="track-line track-line-bottom"></span>
+                    <img class="arcade-vehicle arcade-vehicle-kart" src="assets/images/arcade-kart.png" alt="" width="310" height="180" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <section id="disruption" class="chapter chapter-content" data-chapter="disruption" data-theme="disruption">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">05</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Disruption</p>
+                        <h2 class="chapter-title">Incident and Neutralization Timeline</h2>
                     </div>
                 </div>
-            </section>
-
-            <section id="disruption" class="chart-section">
                 <div class="section-copy">
-                    <h2>Incident and Neutralization Timeline</h2>
-                    <p>
+                    <p class="chapter-lede">
                         Each row is one race and each block is one lap. Green means normal racing; yellow, Safety
                         Car, VSC, and red flag blocks mark caution or stoppage periods.
                     </p>
                 </div>
                 <div class="legend-row" id="timeline-legend"></div>
-                <div class="chart-shell">
+                <div class="chart-shell content-card">
                     <svg id="timeline-chart" viewBox="0 0 1080 360" aria-label="Incident and neutralization timeline"></svg>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="arcade-transition arcade-transition-finale" aria-label="Arcade transition into final scorecard">
-                <div class="arcade-stage">
-                    <div class="arcade-copy">
-                        <p class="arcade-label">Final Lap</p>
-                        <h2>Finish with the scorecard.</h2>
-                        <p>
-                            The last chart puts every circuit and metric in one grid so the 2025 to 2026 changes are easy
-                            to scan at presentation speed.
-                        </p>
-                    </div>
-                    <div class="arcade-track" aria-hidden="true">
-                        <span class="track-line track-line-top"></span>
-                        <span class="track-line track-line-mid"></span>
-                        <span class="track-line track-line-bottom"></span>
-                        <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="">
+        <section class="arcade-transition arcade-transition-finale" data-theme="scorecard" aria-label="Transition into final scorecard">
+            <div class="arcade-stage">
+                <div class="arcade-copy">
+                    <p class="arcade-label">Final Lap</p>
+                    <h2 class="arcade-title">Finish with the scorecard.</h2>
+                    <p>
+                        The last chart puts every circuit and metric in one grid so the 2025 to 2026 changes are easy
+                        to scan at presentation speed.
+                    </p>
+                </div>
+                <div class="arcade-track" aria-hidden="true">
+                    <span class="track-line track-line-top"></span>
+                    <span class="track-line track-line-mid"></span>
+                    <span class="track-line track-line-bottom"></span>
+                    <img class="arcade-vehicle arcade-vehicle-f1" src="assets/images/arcade-f1-car.png" alt="" width="560" height="200" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <section id="scorecard" class="chapter chapter-content" data-chapter="scorecard" data-theme="scorecard">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">06</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Scorecard</p>
+                        <h2 class="chapter-title">Final Circuit Scorecard</h2>
                     </div>
                 </div>
-            </section>
-
-            <section id="scorecard" class="chart-section">
                 <div class="section-copy">
-                    <h2>Final Circuit Scorecard</h2>
-                    <p>
+                    <p class="chapter-lede">
                         Each cell compares 2026 with 2025 at the same circuit. The color shows whether the number
                         increased or decreased; the text gives the exact 2025 to 2026 change.
                     </p>
                 </div>
                 <div class="legend-row" id="scorecard-legend"></div>
-                <div class="chart-shell">
+                <div class="chart-shell content-card">
                     <svg id="scorecard-chart" viewBox="0 0 1080 470" aria-label="Circuit scorecard"></svg>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="methodology" class="methodology-section">
+        <section id="methodology" class="chapter chapter-content chapter-method" data-chapter="methodology" data-theme="method">
+            <div class="chapter-inner">
+                <div class="chapter-header">
+                    <span class="chapter-num" aria-hidden="true">07</span>
+                    <div class="chapter-heading">
+                        <p class="chapter-kicker">Method</p>
+                        <h2 class="chapter-title">Methodology</h2>
+                    </div>
+                </div>
                 <div class="section-copy">
-                    <h2>Methodology</h2>
-                    <p>
+                    <p class="chapter-lede">
                         The analysis uses FastF1 race-session data, then summarizes each race into a small set of
                         presentation-friendly measures. D3.js renders the charts directly in the page so every view
-                        can be inspected with tooltips, while Scrollama helps coordinate the scroll-based transition
-                        moments between sections.
+                        can be inspected with tooltips, while GSAP ScrollTrigger coordinates the cinematic scroll
+                        moments between chapters.
                     </p>
                 </div>
                 <div class="methodology-grid">
-                    <article>
+                    <article class="method-card content-card">
                         <h3>Data</h3>
                         <p>FastF1 provided lap timing, position, speed-trap, and session status data for Australia, China, Japan, Miami, and Canada across 2025 and 2026.</p>
                     </article>
-                    <article>
+                    <article class="method-card content-card">
                         <h3>Metrics</h3>
                         <p>Green-flag lap pace, fastest lap, clean-lap speed trap, neutralized laps, DNFs, and a position-change proxy were derived for comparison.</p>
                     </article>
-                    <article>
+                    <article class="method-card content-card">
                         <h3>Visualization</h3>
                         <p>D3.js powers the bars, step charts, slope graph, timeline heatmap, scorecard, legends, and interactive tooltips.</p>
                     </article>
-                    <article>
+                    <article class="method-card content-card">
                         <h3>Story Layer</h3>
-                        <p>Scrollama supports the arcade-style scrollytelling transitions, with Codex-assisted iteration used for implementation, assets, report assembly, and verification.</p>
+                        <p>GSAP ScrollTrigger and Lenis drive pinned arcade transitions, chapter color shifts, and scroll-scrubbed motion across the story.</p>
                     </article>
                 </div>
-            </section>
-
-        </main>
-    </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="site-footer">
+        <div class="footer-parallax" data-parallax="0.12" aria-hidden="true">
+            <img src="assets/images/footer-f1-silhouette.png" alt="" width="1200" height="400" loading="lazy" decoding="async">
+        </div>
         <div class="footer-inner">
             <div class="footer-copy">
                 <p class="footer-title">From DRS to Mario Mushrooms</p>
                 <p>
-                    Built by Alejandro Gonzalez with FastF1, D3.js, Scrollama, Codex, and a little arcade energy for the final lap.
+                    Built by Alejandro Gonzalez with FastF1, D3.js, GSAP, Lenis, Three.js, and a little arcade energy for the final lap.
                 </p>
             </div>
             <div class="footer-meta" aria-label="Project credits">
                 <span>FastF1 data</span>
                 <span>D3.js charts</span>
-                <span>Scrollama transitions</span>
+                <span>GSAP motion</span>
                 <span>2025 vs 2026</span>
             </div>
+            <a class="magnetic footer-cta" href="#hero">Back to start</a>
         </div>
     </footer>
 
+    <script src="js/charts.js?v=cinematic-1"></script>
+    <script src="js/motion.js?v=cinematic-1"></script>
+    <script type="module" src="js/webgl-bg.js?v=cinematic-1"></script>
     <script>
-        const DATA = window.ALPHA_RELEASE_DATA;
-        const seasonColors = new Map([
-            [2025, "#c4ad95"],
-            [2026, "#8f4f18"]
-        ]);
-        const circuitColors = new Map([
-            ["Australia", "#8f4f18"],
-            ["China", "#2f6f63"],
-            ["Japan", "#5a4a3b"],
-            ["Miami", "#7569a7"],
-            ["Canada", "#b35d2c"]
-        ]);
-        const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c"];
-        const driverLineColors = new Map([
-            ["RUS", "#006f60"],
-            ["ANT", "#008d7b"]
-        ]);
-        const timelineColors = new Map([
-            ["Green", "#d9e4dc"],
-            ["Yellow", "#d5b65d"],
-            ["VSC", "#4f7d72"],
-            ["Safety Car", "#cf7b2e"],
-            ["Red Flag", "#9a3d30"]
-        ]);
-        const scorecardColors = new Map([
-            ["2026 lower", "#9a3d30"],
-            ["No change", "#f5efe9"],
-            ["2026 higher", "#2f6f63"]
-        ]);
-        const lapRemainderFormat = d3.format("06.3f");
-        const oneDecimalFormat = d3.format(",.1f");
-        const twoDecimalFormat = d3.format(",.2f");
-        const wholeNumberFormat = d3.format(",.0f");
-        const signedOneDecimalFormat = d3.format("+,.1f");
-        const signedTwoDecimalFormat = d3.format("+,.2f");
-        const signedLapDeltaFormat = d3.format("+.3f");
-        const tooltip = d3.select("body")
-            .append("div")
-            .attr("class", "chart-tooltip")
-            .attr("role", "tooltip")
-            .attr("aria-hidden", "true");
-
-        if (!DATA) {
-            document.body.innerHTML = "<p style='font-family:sans-serif;padding:2rem;'>Race data file not found. Run <code>python scripts/build_alpha_release_data.py</code> first.</p>";
-        } else {
-            renderPaceComparison(DATA.races);
-            renderStepCharts(DATA.races);
-            renderPositionSlope(DATA.races);
-            renderTimeline(DATA.races);
-            renderScorecard(DATA.scorecard);
-            initArcadeTransitions();
-        }
-
-        function formatLap(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainder = seconds - minutes * 60;
-            return `${minutes}:${lapRemainderFormat(remainder)}`;
-        }
-
-        function formatMetric(key, value) {
-            if (key.includes("LapSec")) {
-                return formatLap(value);
-            }
-            if (key === "medianSpeedTrap") {
-                return `${oneDecimalFormat(value)} km/h`;
-            }
-            if (Number.isInteger(value)) {
-                return wholeNumberFormat(value);
-            }
-            return twoDecimalFormat(value);
-        }
-
-        function formatDelta(key, value) {
-            if (key.includes("LapSec")) {
-                return `${signedLapDeltaFormat(value)} s`;
-            }
-            if (key === "medianSpeedTrap") {
-                return `${signedOneDecimalFormat(value)} km/h`;
-            }
-            if (Number.isInteger(value)) {
-                return d3.format("+,.0f")(value);
-            }
-            return signedTwoDecimalFormat(value);
-        }
-
-        function axisFormatForMetric(key) {
-            if (key.includes("LapSec")) {
-                return twoDecimalFormat;
-            }
-            if (key === "medianSpeedTrap") {
-                return oneDecimalFormat;
-            }
-            return wholeNumberFormat;
-        }
-
-        function driverDisplayColor(driver) {
-            return driverLineColors.get(driver.driver) || driver.color;
-        }
-
-        function orderedUnique(values) {
-            const seen = new Set();
-            return values.filter((value) => {
-                if (seen.has(value)) {
-                    return false;
-                }
-                seen.add(value);
-                return true;
-            });
-        }
-
-        function circuitsFromRaces(races) {
-            return orderedUnique(races.map((race) => race.circuit));
-        }
-
-        function seasonsFromRaces(races) {
-            return orderedUnique(races.map((race) => race.year)).sort();
-        }
-
-        function circuitColor(circuit, index = 0) {
-            return circuitColors.get(circuit) || circuitFallbackColors[index % circuitFallbackColors.length];
-        }
-
-        function escapeHtml(value) {
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#39;");
-        }
-
-        function tooltipMarkup(title, rows) {
-            const details = rows
-                .map(([label, value]) => `<span><b>${escapeHtml(label)}</b>${escapeHtml(value)}</span>`)
-                .join("");
-            return `<strong>${escapeHtml(title)}</strong>${details}`;
-        }
-
-        function moveTooltip(event) {
-            let anchorX = event.pageX;
-            let anchorY = event.pageY;
-
-            if ((!anchorX || !anchorY) && event.currentTarget) {
-                const rect = event.currentTarget.getBoundingClientRect();
-                anchorX = window.scrollX + rect.left + rect.width / 2;
-                anchorY = window.scrollY + rect.top + rect.height / 2;
-            }
-
-            const offset = 14;
-            const node = tooltip.node();
-            const tooltipRect = node.getBoundingClientRect();
-            const viewportRight = window.scrollX + document.documentElement.clientWidth - tooltipRect.width - 8;
-            const viewportBottom = window.scrollY + document.documentElement.clientHeight - tooltipRect.height - 8;
-            const left = Math.max(window.scrollX + 8, Math.min(anchorX + offset, viewportRight));
-            const top = Math.max(window.scrollY + 8, Math.min(anchorY + offset, viewportBottom));
-
-            tooltip
-                .style("left", `${left}px`)
-                .style("top", `${top}px`);
-        }
-
-        function showTooltip(event, html) {
-            tooltip
-                .html(html)
-                .attr("aria-hidden", "false")
-                .style("opacity", 1);
-            moveTooltip(event);
-        }
-
-        function hideTooltip() {
-            tooltip
-                .attr("aria-hidden", "true")
-                .style("opacity", 0);
-        }
-
-        function attachTooltip(selection, content) {
-            selection
-                .attr("tabindex", 0)
-                .on("mouseenter focus", (event, d) => showTooltip(event, content(d)))
-                .on("mousemove", moveTooltip)
-                .on("mouseleave blur", hideTooltip);
-        }
-
-        function renderSeasonLegend(selector) {
-            const legend = d3.select(selector);
-            [2025, 2026].forEach((season) => {
-                const item = legend.append("span");
-                item.append("i").style("background", seasonColors.get(season));
-                item.append("span").text(String(season));
-            });
-        }
-
-        function renderPaceComparison(races) {
-            const metrics = [
-                {
-                    key: "medianBestLapSec",
-                    title: "Median best green-flag lap",
-                    note: "Lower is faster.",
-                    formatter: formatLap
-                },
-                {
-                    key: "fastestLapSec",
-                    title: "Fastest green-flag lap",
-                    note: "Lower is faster.",
-                    formatter: formatLap
-                },
-                {
-                    key: "medianSpeedTrap",
-                    title: "Median clean-lap speed trap",
-                    note: "Higher suggests stronger straight-line speed.",
-                    formatter: (value) => `${oneDecimalFormat(value)} km/h`
-                }
-            ];
-
-            const container = d3.select("#pace-comparison");
-
-            metrics.forEach((metric) => {
-                const wrapper = container.append("article").attr("class", "chart-item");
-                wrapper.append("h3").text(metric.title);
-
-                const svg = wrapper.append("svg")
-                    .attr("viewBox", "0 0 330 280")
-                    .attr("aria-label", metric.title);
-
-                const width = 330;
-                const height = 280;
-                const margin = { top: 18, right: 66, bottom: 42, left: 78 };
-                const innerWidth = width - margin.left - margin.right;
-                const innerHeight = height - margin.top - margin.bottom;
-
-                const root = svg.append("g")
-                    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-                const circuits = circuitsFromRaces(races);
-                const seasons = seasonsFromRaces(races);
-                const y = d3.scaleBand().domain(circuits).range([0, innerHeight]).padding(0.26);
-                const ySeason = d3.scaleBand().domain(seasons).range([0, y.bandwidth()]).padding(0.22);
-
-                const values = races.map((race) => race.metrics[metric.key]);
-                const minValue = d3.min(values);
-                const maxValue = d3.max(values);
-                const pad = (maxValue - minValue) * 0.2 || maxValue * 0.03;
-                const x = d3.scaleLinear()
-                    .domain([minValue - pad, maxValue + pad])
-                    .range([0, innerWidth]);
-                const xBase = x(minValue - pad);
-                const axisFormatter = axisFormatForMetric(metric.key);
-
-                root.append("g")
-                    .selectAll("line")
-                    .data(x.ticks(4))
-                    .enter()
-                    .append("line")
-                    .attr("x1", (d) => x(d))
-                    .attr("x2", (d) => x(d))
-                    .attr("y1", 0)
-                    .attr("y2", innerHeight)
-                    .attr("stroke", "#eadfd4");
-
-                const bars = root.selectAll("rect")
-                    .data(races)
-                    .enter()
-                    .append("rect")
-                    .attr("class", "chart-mark")
-                    .attr("x", xBase)
-                    .attr("y", (d) => y(d.circuit) + ySeason(d.year))
-                    .attr("width", (d) => x(d.metrics[metric.key]) - xBase)
-                    .attr("height", ySeason.bandwidth())
-                    .attr("fill", (d) => seasonColors.get(d.year));
-
-                attachTooltip(bars, (d) => tooltipMarkup(d.raceLabel, [
-                    [metric.title, metric.formatter(d.metrics[metric.key])],
-                    ["Circuit", d.circuit],
-                    ["Season", d.year],
-                    ["Note", metric.note]
-                ]));
-
-                root.selectAll(".bar-label")
-                    .data(races)
-                    .enter()
-                    .append("text")
-                    .attr("x", (d) => x(d.metrics[metric.key]) + 4)
-                    .attr("y", (d) => y(d.circuit) + ySeason(d.year) + ySeason.bandwidth() / 2)
-                    .attr("dy", "0.35em")
-                    .attr("text-anchor", "start")
-                    .attr("font-size", 10)
-                    .text((d) => metric.formatter(d.metrics[metric.key]));
-
-                root.append("g")
-                    .attr("class", "axis")
-                    .attr("transform", `translate(0,${innerHeight})`)
-                    .call(d3.axisBottom(x).ticks(4).tickFormat(axisFormatter));
-
-                root.append("g")
-                    .attr("class", "axis")
-                    .call(d3.axisLeft(y));
-
-                const legend = wrapper.append("div").attr("class", "mini-legend");
-                seasons.forEach((season) => {
-                    const item = legend.append("span");
-                    item.append("i").style("background", seasonColors.get(season));
-                    item.append("span").text(String(season));
-                });
-            });
-        }
-
-        function renderStepCharts(races) {
-            const container = d3.select("#step-charts");
-            const circuits = circuitsFromRaces(races);
-            const seasons = seasonsFromRaces(races);
-            const orderedRaces = seasons.flatMap((year) =>
-                circuits
-                    .map((circuit) => races.find((race) => race.year === year && race.circuit === circuit))
-                    .filter(Boolean)
-            );
-
-            orderedRaces.forEach((race) => {
-                const wrapper = container.append("article").attr("class", "chart-item");
-                wrapper.append("h3").text(race.raceLabel);
-
-                const svg = wrapper.append("svg")
-                    .attr("viewBox", "0 0 340 250")
-                    .attr("aria-label", race.raceLabel);
-
-                const width = 340;
-                const height = 250;
-                const margin = { top: 18, right: 44, bottom: 34, left: 44 };
-                const innerWidth = width - margin.left - margin.right;
-                const innerHeight = height - margin.top - margin.bottom;
-
-                const root = svg.append("g")
-                    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-                const positionExtent = d3.max(race.topFinishers.flatMap((driver) => driver.positions.map((d) => d.position)));
-                const x = d3.scaleLinear().domain([1, race.totalLaps]).range([0, innerWidth]);
-                const y = d3.scaleLinear().domain([positionExtent, 1]).range([innerHeight, 0]);
-                const line = d3.line()
-                    .curve(d3.curveStepAfter)
-                    .x((d) => x(d.lap))
-                    .y((d) => y(d.position));
-
-                root.append("g")
-                    .selectAll("line")
-                    .data(y.ticks(5))
-                    .enter()
-                    .append("line")
-                    .attr("x1", 0)
-                    .attr("x2", innerWidth)
-                    .attr("y1", (d) => y(d))
-                    .attr("y2", (d) => y(d))
-                    .attr("stroke", "#eadfd4");
-
-                race.topFinishers.forEach((driver) => {
-                    const lineColor = driverDisplayColor(driver);
-                    root.append("path")
-                        .datum(driver.positions)
-                        .attr("fill", "none")
-                        .attr("stroke", lineColor)
-                        .attr("stroke-width", 2.4)
-                        .attr("d", line);
-
-                    const finalPoint = driver.positions[driver.positions.length - 1];
-                    root.append("text")
-                        .attr("x", x(finalPoint.lap) + 5)
-                        .attr("y", y(finalPoint.position))
-                        .attr("dy", "0.32em")
-                        .attr("font-size", 10)
-                        .attr("fill", lineColor)
-                        .text(driver.driver);
-
-                    const points = root.selectAll(`.position-point-${race.raceKey}-${driver.driver}`)
-                        .data(driver.positions)
-                        .enter()
-                        .append("circle")
-                        .attr("class", "chart-mark position-point")
-                        .attr("cx", (d) => x(d.lap))
-                        .attr("cy", (d) => y(d.position))
-                        .attr("r", 5)
-                        .attr("fill", "transparent")
-                        .attr("stroke", "transparent");
-
-                    attachTooltip(points, (d) => tooltipMarkup(`${race.raceLabel} - ${driver.driver}`, [
-                        ["Lap", d.lap],
-                        ["Position", d.position]
-                    ]));
-                });
-
-                root.append("g")
-                    .attr("class", "axis")
-                    .attr("transform", `translate(0,${innerHeight})`)
-                    .call(d3.axisBottom(x).ticks(4).tickFormat(d3.format("d")));
-
-                root.append("g")
-                    .attr("class", "axis")
-                    .call(d3.axisLeft(y).ticks(Math.min(5, positionExtent)).tickFormat(d3.format("d")));
-
-                const legend = wrapper.append("div").attr("class", "mini-legend");
-                race.topFinishers.forEach((driver) => {
-                    const item = legend.append("span");
-                    item.append("i").style("background", driverDisplayColor(driver));
-                    item.append("span").text(driver.driver);
-                });
-            });
-        }
-
-        function renderPositionSlope(races) {
-            const circuits = circuitsFromRaces(races);
-            const legend = d3.select("#position-proxy-legend");
-            circuits.forEach((circuit, index) => {
-                const item = legend.append("span");
-                item.append("i").style("background", circuitColor(circuit, index));
-                item.append("span").text(circuit);
-            });
-
-            const svg = d3.select("#position-proxy-chart");
-            const width = 1080;
-            const height = 420;
-            const margin = { top: 28, right: 120, bottom: 52, left: 120 };
-            const innerWidth = width - margin.left - margin.right;
-            const innerHeight = height - margin.top - margin.bottom;
-            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-            const seasons = seasonsFromRaces(races);
-            const byCircuit = circuits.map((circuit) => ({
-                circuit,
-                index: circuits.indexOf(circuit),
-                values: seasons
-                    .map((year) => races.find((race) => race.circuit === circuit && race.year === year))
-                    .filter(Boolean)
-            }));
-
-            const x = d3.scalePoint()
-                .domain(seasons)
-                .range([0, innerWidth])
-                .padding(0.16);
-            const y = d3.scaleLinear()
-                .domain([100, d3.max(races, (d) => d.metrics.positionChangeProxy)]).nice()
-                .range([innerHeight, 0]);
-            const line = d3.line()
-                .x((d) => x(d.year))
-                .y((d) => y(d.metrics.positionChangeProxy));
-
-            root.append("g")
-                .selectAll("line")
-                .data(y.ticks(5))
-                .enter()
-                .append("line")
-                .attr("x1", 0)
-                .attr("x2", innerWidth)
-                .attr("y1", (d) => y(d))
-                .attr("y2", (d) => y(d))
-                .attr("stroke", "#eadfd4");
-
-            root.selectAll(".position-slope")
-                .data(byCircuit)
-                .enter()
-                .append("path")
-                .attr("class", "position-slope")
-                .attr("fill", "none")
-                .attr("stroke", (d) => circuitColor(d.circuit, d.index))
-                .attr("stroke-width", 2.6)
-                .attr("d", (d) => line(d.values));
-
-            const points = root.selectAll(".position-slope-point")
-                .data(races)
-                .enter()
-                .append("circle")
-                .attr("class", "chart-mark position-slope-point")
-                .attr("cx", (d) => x(d.year))
-                .attr("cy", (d) => y(d.metrics.positionChangeProxy))
-                .attr("r", 5)
-                .attr("fill", (d) => circuitColor(d.circuit, circuits.indexOf(d.circuit)))
-                .attr("stroke", "#fffdfa")
-                .attr("stroke-width", 1.5);
-
-            attachTooltip(points, (d) => tooltipMarkup(d.raceLabel, [
-                ["Position-change proxy", wholeNumberFormat(d.metrics.positionChangeProxy)],
-                ["Circuit", d.circuit],
-                ["Season", d.year]
-            ]));
-
-            root.selectAll(".slope-value-label")
-                .data(races)
-                .enter()
-                .append("text")
-                .attr("x", (d) => x(d.year) + (d.year === 2025 ? -12 : 12))
-                .attr("y", (d) => y(d.metrics.positionChangeProxy))
-                .attr("dy", "0.35em")
-                .attr("text-anchor", (d) => d.year === 2025 ? "end" : "start")
-                .attr("font-size", 11)
-                .attr("fill", (d) => circuitColor(d.circuit, circuits.indexOf(d.circuit)))
-                .text((d) => `${d.circuit} ${wholeNumberFormat(d.metrics.positionChangeProxy)}`);
-
-            root.append("g")
-                .attr("class", "axis")
-                .attr("transform", `translate(0,${innerHeight})`)
-                .call(d3.axisBottom(x).tickFormat(d3.format("d")));
-
-            root.append("g")
-                .attr("class", "axis")
-                .call(d3.axisLeft(y).ticks(5).tickFormat(wholeNumberFormat));
-        }
-
-        function renderTimeline(races) {
-            const legend = d3.select("#timeline-legend");
-            timelineColors.forEach((color, label) => {
-                const item = legend.append("span");
-                item.append("i").style("background", color);
-                item.append("span").text(label);
-            });
-
-            const svg = d3.select("#timeline-chart");
-            const width = 1080;
-            const height = 360;
-            const margin = { top: 12, right: 20, bottom: 40, left: 150 };
-            const innerWidth = width - margin.left - margin.right;
-            const innerHeight = height - margin.top - margin.bottom;
-            const rowHeight = innerHeight / races.length;
-            const maxLap = d3.max(races, (d) => d.totalLaps);
-            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-            const x = d3.scaleLinear().domain([1, maxLap + 1]).range([0, innerWidth]);
-
-            races.forEach((race, index) => {
-                const yTop = index * rowHeight;
-                root.append("text")
-                    .attr("x", -12)
-                    .attr("y", yTop + rowHeight / 2)
-                    .attr("text-anchor", "end")
-                    .attr("dy", "0.35em")
-                    .attr("font-size", 12)
-                    .text(race.raceLabel);
-
-                root.selectAll(`.lap-${race.raceKey}`)
-                    .data(race.statusTimeline)
-                    .enter()
-                    .append("rect")
-                    .attr("class", "chart-mark")
-                    .attr("x", (d) => x(d.lap))
-                    .attr("y", yTop + 3)
-                    .attr("width", Math.max(1, x(2) - x(1) - 0.7))
-                    .attr("height", rowHeight - 6)
-                    .attr("fill", (d) => timelineColors.get(d.state) || "#d9e4dc")
-                    .call((selection) => attachTooltip(selection, (d) => tooltipMarkup(race.raceLabel, [
-                        ["Lap", d.lap],
-                        ["Status", d.state]
-                    ])));
-
-                root.append("line")
-                    .attr("x1", 0)
-                    .attr("x2", innerWidth)
-                    .attr("y1", yTop + rowHeight)
-                    .attr("y2", yTop + rowHeight)
-                    .attr("stroke", "#eadfd4");
-            });
-
-            root.append("g")
-                .attr("class", "axis")
-                .attr("transform", `translate(0,${innerHeight})`)
-                .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format("d")));
-        }
-
-        function renderScorecard(scorecardRows) {
-            const legend = d3.select("#scorecard-legend");
-            scorecardColors.forEach((color, label) => {
-                const item = legend.append("span");
-                item.append("i").style("background", color);
-                item.append("span").text(label);
-            });
-
-            const svg = d3.select("#scorecard-chart");
-            const width = 1080;
-            const height = 470;
-            const margin = { top: 50, right: 20, bottom: 20, left: 250 };
-            const innerWidth = width - margin.left - margin.right;
-            const innerHeight = height - margin.top - margin.bottom;
-            const root = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-            const circuits = orderedUnique(scorecardRows.map((row) => row.circuit));
-            const metricRows = [
-                "Median best lap (s)",
-                "Fastest lap (s)",
-                "Median speed trap (km/h)",
-                "Position-change proxy",
-                "Neutralized laps",
-                "DNFs"
-            ];
-
-            const x = d3.scaleBand().domain(circuits).range([0, innerWidth]).padding(0.08);
-            const y = d3.scaleBand().domain(metricRows).range([0, innerHeight]).padding(0.1);
-
-            const rowScales = new Map();
-            metricRows.forEach((metricLabel) => {
-                const values = scorecardRows
-                    .filter((row) => row.metricLabel === metricLabel)
-                    .map((row) => Math.abs(row.delta));
-                const maxAbs = d3.max(values) || 1;
-                rowScales.set(
-                    metricLabel,
-                    d3.scaleLinear().domain([-maxAbs, 0, maxAbs]).range(["#9a3d30", "#f5efe9", "#2f6f63"])
-                );
-            });
-
-            root.selectAll(".metric-label")
-                .data(metricRows)
-                .enter()
-                .append("text")
-                .attr("x", -16)
-                .attr("y", (d) => y(d) + y.bandwidth() / 2)
-                .attr("text-anchor", "end")
-                .attr("dy", "0.35em")
-                .attr("font-size", 12)
-                .text((d) => d);
-
-            root.selectAll(".circuit-label")
-                .data(circuits)
-                .enter()
-                .append("text")
-                .attr("x", (d) => x(d) + x.bandwidth() / 2)
-                .attr("y", -16)
-                .attr("text-anchor", "middle")
-                .attr("font-size", 12)
-                .attr("font-weight", 600)
-                .text((d) => d);
-
-            const cells = root.selectAll(".scorecard-cell")
-                .data(scorecardRows)
-                .enter()
-                .append("g")
-                .attr("class", "scorecard-cell chart-mark")
-                .attr("transform", (d) => `translate(${x(d.circuit)},${y(d.metricLabel)})`);
-
-            attachTooltip(cells, (d) => tooltipMarkup(`${d.circuit} - ${d.metricLabel}`, [
-                ["2025", formatMetric(d.metricKey, d.season2025)],
-                ["2026", formatMetric(d.metricKey, d.season2026)],
-                ["Change", formatDelta(d.metricKey, d.delta)]
-            ]));
-
-            cells.append("rect")
-                .attr("width", x.bandwidth())
-                .attr("height", y.bandwidth())
-                .attr("fill", (d) => rowScales.get(d.metricLabel)(d.delta))
-                .attr("stroke", "#d9cabc");
-
-            cells.append("text")
-                .attr("x", x.bandwidth() / 2)
-                .attr("y", y.bandwidth() / 2 - 7)
-                .attr("text-anchor", "middle")
-                .attr("font-size", 12)
-                .attr("font-weight", 600)
-                .attr("fill", (d) => Math.abs(d.delta) > 0.55 * d3.max(scorecardRows.filter((row) => row.metricLabel === d.metricLabel), (row) => Math.abs(row.delta)) ? "#ffffff" : "#3d2a17")
-                .text((d) => formatDelta(d.metricKey, d.delta));
-
-            cells.append("text")
-                .attr("x", x.bandwidth() / 2)
-                .attr("y", y.bandwidth() / 2 + 11)
-                .attr("text-anchor", "middle")
-                .attr("font-size", 10)
-                .attr("fill", (d) => Math.abs(d.delta) > 0.55 * d3.max(scorecardRows.filter((row) => row.metricLabel === d.metricLabel), (row) => Math.abs(row.delta)) ? "#f7f1ea" : "#6f5840")
-                .text((d) => `${formatMetric(d.metricKey, d.season2025)} -> ${formatMetric(d.metricKey, d.season2026)}`);
-        }
-
-        function initArcadeTransitions() {
-            const steps = Array.from(document.querySelectorAll(".arcade-transition"));
-            if (!steps.length) {
-                return;
-            }
-
-            function smoothstep(start, end, value) {
-                const amount = Math.max(0, Math.min(1, (value - start) / (end - start)));
-                return amount * amount * (3 - 2 * amount);
-            }
-
-            function setTransitionProgress(element, progress) {
-                const clamped = Math.max(0, Math.min(1, progress));
-                const eased = smoothstep(0.04, 0.96, clamped);
-                const textIn = smoothstep(0.04, 0.18, clamped);
-                const textOut = smoothstep(0.64, 0.82, clamped);
-                const copyOpacity = textIn * (1 - textOut);
-                const wipe = smoothstep(0.72, 0.96, clamped);
-                const speed = smoothstep(0.12, 0.42, clamped) * (1 - smoothstep(0.74, 0.96, clamped));
-                const start = -32;
-                const end = 126;
-                const hop = Math.sin(clamped * Math.PI * 5) * 5 * speed;
-                const tilt = Math.sin(clamped * Math.PI * 3) * 1.5 * speed;
-                element.style.setProperty("--scroll-progress", clamped.toFixed(3));
-                element.style.setProperty("--drive-x", `${start + (end - start) * eased}vw`);
-                element.style.setProperty("--road-x", `${Math.round(-980 * clamped)}px`);
-                element.style.setProperty("--copy-opacity", copyOpacity.toFixed(3));
-                element.style.setProperty("--copy-y", `${Math.round(34 - 92 * clamped)}px`);
-                element.style.setProperty("--copy-scale", (0.98 + 0.04 * textIn).toFixed(3));
-                element.style.setProperty("--wipe-opacity", (0.38 * wipe).toFixed(3));
-                element.style.setProperty("--wipe-y", `${Math.round(104 - 114 * wipe)}%`);
-                element.style.setProperty("--speed-opacity", (0.78 * speed).toFixed(3));
-                element.style.setProperty("--jump-y", `${hop.toFixed(2)}px`);
-                element.style.setProperty("--tilt", `${tilt.toFixed(2)}deg`);
-            }
-
-            function setActiveStep(activeElement) {
-                steps.forEach((step) => {
-                    const isActive = step === activeElement;
-                    step.classList.toggle("is-active", isActive);
-                    if (isActive) {
-                        step.classList.add("has-entered");
-                    }
-                });
-            }
-
-            steps.forEach((step) => setTransitionProgress(step, 0));
-
-            if (window.scrollama) {
-                const scroller = scrollama();
-                scroller
-                    .setup({
-                        step: steps,
-                        offset: 0.55,
-                        progress: true,
-                        threshold: 8
-                    })
-                    .onStepEnter((response) => {
-                        setActiveStep(response.element);
-                    })
-                    .onStepProgress((response) => {
-                        setTransitionProgress(response.element, response.progress);
-                    });
-
-                window.addEventListener("resize", () => scroller.resize());
-                requestAnimationFrame(() => scroller.resize());
-                return;
-            }
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveStep(entry.target);
-                        setTransitionProgress(entry.target, 0.48);
-                    }
-                });
-            }, { threshold: 0.35 });
-
-            steps.forEach((step) => observer.observe(step));
+        if (window.F1Charts && window.F1Charts.init()) {
+            window.F1Motion && window.F1Motion.init();
         }
     </script>
 </body>
