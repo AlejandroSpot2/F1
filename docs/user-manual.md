@@ -6,7 +6,7 @@ Final deliverable date: May 2026
 
 ## 1. Project Summary
 
-This project is a static data visualization website comparing Formula 1 race data from the 2025 and 2026 seasons. It focuses on Australia, China, Japan, Miami, and Canada and compares pace, straight-line speed, race-position movement, incidents, neutralization periods, and circuit-level metric changes.
+This project is a static data visualization website comparing Formula 1 race data from the 2025 and 2026 seasons. It focuses on Australia, China, Japan, Miami, Canada, Monaco, and Barcelona and compares pace, straight-line speed, race-position movement, incidents, neutralization periods, and circuit-level metric changes.
 
 The website is designed for viewers who may not already follow Formula 1. Each chart includes a short explanation, legends, formatted numbers, and hover tooltips.
 
@@ -135,11 +135,15 @@ Included races:
 2025 Japanese Grand Prix
 2025 Miami Grand Prix
 2025 Canadian Grand Prix
+2025 Monaco Grand Prix
+2025 Spanish Grand Prix
 2026 Australian Grand Prix
 2026 Chinese Grand Prix
 2026 Japanese Grand Prix
 2026 Miami Grand Prix
 2026 Canadian Grand Prix
+2026 Monaco Grand Prix
+2026 Barcelona-Catalunya Grand Prix
 ```
 
 Derived metrics:

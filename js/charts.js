@@ -9,9 +9,11 @@
         ["China", "#2f6f63"],
         ["Japan", "#5a4a3b"],
         ["Miami", "#7569a7"],
-        ["Canada", "#b35d2c"]
+        ["Canada", "#b35d2c"],
+        ["Monaco", "#2f7d9a"],
+        ["Barcelona", "#b0922e"]
     ]);
-    const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c"];
+    const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c", "#2f7d9a", "#b0922e"];
     const driverLineColors = new Map([
         ["RUS", "#006f60"],
         ["ANT", "#008d7b"]
