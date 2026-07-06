@@ -4,7 +4,7 @@ Export this document to PDF when the copy and figures are final.
 
 ## Project Overview
 
-This project compares eight shared Formula 1 circuits from the 2025 and 2026 seasons in order to see whether the 2026 regulation changes are already visible in pace, straight-line speed, race volatility, and disruption patterns. The site is implemented as a static, screenshot-ready D3 page so the complete chart set can be inserted into the report.
+This project compares nine shared Formula 1 circuits from the 2025 and 2026 seasons in order to see whether the 2026 regulation changes are already visible in pace, straight-line speed, race volatility, and disruption patterns. The site is implemented as a static, screenshot-ready D3 page so the complete chart set can be inserted into the report.
 
 ## Project Website
 
@@ -15,7 +15,7 @@ This is the intended GitHub Pages deployment URL for the separate final-project 
 ## Features From The Proposal That Have Been Completed
 
 - The separate final-project site scaffold has been created in the new `F1` project directory.
-- FastF1 race data for Australia, China, Japan, Miami, Canada, Monaco, Barcelona, and Austria across 2025 and 2026 has been pulled and transformed into chart-ready files.
+- FastF1 race data for Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, and Great Britain across 2025 and 2026 has been pulled and transformed into chart-ready files.
 - Five static D3 visualization sections are now implemented on the homepage: pace bars, lap-by-lap step charts, a position-change proxy chart, a neutralization timeline, and a final circuit scorecard.
 - The report scaffold and PDF-export page are prepared in the project repo.
 

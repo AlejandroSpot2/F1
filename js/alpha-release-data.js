@@ -1,6 +1,6 @@
 window.ALPHA_RELEASE_DATA = {
   "projectTitle": "From DRS to Mario Mushrooms",
-  "subtitle": "A comparison of eight shared Formula 1 circuits in 2025 and 2026",
+  "subtitle": "A comparison of nine shared Formula 1 circuits in 2025 and 2026",
   "generatedFrom": "FastF1",
   "races": [
     {
@@ -11272,6 +11272,931 @@ window.ALPHA_RELEASE_DATA = {
       ]
     },
     {
+      "raceKey": "2025-great britain",
+      "raceLabel": "2025 Great Britain",
+      "year": 2025,
+      "circuit": "Great Britain",
+      "eventName": "British Grand Prix",
+      "totalLaps": 52,
+      "metrics": {
+        "medianBestLapSec": 90.818,
+        "fastestLapSec": 89.337,
+        "medianSpeedTrap": 323.0,
+        "positionChangeProxy": 156.0,
+        "neutralizedLapCount": 22,
+        "dnfCount": 5
+      },
+      "statusTimeline": [
+        {
+          "lap": 1,
+          "state": "VSC"
+        },
+        {
+          "lap": 2,
+          "state": "VSC"
+        },
+        {
+          "lap": 3,
+          "state": "VSC"
+        },
+        {
+          "lap": 4,
+          "state": "VSC"
+        },
+        {
+          "lap": 5,
+          "state": "VSC"
+        },
+        {
+          "lap": 6,
+          "state": "VSC"
+        },
+        {
+          "lap": 7,
+          "state": "VSC"
+        },
+        {
+          "lap": 8,
+          "state": "Green"
+        },
+        {
+          "lap": 9,
+          "state": "Green"
+        },
+        {
+          "lap": 10,
+          "state": "Green"
+        },
+        {
+          "lap": 11,
+          "state": "Green"
+        },
+        {
+          "lap": 12,
+          "state": "Green"
+        },
+        {
+          "lap": 13,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 14,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 15,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 16,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 17,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 18,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 19,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 20,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 21,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 22,
+          "state": "Yellow"
+        },
+        {
+          "lap": 23,
+          "state": "Green"
+        },
+        {
+          "lap": 24,
+          "state": "Green"
+        },
+        {
+          "lap": 25,
+          "state": "Green"
+        },
+        {
+          "lap": 26,
+          "state": "Green"
+        },
+        {
+          "lap": 27,
+          "state": "Green"
+        },
+        {
+          "lap": 28,
+          "state": "Green"
+        },
+        {
+          "lap": 29,
+          "state": "Green"
+        },
+        {
+          "lap": 30,
+          "state": "Green"
+        },
+        {
+          "lap": 31,
+          "state": "Green"
+        },
+        {
+          "lap": 32,
+          "state": "Green"
+        },
+        {
+          "lap": 33,
+          "state": "Green"
+        },
+        {
+          "lap": 34,
+          "state": "Green"
+        },
+        {
+          "lap": 35,
+          "state": "Green"
+        },
+        {
+          "lap": 36,
+          "state": "Green"
+        },
+        {
+          "lap": 37,
+          "state": "Green"
+        },
+        {
+          "lap": 38,
+          "state": "Green"
+        },
+        {
+          "lap": 39,
+          "state": "Yellow"
+        },
+        {
+          "lap": 40,
+          "state": "Yellow"
+        },
+        {
+          "lap": 41,
+          "state": "Green"
+        },
+        {
+          "lap": 42,
+          "state": "Yellow"
+        },
+        {
+          "lap": 43,
+          "state": "Yellow"
+        },
+        {
+          "lap": 44,
+          "state": "Yellow"
+        },
+        {
+          "lap": 45,
+          "state": "Green"
+        },
+        {
+          "lap": 46,
+          "state": "Green"
+        },
+        {
+          "lap": 47,
+          "state": "Green"
+        },
+        {
+          "lap": 48,
+          "state": "Green"
+        },
+        {
+          "lap": 49,
+          "state": "Green"
+        },
+        {
+          "lap": 50,
+          "state": "Green"
+        },
+        {
+          "lap": 51,
+          "state": "Green"
+        },
+        {
+          "lap": 52,
+          "state": "Green"
+        }
+      ],
+      "topFinishers": [
+        {
+          "driver": "NOR",
+          "team": "McLaren",
+          "finalPosition": 1,
+          "gridPosition": 3,
+          "color": "#F47600",
+          "positions": [
+            {
+              "lap": 8,
+              "position": 3
+            },
+            {
+              "lap": 9,
+              "position": 3
+            },
+            {
+              "lap": 10,
+              "position": 3
+            },
+            {
+              "lap": 13,
+              "position": 3
+            },
+            {
+              "lap": 22,
+              "position": 2
+            },
+            {
+              "lap": 23,
+              "position": 2
+            },
+            {
+              "lap": 24,
+              "position": 2
+            },
+            {
+              "lap": 25,
+              "position": 2
+            },
+            {
+              "lap": 26,
+              "position": 2
+            },
+            {
+              "lap": 27,
+              "position": 2
+            },
+            {
+              "lap": 28,
+              "position": 2
+            },
+            {
+              "lap": 29,
+              "position": 2
+            },
+            {
+              "lap": 30,
+              "position": 2
+            },
+            {
+              "lap": 31,
+              "position": 2
+            },
+            {
+              "lap": 32,
+              "position": 2
+            },
+            {
+              "lap": 33,
+              "position": 2
+            },
+            {
+              "lap": 34,
+              "position": 2
+            },
+            {
+              "lap": 35,
+              "position": 2
+            },
+            {
+              "lap": 36,
+              "position": 2
+            },
+            {
+              "lap": 37,
+              "position": 2
+            },
+            {
+              "lap": 38,
+              "position": 2
+            },
+            {
+              "lap": 39,
+              "position": 2
+            },
+            {
+              "lap": 40,
+              "position": 2
+            },
+            {
+              "lap": 41,
+              "position": 2
+            },
+            {
+              "lap": 42,
+              "position": 2
+            },
+            {
+              "lap": 43,
+              "position": 2
+            },
+            {
+              "lap": 46,
+              "position": 1
+            },
+            {
+              "lap": 47,
+              "position": 1
+            },
+            {
+              "lap": 48,
+              "position": 1
+            },
+            {
+              "lap": 49,
+              "position": 1
+            },
+            {
+              "lap": 50,
+              "position": 1
+            },
+            {
+              "lap": 51,
+              "position": 1
+            },
+            {
+              "lap": 52,
+              "position": 1
+            }
+          ]
+        },
+        {
+          "driver": "PIA",
+          "team": "McLaren",
+          "finalPosition": 2,
+          "gridPosition": 2,
+          "color": "#F47600",
+          "positions": [
+            {
+              "lap": 8,
+              "position": 1
+            },
+            {
+              "lap": 9,
+              "position": 1
+            },
+            {
+              "lap": 10,
+              "position": 1
+            },
+            {
+              "lap": 13,
+              "position": 1
+            },
+            {
+              "lap": 22,
+              "position": 1
+            },
+            {
+              "lap": 23,
+              "position": 1
+            },
+            {
+              "lap": 24,
+              "position": 1
+            },
+            {
+              "lap": 25,
+              "position": 1
+            },
+            {
+              "lap": 26,
+              "position": 1
+            },
+            {
+              "lap": 27,
+              "position": 1
+            },
+            {
+              "lap": 28,
+              "position": 1
+            },
+            {
+              "lap": 29,
+              "position": 1
+            },
+            {
+              "lap": 30,
+              "position": 1
+            },
+            {
+              "lap": 31,
+              "position": 1
+            },
+            {
+              "lap": 32,
+              "position": 1
+            },
+            {
+              "lap": 33,
+              "position": 1
+            },
+            {
+              "lap": 34,
+              "position": 1
+            },
+            {
+              "lap": 35,
+              "position": 1
+            },
+            {
+              "lap": 36,
+              "position": 1
+            },
+            {
+              "lap": 37,
+              "position": 1
+            },
+            {
+              "lap": 38,
+              "position": 1
+            },
+            {
+              "lap": 39,
+              "position": 1
+            },
+            {
+              "lap": 40,
+              "position": 1
+            },
+            {
+              "lap": 41,
+              "position": 1
+            },
+            {
+              "lap": 42,
+              "position": 1
+            },
+            {
+              "lap": 45,
+              "position": 2
+            },
+            {
+              "lap": 46,
+              "position": 2
+            },
+            {
+              "lap": 47,
+              "position": 2
+            },
+            {
+              "lap": 48,
+              "position": 2
+            },
+            {
+              "lap": 49,
+              "position": 2
+            },
+            {
+              "lap": 50,
+              "position": 2
+            },
+            {
+              "lap": 51,
+              "position": 2
+            },
+            {
+              "lap": 52,
+              "position": 2
+            }
+          ]
+        },
+        {
+          "driver": "HUL",
+          "team": "Kick Sauber",
+          "finalPosition": 3,
+          "gridPosition": 19,
+          "color": "#01C00E",
+          "positions": [
+            {
+              "lap": 8,
+              "position": 10
+            },
+            {
+              "lap": 11,
+              "position": 12
+            },
+            {
+              "lap": 12,
+              "position": 6
+            },
+            {
+              "lap": 22,
+              "position": 4
+            },
+            {
+              "lap": 23,
+              "position": 4
+            },
+            {
+              "lap": 24,
+              "position": 4
+            },
+            {
+              "lap": 25,
+              "position": 4
+            },
+            {
+              "lap": 26,
+              "position": 4
+            },
+            {
+              "lap": 27,
+              "position": 4
+            },
+            {
+              "lap": 28,
+              "position": 4
+            },
+            {
+              "lap": 29,
+              "position": 4
+            },
+            {
+              "lap": 30,
+              "position": 4
+            },
+            {
+              "lap": 31,
+              "position": 4
+            },
+            {
+              "lap": 32,
+              "position": 4
+            },
+            {
+              "lap": 33,
+              "position": 4
+            },
+            {
+              "lap": 34,
+              "position": 3
+            },
+            {
+              "lap": 35,
+              "position": 3
+            },
+            {
+              "lap": 36,
+              "position": 3
+            },
+            {
+              "lap": 37,
+              "position": 3
+            },
+            {
+              "lap": 38,
+              "position": 3
+            },
+            {
+              "lap": 39,
+              "position": 3
+            },
+            {
+              "lap": 40,
+              "position": 3
+            },
+            {
+              "lap": 41,
+              "position": 3
+            },
+            {
+              "lap": 44,
+              "position": 3
+            },
+            {
+              "lap": 45,
+              "position": 3
+            },
+            {
+              "lap": 46,
+              "position": 3
+            },
+            {
+              "lap": 47,
+              "position": 3
+            },
+            {
+              "lap": 48,
+              "position": 3
+            },
+            {
+              "lap": 49,
+              "position": 3
+            },
+            {
+              "lap": 50,
+              "position": 3
+            },
+            {
+              "lap": 51,
+              "position": 3
+            },
+            {
+              "lap": 52,
+              "position": 3
+            }
+          ]
+        },
+        {
+          "driver": "HAM",
+          "team": "Ferrari",
+          "finalPosition": 4,
+          "gridPosition": 5,
+          "color": "#ED1131",
+          "positions": [
+            {
+              "lap": 8,
+              "position": 4
+            },
+            {
+              "lap": 9,
+              "position": 4
+            },
+            {
+              "lap": 10,
+              "position": 4
+            },
+            {
+              "lap": 22,
+              "position": 6
+            },
+            {
+              "lap": 23,
+              "position": 6
+            },
+            {
+              "lap": 24,
+              "position": 7
+            },
+            {
+              "lap": 25,
+              "position": 7
+            },
+            {
+              "lap": 26,
+              "position": 6
+            },
+            {
+              "lap": 27,
+              "position": 6
+            },
+            {
+              "lap": 28,
+              "position": 6
+            },
+            {
+              "lap": 29,
+              "position": 5
+            },
+            {
+              "lap": 30,
+              "position": 5
+            },
+            {
+              "lap": 31,
+              "position": 5
+            },
+            {
+              "lap": 32,
+              "position": 5
+            },
+            {
+              "lap": 33,
+              "position": 5
+            },
+            {
+              "lap": 34,
+              "position": 5
+            },
+            {
+              "lap": 35,
+              "position": 4
+            },
+            {
+              "lap": 36,
+              "position": 4
+            },
+            {
+              "lap": 37,
+              "position": 4
+            },
+            {
+              "lap": 38,
+              "position": 4
+            },
+            {
+              "lap": 39,
+              "position": 4
+            },
+            {
+              "lap": 40,
+              "position": 4
+            },
+            {
+              "lap": 43,
+              "position": 4
+            },
+            {
+              "lap": 44,
+              "position": 4
+            },
+            {
+              "lap": 45,
+              "position": 4
+            },
+            {
+              "lap": 46,
+              "position": 4
+            },
+            {
+              "lap": 47,
+              "position": 4
+            },
+            {
+              "lap": 48,
+              "position": 4
+            },
+            {
+              "lap": 49,
+              "position": 4
+            },
+            {
+              "lap": 50,
+              "position": 4
+            },
+            {
+              "lap": 51,
+              "position": 4
+            },
+            {
+              "lap": 52,
+              "position": 4
+            }
+          ]
+        },
+        {
+          "driver": "VER",
+          "team": "Red Bull Racing",
+          "finalPosition": 5,
+          "gridPosition": 1,
+          "color": "#4781D7",
+          "positions": [
+            {
+              "lap": 8,
+              "position": 2
+            },
+            {
+              "lap": 9,
+              "position": 2
+            },
+            {
+              "lap": 10,
+              "position": 2
+            },
+            {
+              "lap": 13,
+              "position": 2
+            },
+            {
+              "lap": 22,
+              "position": 10
+            },
+            {
+              "lap": 23,
+              "position": 10
+            },
+            {
+              "lap": 24,
+              "position": 10
+            },
+            {
+              "lap": 25,
+              "position": 10
+            },
+            {
+              "lap": 26,
+              "position": 10
+            },
+            {
+              "lap": 27,
+              "position": 10
+            },
+            {
+              "lap": 28,
+              "position": 10
+            },
+            {
+              "lap": 29,
+              "position": 10
+            },
+            {
+              "lap": 30,
+              "position": 10
+            },
+            {
+              "lap": 31,
+              "position": 10
+            },
+            {
+              "lap": 32,
+              "position": 10
+            },
+            {
+              "lap": 33,
+              "position": 10
+            },
+            {
+              "lap": 34,
+              "position": 9
+            },
+            {
+              "lap": 35,
+              "position": 9
+            },
+            {
+              "lap": 36,
+              "position": 9
+            },
+            {
+              "lap": 37,
+              "position": 9
+            },
+            {
+              "lap": 38,
+              "position": 8
+            },
+            {
+              "lap": 39,
+              "position": 7
+            },
+            {
+              "lap": 40,
+              "position": 7
+            },
+            {
+              "lap": 43,
+              "position": 6
+            },
+            {
+              "lap": 44,
+              "position": 6
+            },
+            {
+              "lap": 45,
+              "position": 6
+            },
+            {
+              "lap": 46,
+              "position": 6
+            },
+            {
+              "lap": 47,
+              "position": 6
+            },
+            {
+              "lap": 48,
+              "position": 6
+            },
+            {
+              "lap": 49,
+              "position": 6
+            },
+            {
+              "lap": 50,
+              "position": 6
+            },
+            {
+              "lap": 51,
+              "position": 5
+            },
+            {
+              "lap": 52,
+              "position": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
       "raceKey": "2026-australia",
       "raceLabel": "2026 Australia",
       "year": 2026,
@@ -22502,6 +23427,1083 @@ window.ALPHA_RELEASE_DATA = {
           ]
         }
       ]
+    },
+    {
+      "raceKey": "2026-great britain",
+      "raceLabel": "2026 Great Britain",
+      "year": 2026,
+      "circuit": "Great Britain",
+      "eventName": "British Grand Prix",
+      "totalLaps": 52,
+      "metrics": {
+        "medianBestLapSec": 93.649,
+        "fastestLapSec": 91.777,
+        "medianSpeedTrap": 330.5,
+        "positionChangeProxy": 172.0,
+        "neutralizedLapCount": 17,
+        "dnfCount": 2
+      },
+      "statusTimeline": [
+        {
+          "lap": 1,
+          "state": "Yellow"
+        },
+        {
+          "lap": 2,
+          "state": "Yellow"
+        },
+        {
+          "lap": 3,
+          "state": "Green"
+        },
+        {
+          "lap": 4,
+          "state": "Green"
+        },
+        {
+          "lap": 5,
+          "state": "Green"
+        },
+        {
+          "lap": 6,
+          "state": "Green"
+        },
+        {
+          "lap": 7,
+          "state": "Green"
+        },
+        {
+          "lap": 8,
+          "state": "Green"
+        },
+        {
+          "lap": 9,
+          "state": "Green"
+        },
+        {
+          "lap": 10,
+          "state": "Green"
+        },
+        {
+          "lap": 11,
+          "state": "Green"
+        },
+        {
+          "lap": 12,
+          "state": "Green"
+        },
+        {
+          "lap": 13,
+          "state": "Green"
+        },
+        {
+          "lap": 14,
+          "state": "Green"
+        },
+        {
+          "lap": 15,
+          "state": "Green"
+        },
+        {
+          "lap": 16,
+          "state": "Green"
+        },
+        {
+          "lap": 17,
+          "state": "Green"
+        },
+        {
+          "lap": 18,
+          "state": "Green"
+        },
+        {
+          "lap": 19,
+          "state": "Green"
+        },
+        {
+          "lap": 20,
+          "state": "VSC"
+        },
+        {
+          "lap": 21,
+          "state": "VSC"
+        },
+        {
+          "lap": 22,
+          "state": "VSC"
+        },
+        {
+          "lap": 23,
+          "state": "Green"
+        },
+        {
+          "lap": 24,
+          "state": "Green"
+        },
+        {
+          "lap": 25,
+          "state": "Green"
+        },
+        {
+          "lap": 26,
+          "state": "Green"
+        },
+        {
+          "lap": 27,
+          "state": "Green"
+        },
+        {
+          "lap": 28,
+          "state": "Green"
+        },
+        {
+          "lap": 29,
+          "state": "Green"
+        },
+        {
+          "lap": 30,
+          "state": "Green"
+        },
+        {
+          "lap": 31,
+          "state": "Green"
+        },
+        {
+          "lap": 32,
+          "state": "Green"
+        },
+        {
+          "lap": 33,
+          "state": "Green"
+        },
+        {
+          "lap": 34,
+          "state": "Green"
+        },
+        {
+          "lap": 35,
+          "state": "Green"
+        },
+        {
+          "lap": 36,
+          "state": "VSC"
+        },
+        {
+          "lap": 37,
+          "state": "VSC"
+        },
+        {
+          "lap": 38,
+          "state": "VSC"
+        },
+        {
+          "lap": 39,
+          "state": "VSC"
+        },
+        {
+          "lap": 40,
+          "state": "Green"
+        },
+        {
+          "lap": 41,
+          "state": "Green"
+        },
+        {
+          "lap": 42,
+          "state": "Green"
+        },
+        {
+          "lap": 43,
+          "state": "Green"
+        },
+        {
+          "lap": 44,
+          "state": "Green"
+        },
+        {
+          "lap": 45,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 46,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 47,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 48,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 49,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 50,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 51,
+          "state": "Safety Car"
+        },
+        {
+          "lap": 52,
+          "state": "Safety Car"
+        }
+      ],
+      "topFinishers": [
+        {
+          "driver": "LEC",
+          "team": "Ferrari",
+          "finalPosition": 1,
+          "gridPosition": 2,
+          "color": "#ED1131",
+          "positions": [
+            {
+              "lap": 2,
+              "position": 1
+            },
+            {
+              "lap": 3,
+              "position": 1
+            },
+            {
+              "lap": 4,
+              "position": 1
+            },
+            {
+              "lap": 5,
+              "position": 1
+            },
+            {
+              "lap": 6,
+              "position": 1
+            },
+            {
+              "lap": 7,
+              "position": 1
+            },
+            {
+              "lap": 8,
+              "position": 1
+            },
+            {
+              "lap": 9,
+              "position": 1
+            },
+            {
+              "lap": 10,
+              "position": 1
+            },
+            {
+              "lap": 11,
+              "position": 1
+            },
+            {
+              "lap": 12,
+              "position": 1
+            },
+            {
+              "lap": 13,
+              "position": 1
+            },
+            {
+              "lap": 14,
+              "position": 1
+            },
+            {
+              "lap": 15,
+              "position": 1
+            },
+            {
+              "lap": 16,
+              "position": 1
+            },
+            {
+              "lap": 17,
+              "position": 1
+            },
+            {
+              "lap": 18,
+              "position": 1
+            },
+            {
+              "lap": 19,
+              "position": 1
+            },
+            {
+              "lap": 20,
+              "position": 1
+            },
+            {
+              "lap": 21,
+              "position": 1
+            },
+            {
+              "lap": 23,
+              "position": 1
+            },
+            {
+              "lap": 24,
+              "position": 1
+            },
+            {
+              "lap": 27,
+              "position": 2
+            },
+            {
+              "lap": 28,
+              "position": 2
+            },
+            {
+              "lap": 29,
+              "position": 2
+            },
+            {
+              "lap": 30,
+              "position": 2
+            },
+            {
+              "lap": 31,
+              "position": 2
+            },
+            {
+              "lap": 32,
+              "position": 2
+            },
+            {
+              "lap": 33,
+              "position": 2
+            },
+            {
+              "lap": 34,
+              "position": 2
+            },
+            {
+              "lap": 35,
+              "position": 2
+            },
+            {
+              "lap": 36,
+              "position": 1
+            },
+            {
+              "lap": 37,
+              "position": 1
+            },
+            {
+              "lap": 38,
+              "position": 1
+            },
+            {
+              "lap": 40,
+              "position": 1
+            },
+            {
+              "lap": 41,
+              "position": 1
+            },
+            {
+              "lap": 42,
+              "position": 1
+            },
+            {
+              "lap": 43,
+              "position": 1
+            },
+            {
+              "lap": 44,
+              "position": 1
+            },
+            {
+              "lap": 45,
+              "position": 1
+            },
+            {
+              "lap": 46,
+              "position": 1
+            },
+            {
+              "lap": 47,
+              "position": 1
+            }
+          ]
+        },
+        {
+          "driver": "RUS",
+          "team": "Mercedes",
+          "finalPosition": 2,
+          "gridPosition": 4,
+          "color": "#00D7B6",
+          "positions": [
+            {
+              "lap": 2,
+              "position": 4
+            },
+            {
+              "lap": 3,
+              "position": 4
+            },
+            {
+              "lap": 4,
+              "position": 4
+            },
+            {
+              "lap": 5,
+              "position": 4
+            },
+            {
+              "lap": 6,
+              "position": 4
+            },
+            {
+              "lap": 7,
+              "position": 4
+            },
+            {
+              "lap": 8,
+              "position": 4
+            },
+            {
+              "lap": 9,
+              "position": 4
+            },
+            {
+              "lap": 10,
+              "position": 4
+            },
+            {
+              "lap": 11,
+              "position": 4
+            },
+            {
+              "lap": 12,
+              "position": 4
+            },
+            {
+              "lap": 13,
+              "position": 4
+            },
+            {
+              "lap": 14,
+              "position": 4
+            },
+            {
+              "lap": 15,
+              "position": 4
+            },
+            {
+              "lap": 16,
+              "position": 4
+            },
+            {
+              "lap": 17,
+              "position": 5
+            },
+            {
+              "lap": 18,
+              "position": 4
+            },
+            {
+              "lap": 19,
+              "position": 4
+            },
+            {
+              "lap": 20,
+              "position": 4
+            },
+            {
+              "lap": 21,
+              "position": 4
+            },
+            {
+              "lap": 25,
+              "position": 5
+            },
+            {
+              "lap": 26,
+              "position": 5
+            },
+            {
+              "lap": 27,
+              "position": 5
+            },
+            {
+              "lap": 28,
+              "position": 5
+            },
+            {
+              "lap": 29,
+              "position": 4
+            },
+            {
+              "lap": 30,
+              "position": 4
+            },
+            {
+              "lap": 31,
+              "position": 4
+            },
+            {
+              "lap": 32,
+              "position": 4
+            },
+            {
+              "lap": 33,
+              "position": 4
+            },
+            {
+              "lap": 36,
+              "position": 6
+            },
+            {
+              "lap": 37,
+              "position": 6
+            },
+            {
+              "lap": 40,
+              "position": 5
+            },
+            {
+              "lap": 41,
+              "position": 5
+            },
+            {
+              "lap": 42,
+              "position": 4
+            },
+            {
+              "lap": 43,
+              "position": 4
+            },
+            {
+              "lap": 44,
+              "position": 4
+            },
+            {
+              "lap": 45,
+              "position": 4
+            },
+            {
+              "lap": 46,
+              "position": 4
+            },
+            {
+              "lap": 47,
+              "position": 3
+            }
+          ]
+        },
+        {
+          "driver": "HAM",
+          "team": "Ferrari",
+          "finalPosition": 3,
+          "gridPosition": 3,
+          "color": "#ED1131",
+          "positions": [
+            {
+              "lap": 2,
+              "position": 2
+            },
+            {
+              "lap": 3,
+              "position": 2
+            },
+            {
+              "lap": 4,
+              "position": 2
+            },
+            {
+              "lap": 5,
+              "position": 2
+            },
+            {
+              "lap": 6,
+              "position": 2
+            },
+            {
+              "lap": 7,
+              "position": 2
+            },
+            {
+              "lap": 8,
+              "position": 2
+            },
+            {
+              "lap": 9,
+              "position": 2
+            },
+            {
+              "lap": 10,
+              "position": 2
+            },
+            {
+              "lap": 11,
+              "position": 3
+            },
+            {
+              "lap": 12,
+              "position": 3
+            },
+            {
+              "lap": 13,
+              "position": 3
+            },
+            {
+              "lap": 14,
+              "position": 3
+            },
+            {
+              "lap": 15,
+              "position": 3
+            },
+            {
+              "lap": 16,
+              "position": 3
+            },
+            {
+              "lap": 17,
+              "position": 3
+            },
+            {
+              "lap": 18,
+              "position": 3
+            },
+            {
+              "lap": 19,
+              "position": 3
+            },
+            {
+              "lap": 20,
+              "position": 3
+            },
+            {
+              "lap": 21,
+              "position": 3
+            },
+            {
+              "lap": 25,
+              "position": 6
+            },
+            {
+              "lap": 26,
+              "position": 6
+            },
+            {
+              "lap": 27,
+              "position": 6
+            },
+            {
+              "lap": 28,
+              "position": 6
+            },
+            {
+              "lap": 29,
+              "position": 5
+            },
+            {
+              "lap": 30,
+              "position": 5
+            },
+            {
+              "lap": 31,
+              "position": 5
+            },
+            {
+              "lap": 32,
+              "position": 5
+            },
+            {
+              "lap": 33,
+              "position": 5
+            },
+            {
+              "lap": 34,
+              "position": 5
+            },
+            {
+              "lap": 35,
+              "position": 4
+            },
+            {
+              "lap": 36,
+              "position": 4
+            },
+            {
+              "lap": 37,
+              "position": 4
+            },
+            {
+              "lap": 40,
+              "position": 3
+            },
+            {
+              "lap": 41,
+              "position": 3
+            },
+            {
+              "lap": 42,
+              "position": 2
+            },
+            {
+              "lap": 43,
+              "position": 2
+            },
+            {
+              "lap": 44,
+              "position": 2
+            },
+            {
+              "lap": 45,
+              "position": 2
+            },
+            {
+              "lap": 46,
+              "position": 2
+            },
+            {
+              "lap": 47,
+              "position": 2
+            }
+          ]
+        },
+        {
+          "driver": "NOR",
+          "team": "McLaren",
+          "finalPosition": 4,
+          "gridPosition": 6,
+          "color": "#F47600",
+          "positions": [
+            {
+              "lap": 2,
+              "position": 7
+            },
+            {
+              "lap": 3,
+              "position": 7
+            },
+            {
+              "lap": 4,
+              "position": 7
+            },
+            {
+              "lap": 5,
+              "position": 7
+            },
+            {
+              "lap": 6,
+              "position": 7
+            },
+            {
+              "lap": 7,
+              "position": 7
+            },
+            {
+              "lap": 8,
+              "position": 7
+            },
+            {
+              "lap": 9,
+              "position": 7
+            },
+            {
+              "lap": 10,
+              "position": 7
+            },
+            {
+              "lap": 11,
+              "position": 7
+            },
+            {
+              "lap": 12,
+              "position": 7
+            },
+            {
+              "lap": 13,
+              "position": 7
+            },
+            {
+              "lap": 14,
+              "position": 7
+            },
+            {
+              "lap": 15,
+              "position": 7
+            },
+            {
+              "lap": 16,
+              "position": 7
+            },
+            {
+              "lap": 17,
+              "position": 7
+            },
+            {
+              "lap": 18,
+              "position": 6
+            },
+            {
+              "lap": 19,
+              "position": 6
+            },
+            {
+              "lap": 20,
+              "position": 5
+            },
+            {
+              "lap": 21,
+              "position": 5
+            },
+            {
+              "lap": 23,
+              "position": 5
+            },
+            {
+              "lap": 24,
+              "position": 3
+            },
+            {
+              "lap": 25,
+              "position": 3
+            },
+            {
+              "lap": 26,
+              "position": 3
+            },
+            {
+              "lap": 27,
+              "position": 3
+            },
+            {
+              "lap": 30,
+              "position": 6
+            },
+            {
+              "lap": 31,
+              "position": 6
+            },
+            {
+              "lap": 32,
+              "position": 6
+            },
+            {
+              "lap": 33,
+              "position": 6
+            },
+            {
+              "lap": 34,
+              "position": 6
+            },
+            {
+              "lap": 35,
+              "position": 5
+            },
+            {
+              "lap": 36,
+              "position": 5
+            },
+            {
+              "lap": 37,
+              "position": 5
+            },
+            {
+              "lap": 40,
+              "position": 6
+            },
+            {
+              "lap": 41,
+              "position": 6
+            },
+            {
+              "lap": 42,
+              "position": 5
+            },
+            {
+              "lap": 43,
+              "position": 5
+            },
+            {
+              "lap": 44,
+              "position": 5
+            },
+            {
+              "lap": 45,
+              "position": 5
+            },
+            {
+              "lap": 46,
+              "position": 5
+            }
+          ]
+        },
+        {
+          "driver": "HAD",
+          "team": "Red Bull Racing",
+          "finalPosition": 5,
+          "gridPosition": 5,
+          "color": "#4781D7",
+          "positions": [
+            {
+              "lap": 2,
+              "position": 5
+            },
+            {
+              "lap": 3,
+              "position": 6
+            },
+            {
+              "lap": 4,
+              "position": 6
+            },
+            {
+              "lap": 5,
+              "position": 6
+            },
+            {
+              "lap": 6,
+              "position": 6
+            },
+            {
+              "lap": 7,
+              "position": 6
+            },
+            {
+              "lap": 8,
+              "position": 6
+            },
+            {
+              "lap": 9,
+              "position": 6
+            },
+            {
+              "lap": 10,
+              "position": 6
+            },
+            {
+              "lap": 11,
+              "position": 6
+            },
+            {
+              "lap": 12,
+              "position": 6
+            },
+            {
+              "lap": 13,
+              "position": 6
+            },
+            {
+              "lap": 14,
+              "position": 6
+            },
+            {
+              "lap": 15,
+              "position": 6
+            },
+            {
+              "lap": 16,
+              "position": 6
+            },
+            {
+              "lap": 17,
+              "position": 6
+            },
+            {
+              "lap": 18,
+              "position": 5
+            },
+            {
+              "lap": 23,
+              "position": 8
+            },
+            {
+              "lap": 24,
+              "position": 8
+            },
+            {
+              "lap": 25,
+              "position": 7
+            },
+            {
+              "lap": 26,
+              "position": 7
+            },
+            {
+              "lap": 27,
+              "position": 7
+            },
+            {
+              "lap": 28,
+              "position": 7
+            },
+            {
+              "lap": 29,
+              "position": 6
+            },
+            {
+              "lap": 30,
+              "position": 7
+            },
+            {
+              "lap": 31,
+              "position": 7
+            },
+            {
+              "lap": 32,
+              "position": 7
+            },
+            {
+              "lap": 33,
+              "position": 7
+            },
+            {
+              "lap": 34,
+              "position": 7
+            },
+            {
+              "lap": 35,
+              "position": 6
+            },
+            {
+              "lap": 36,
+              "position": 7
+            },
+            {
+              "lap": 37,
+              "position": 7
+            },
+            {
+              "lap": 40,
+              "position": 7
+            },
+            {
+              "lap": 41,
+              "position": 7
+            },
+            {
+              "lap": 42,
+              "position": 7
+            },
+            {
+              "lap": 43,
+              "position": 6
+            },
+            {
+              "lap": 44,
+              "position": 6
+            },
+            {
+              "lap": 45,
+              "position": 6
+            },
+            {
+              "lap": 46,
+              "position": 6
+            }
+          ]
+        }
+      ]
     }
   ],
   "scorecard": [
@@ -22888,6 +24890,54 @@ window.ALPHA_RELEASE_DATA = {
       "season2025": 4,
       "season2026": 4,
       "delta": 0
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "medianBestLapSec",
+      "metricLabel": "Median best lap (s)",
+      "season2025": 90.818,
+      "season2026": 93.649,
+      "delta": 2.831
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "fastestLapSec",
+      "metricLabel": "Fastest lap (s)",
+      "season2025": 89.337,
+      "season2026": 91.777,
+      "delta": 2.44
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "medianSpeedTrap",
+      "metricLabel": "Median speed trap (km/h)",
+      "season2025": 323.0,
+      "season2026": 330.5,
+      "delta": 7.5
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "positionChangeProxy",
+      "metricLabel": "Position-change proxy",
+      "season2025": 156.0,
+      "season2026": 172.0,
+      "delta": 16.0
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "neutralizedLapCount",
+      "metricLabel": "Neutralized laps",
+      "season2025": 22,
+      "season2026": 17,
+      "delta": -5
+    },
+    {
+      "circuit": "Great Britain",
+      "metricKey": "dnfCount",
+      "metricLabel": "DNFs",
+      "season2025": 5,
+      "season2026": 2,
+      "delta": -3
     }
   ]
 };
