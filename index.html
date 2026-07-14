@@ -1,413 +1,398 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>From DRS to Mario Mushrooms</title>
-    <meta name="description" content="A cinematic comparison of Formula 1's opening races in 2025 and 2026 — pace, position, disruption, and scorecard.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Regulation Delta — The Ghost Lap</title>
+    <meta name="description" content="A scroll-driven, matched-circuit comparison of Formula 1 race data from 2025 and 2026.">
+    <meta name="theme-color" content="#080a08">
     <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/site.css?v=cinematic-2">
-    <link rel="preload" href="assets/images/cinematic/hero-car-layer.svg" as="image">
-    <link rel="preload" href="assets/images/cinematic/f1-silhouette-red.svg" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/ghost-lap.css?v=1">
+    <link rel="preload" href="assets/images/footer-f1-landscape.png" as="image">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-    <script src="js/alpha-release-data.js?v=great-britain-2026"></script>
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
-        }
-    }
-    </script>
+    <script src="js/alpha-release-data.js?v=ghost-lap-1"></script>
 </head>
-<body data-active-theme="hero">
-    <canvas id="webgl-bg" aria-hidden="true"></canvas>
-    <div class="color-atmosphere" aria-hidden="true"></div>
-    <div class="grain-overlay" aria-hidden="true"></div>
+<body>
+    <a class="skip-link" href="#grid">Skip to the evidence</a>
 
-    <div class="scroll-progress" aria-hidden="true">
-        <span class="scroll-progress-bar"></span>
-    </div>
-
-    <header class="site-nav-fixed">
-        <div class="nav-inner">
-            <a class="nav-brand" href="#hero">
-                <span class="nav-brand-mark">F1</span>
-                <span class="nav-brand-text">2025 vs 2026</span>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="#start" aria-label="Regulation Delta, back to the start">
+                <strong>Regulation Delta</strong>
+                <span>2025 / 2026</span>
             </a>
-            <nav class="site-nav" aria-label="Primary">
-                <a href="#overview"><span>Overview</span></a>
-                <a href="#pace"><span>Pace</span></a>
-                <a href="#position"><span>Position</span></a>
-                <a href="#chaos"><span>Chaos</span></a>
-                <a href="#disruption"><span>Disruption</span></a>
-                <a href="#scorecard"><span>Scorecard</span></a>
-                <a href="#methodology"><span>Method</span></a>
+            <nav class="topnav" aria-label="Story sectors">
+                <a href="#grid">Grid</a>
+                <a href="#pace">Pace</a>
+                <a href="#position">Racing</a>
+                <a href="#control">Control</a>
+                <a href="#scorecard">Scorecard</a>
+                <a href="#verdict">Finish</a>
             </nav>
-            <a class="magnetic nav-cta" href="#overview">Explore</a>
+            <div class="lap-readout" aria-label="Story progress">
+                <span>Ghost lap</span>
+                <b data-lap-progress data-lap-progress-template="{progress}" role="progressbar" aria-label="Story progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">00%</b>
+            </div>
         </div>
     </header>
 
-    <main class="story">
-        <section id="hero" class="chapter chapter-hero" data-chapter="hero" data-theme="hero">
-            <div class="hero-bg-layer" aria-hidden="true">
-                <img src="assets/images/hero-f1-background.png" alt="" width="1920" height="1080" decoding="async" fetchpriority="high">
+    <main id="main-content" class="story">
+        <svg id="story-course" aria-hidden="true" focusable="false">
+            <path id="course-curb"></path>
+            <path id="course-base"></path>
+            <path id="course-progress"></path>
+            <image id="course-car" href="assets/images/cinematic/f1-silhouette-red.svg" x="-48" y="-17" width="96" height="34" data-heading-offset="0"></image>
+        </svg>
+
+        <section id="start" class="sector hero" data-track-anchor="left" data-track-y="bottom">
+            <div class="hero-media" aria-hidden="true">
+                <img src="assets/images/footer-f1-landscape.png" alt="" width="1920" height="960" fetchpriority="high" decoding="async">
             </div>
-            <div class="chapter-inner hero-inner">
-                <div class="hero-meta">
-                    <p class="hero-author">Alejandro Gonzalez</p>
-                    <p class="hero-season">Formula 1 race data · 2025 vs 2026</p>
+            <div class="sector-inner">
+                <div class="hero-copy">
+                    <p class="hero-context"><span data-summary="circuitCount">9</span> matched Grands Prix · FastF1 race timing · observational comparison</p>
+                    <h1>
+                        <span>New cars.</span>
+                        <span>Same circuits.</span>
+                        <span class="season-question">Better racing?</span>
+                    </h1>
+                    <p class="hero-lede">
+                        Follow a 2025 ghost through the clock, speed trap, running order and race control. At the line, we separate what changed from what this sample can actually blame on the 2026 rules.
+                    </p>
+                </div>
+                <div class="hero-bottom">
+                    <dl class="hero-facts" aria-label="Analysis scope">
+                        <div>
+                            <dt>Circuits</dt>
+                            <dd data-summary="circuitCount">9</dd>
+                        </div>
+                        <div>
+                            <dt>Races</dt>
+                            <dd data-summary="raceCount">18</dd>
+                        </div>
+                        <div>
+                            <dt>Seasons</dt>
+                            <dd>2</dd>
+                        </div>
+                    </dl>
+                    <a class="primary-action" href="#grid">Take the evidence lap <span aria-hidden="true">↓</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="grid" class="sector chapter" data-track-anchor="right">
+            <div class="sector-inner chapter-layout">
+                <div class="chapter-intro">
+                    <p class="sector-code">STARTING GRID / THE TEST</p>
+                    <h2>Three questions. One fairer matchup.</h2>
+                    <p>
+                        Same circuits, one year apart. That controls for track layout—not weather, tires, teams, strategy or incidents—so the result is a pattern, not a laboratory verdict.
+                    </p>
+                    <div class="finding">
+                        <strong data-summary="circuitCount">9</strong>
+                        <span>matched circuit pairs in this release</span>
+                    </div>
                 </div>
 
-                <div class="hero-content">
-                    <div class="hero-visual" aria-hidden="true">
-                        <div class="hero-car-layer">
-                            <img src="assets/images/cinematic/hero-car-layer.svg" alt="" width="1400" height="500" decoding="async" fetchpriority="high">
-                        </div>
-                        <div class="hero-speed-lines">
-                            <img src="assets/images/cinematic/motion-streaks.svg" alt="" width="1920" height="400" decoding="async">
-                        </div>
+                <div class="evidence-board">
+                    <div class="board-head">
+                        <h3>Pre-race inspection</h3>
+                        <p>Every claim on this lap is generated from the loaded race bundle.</p>
                     </div>
-                    <div class="hero-copy">
-                        <h1 class="hero-title">From DRS to Mario Mushrooms</h1>
-                        <p class="hero-lede">
-                            A cinematic visual story of how Formula 1's opening races changed from 2025 to 2026 — pace,
-                            running order, disruption, and the final scorecard.
+                    <div class="chart-stage">
+                        <table class="scorecard" aria-label="Questions used to compare the seasons">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sector</th>
+                                    <th scope="col">Question</th>
+                                    <th scope="col">Measure</th>
+                                    <th scope="col">What it cannot prove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Clock</th>
+                                    <td>Did the cars get faster?</td>
+                                    <td>Driver-best green laps + speed trap</td>
+                                    <td>Pure regulation effect</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Racing</th>
+                                    <td>Did the order move more?</td>
+                                    <td>Position slots / 100 driver-laps</td>
+                                    <td>Clean overtakes</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Control</th>
+                                    <td>Were races more disrupted?</td>
+                                    <td>Yellow, VSC, SC and red-flag laps</td>
+                                    <td>Why each incident happened</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="chart-note">Matched circuits: <span data-summary="circuits">Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria and Great Britain</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sector midpoint" data-track-anchor="left" aria-label="Entering the pace sector">
+            <div class="midpoint-copy">
+                <img class="midpoint-car" src="assets/images/arcade-f1-car.png" alt="" width="960" height="540" loading="lazy" decoding="async">
+                <div>
+                    <h2>Sector one: the clock.</h2>
+                    <p>The first split is the clearest. On matched tracks, 2026 pace usually moved in one direction.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pace" class="sector chapter" data-track-anchor="right">
+            <div class="sector-inner chapter-layout">
+                <div class="chapter-intro">
+                    <p class="sector-code">SECTOR 01 / PACE</p>
+                    <h2>Mostly slower. Not universally.</h2>
+                    <p>
+                        Median driver-best green-flag pace slowed at <span data-summary="paceSlowerCircuits">8</span> of <span data-summary="circuitCount">9</span> circuits. Australia is the exception; speed-trap change is more mixed.
+                    </p>
+                    <div class="finding">
+                        <strong><span data-summary="paceMeanDeltaSec">+1.742</span>s</strong>
+                        <span>mean paired change in median driver-best lap</span>
+                    </div>
+                </div>
+
+                <div class="evidence-board">
+                    <div class="board-head">
+                        <h3>Ghost-lap delta</h3>
+                        <p>Each line joins the 2025 mark to 2026 at the same circuit. Hover, focus or tap a mark for the exact split.</p>
+                    </div>
+                    <div class="season-key" aria-label="Season key">
+                        <span><i class="season-swatch s2025" aria-hidden="true"></i> 2025 ghost</span>
+                        <span><i class="season-swatch s2026" aria-hidden="true"></i> 2026 car</span>
+                    </div>
+                    <div id="pace-metric-tabs" class="board-controls" role="group" aria-label="Pace metric">
+                        <button class="control-button" type="button" data-metric="medianBestLapSec" aria-pressed="true">Median driver-best lap</button>
+                        <button class="control-button" type="button" data-metric="fastestLapSec" aria-pressed="false">Fastest green lap</button>
+                        <button class="control-button" type="button" data-metric="medianSpeedTrap" aria-pressed="false">Speed-trap summary</button>
+                    </div>
+                    <div class="chart-stage">
+                        <svg id="pace-delta-chart" viewBox="0 0 860 500" role="img" aria-label="Paired 2025 and 2026 pace comparison by circuit"></svg>
+                    </div>
+                    <p id="pace-chart-note" class="chart-note">Lower lap time is faster; higher speed-trap value means more straight-line speed. Direction is not scored as good or bad.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="position" class="sector chapter" data-track-anchor="left">
+            <div class="sector-inner chapter-layout">
+                <div class="chapter-intro">
+                    <p class="sector-code">SECTOR 02 / RUNNING ORDER</p>
+                    <h2>The order usually moved less.</h2>
+                    <p>
+                        The normalized movement proxy fell at <span data-summary="movementLowerCircuits">8</span> of <span data-summary="circuitCount">9</span> circuits. Miami breaks the pattern. Use the scrubber to compare how each top five unfolded.
+                    </p>
+                    <div class="finding">
+                        <strong data-summary="movementMeanDeltaPer100">−5.11</strong>
+                        <span>mean position slots / 100 driver-laps versus 2025</span>
+                    </div>
+                    <div class="caveat-strip">
+                        Movement is not overtaking. Pit stops, retirements, recovery drives and race-control resets all move the running order. The chart follows each race's eventual top five.
+                    </div>
+                </div>
+
+                <div class="evidence-board">
+                    <div class="board-head">
+                        <h3>Paired running order</h3>
+                        <p>Position 1 is at the top. Driver colors are local to each race and never encode season.</p>
+                    </div>
+                    <div id="circuit-selector" class="board-controls" role="group" aria-label="Choose a circuit"></div>
+                    <div class="scrubber-row">
+                        <label for="position-lap-scrubber">Reveal the race lap by lap</label>
+                        <input id="position-lap-scrubber" type="range" min="1" max="70" value="70" step="1">
+                        <output id="position-lap-output" for="position-lap-scrubber">Full race</output>
+                    </div>
+                    <div class="position-grid">
+                        <section class="position-panel" aria-labelledby="position-title-2025">
+                            <h4 id="position-title-2025">2025 ghost</h4>
+                            <svg id="position-2025" viewBox="0 0 440 340" role="img" aria-label="2025 lap-by-lap top-five running order"></svg>
+                        </section>
+                        <section class="position-panel" aria-labelledby="position-title-2026">
+                            <h4 id="position-title-2026">2026 car</h4>
+                            <svg id="position-2026" viewBox="0 0 440 340" role="img" aria-label="2026 lap-by-lap top-five running order"></svg>
+                        </section>
+                    </div>
+                    <div class="board-head">
+                        <h3>Movement rate</h3>
+                        <p>Absolute position-slot changes normalized per 100 consecutive observed driver-lap transitions.</p>
+                    </div>
+                    <div class="chart-stage">
+                        <svg id="movement-chart" viewBox="0 0 860 460" role="img" aria-label="Normalized running-order movement by circuit and season"></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sector midpoint" data-track-anchor="right" aria-label="Entering the race control sector">
+            <div class="midpoint-copy">
+                <img class="midpoint-car" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" width="1200" height="340" loading="lazy" decoding="async">
+                <div>
+                    <h2>Yellow changes the lap.</h2>
+                    <p>A local yellow is not a Safety Car. Splitting them changes the story—and keeps the comparison honest.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="control" class="sector chapter" data-track-anchor="left">
+            <div class="sector-inner chapter-layout">
+                <div class="chapter-intro">
+                    <p class="sector-code">SECTOR 03 / RACE CONTROL</p>
+                    <h2>Caution rose slightly. Full neutralization fell.</h2>
+                    <p>
+                        Caution-affected laps rose from <span data-summary="cautionLaps2025">76</span> to <span data-summary="cautionLaps2026">77</span>. Count only VSC, Safety Car and red flags, and the change reverses: <span data-summary="neutralizedLaps2025">56</span> to <span data-summary="neutralizedLaps2026">55</span>.
+                    </p>
+                    <div class="finding">
+                        <strong><span data-summary="neutralizedDelta">−1</span> lap</strong>
+                        <span>full-neutralization change across matched races</span>
+                    </div>
+                </div>
+
+                <div class="evidence-board">
+                    <div class="board-head">
+                        <h3>Marshal-light ribbon</h3>
+                        <p>Every block is a race lap. Filter the local yellows out to isolate VSC, Safety Car and red-flag periods.</p>
+                    </div>
+                    <div id="timeline-mode" class="board-controls" role="group" aria-label="Timeline display">
+                        <button class="control-button" type="button" data-timeline-mode="all" aria-pressed="true">All track states</button>
+                        <button class="control-button" type="button" data-timeline-mode="neutralized" aria-pressed="false">Full neutralization only</button>
+                    </div>
+                    <div class="chart-stage">
+                        <svg id="timeline-chart" viewBox="0 0 1040 560" role="img" aria-label="Track-status timeline for every compared race"></svg>
+                    </div>
+                    <p id="timeline-summary" class="timeline-summary">Local yellow-only laps remain visible in the all-states view but are excluded from the full-neutralization count.</p>
+                    <details class="timeline-data">
+                        <summary>Open the lap-by-lap status table</summary>
+                        <div id="timeline-lap-table" class="timeline-table-wrap" aria-live="polite"></div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="scorecard" class="sector chapter scorecard-section" data-track-anchor="right">
+            <div class="sector-inner chapter-layout">
+                <div class="chapter-intro">
+                    <p class="sector-code">FINAL STRAIGHT / SCORECARD</p>
+                    <h2>Every circuit left a different fingerprint.</h2>
+                    <p>
+                        The complete comparison keeps direction neutral: an increase is not automatically an improvement, and a decrease is not automatically a failure.
+                    </p>
+                </div>
+                <div id="scorecard-table" class="scorecard-wrap" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section id="verdict" class="sector verdict" data-track-anchor="left">
+            <div class="sector-inner verdict-grid">
+                <div class="verdict-copy">
+                    <p class="sector-code">CHECKERED FLAG / VERDICT</p>
+                    <h2>
+                        <span>Different?</span>
+                        <span>Yes.</span>
+                        <span>Rules did it?</span>
+                        <span>Not proven.</span>
+                    </h2>
+                    <p>
+                        In this matched sample, 2026 was usually slower and the running order usually moved less. Any-caution laps rose slightly, while fully neutralized laps fell slightly. The era looks different. Calling the regulations the cause—or the racing better—would outrun the data.
+                    </p>
+                </div>
+                <dl class="verdict-board">
+                    <div class="verdict-row">
+                        <dt>Pace</dt>
+                        <dd><span data-summary="paceSlowerCircuits">8</span>/<span data-summary="circuitCount">9</span> circuits slower</dd>
+                    </div>
+                    <div class="verdict-row">
+                        <dt>Movement</dt>
+                        <dd><span data-summary="movementLowerCircuits">8</span>/<span data-summary="circuitCount">9</span> circuits lower</dd>
+                    </div>
+                    <div class="verdict-row">
+                        <dt>Control</dt>
+                        <dd><span data-summary="neutralizedLaps2026">55</span> laps in 2026 (<span data-summary="neutralizedDelta">−1</span>)</dd>
+                    </div>
+                    <div class="verdict-row">
+                        <dt>Claim</dt>
+                        <dd>Association, not causation</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <section id="method" class="sector method" data-track-anchor="right">
+            <div class="sector-inner method-grid">
+                <div>
+                    <p class="sector-code">PARC FERMÉ / METHOD</p>
+                    <h2>How the lap was timed.</h2>
+                </div>
+                <div class="method-list">
+                    <details open>
+                        <summary>Sample and provenance</summary>
+                        <p>
+                            Race-session data comes from FastF1 <span data-summary="fastf1Version">3.8.1</span>. The current bundle contains <span data-summary="raceCount">18</span> races at <span data-summary="circuitCount">9</span> matched circuits through <span data-summary="latestCircuit">Great Britain</span>, generated <span data-summary="generatedDate">for this release</span>. The official 2026 calendar is still in progress, so this is a snapshot rather than a whole-season verdict.
                         </p>
-                    </div>
-                </div>
-
-                <a class="scroll-cue magnetic" href="#overview">
-                    <span>Scroll to begin</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 14L4 8h12z" fill="currentColor"/></svg>
-                </a>
-            </div>
-        </section>
-
-        <section id="overview" class="chapter chapter-content" data-chapter="overview" data-theme="overview">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">01</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Prologue</p>
-                        <h2 class="chapter-title">Race Comparison Overview</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        This project compares Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, and Great Britain across 2025 and 2026 using FastF1
-                        race data, with the emphasis on pace, top speed, running-order volatility, and race disruption.
-                    </p>
-                </div>
-                <div class="overview-stats content-card" data-parallax="0.06">
-                    <div class="stat-item">
-                        <span class="stat-value">7</span>
-                        <span class="stat-label">Circuits</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">2</span>
-                        <span class="stat-label">Seasons</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">16</span>
-                        <span class="stat-label">Races</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">6</span>
-                        <span class="stat-label">Metrics</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="cinematic-transition cinematic-transition-pace" data-theme="pace" data-vehicle="f1" data-variant="pace" aria-label="Transition into pace comparison">
-            <div class="cinematic-stage">
-                <div class="cinematic-layers" aria-hidden="true">
-                    <div class="layer layer-bg"></div>
-                    <div class="layer layer-track"></div>
-                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-vehicle-wrap">
-                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
-                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="layer layer-smoke"></div>
-                    <div class="layer layer-fx"></div>
-                    <div class="layer layer-wipe"></div>
-                </div>
-                <div class="cinematic-copy">
-                    <p class="cinematic-label">Lap 01</p>
-                    <h2 class="cinematic-title">First, compare raw pace.</h2>
-                    <p>Lap time and speed-trap numbers are the cleanest way to see whether a circuit got faster, slower, or simply different from one season to the next.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="pace" class="chapter chapter-content" data-chapter="pace" data-theme="pace">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">02</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Pace</p>
-                        <h2 class="chapter-title">Circuit Comparison Bars</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        These bars compare lap-time and straight-line speed measures by race. Lower lap times mean
-                        faster laps, while higher speed-trap values mean more speed at the end of a straight.
-                    </p>
-                </div>
-                <div id="pace-comparison" class="metric-panels"></div>
-            </div>
-        </section>
-
-        <section class="cinematic-transition cinematic-transition-kart" data-theme="position" data-vehicle="kart" data-variant="boost" aria-label="Transition into lap-by-lap position charts">
-            <div class="cinematic-stage">
-                <div class="cinematic-layers" aria-hidden="true">
-                    <div class="layer layer-bg"></div>
-                    <div class="layer layer-track"></div>
-                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-vehicle-wrap">
-                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
-                        <img class="layer-vehicle" src="assets/images/cinematic/kart-stylized.svg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="layer layer-smoke"></div>
-                    <div class="layer layer-fx"></div>
-                    <div class="layer layer-wipe"></div>
-                </div>
-                <div class="cinematic-copy">
-                    <p class="cinematic-label">Boost Pad</p>
-                    <h2 class="cinematic-title">Then watch the running order.</h2>
-                    <p>F1 race position is not just who is fastest. Pit stops, tire life, Safety Cars, and traffic can all reshuffle the order lap by lap.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="position" class="chapter chapter-content" data-chapter="position" data-theme="position">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">03</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Position</p>
-                        <h2 class="chapter-title">Lap-by-Lap Position Step Charts</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        Each line follows one leading driver through the race. Position 1 is first place, so lines
-                        near the top show drivers running closer to the lead.
-                    </p>
-                </div>
-                <div id="step-charts" class="step-grid"></div>
-            </div>
-        </section>
-
-        <section class="cinematic-transition cinematic-transition-overtake" data-theme="chaos" data-vehicle="f1" data-variant="overtake" aria-label="Transition into position-change proxy">
-            <div class="cinematic-stage">
-                <div class="cinematic-layers" aria-hidden="true">
-                    <div class="layer layer-bg"></div>
-                    <div class="layer layer-track"></div>
-                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-vehicle-wrap">
-                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
-                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="layer layer-smoke"><img src="assets/images/cinematic/tire-smoke.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-fx"></div>
-                    <div class="layer layer-wipe"></div>
-                </div>
-                <div class="cinematic-copy">
-                    <p class="cinematic-label">Overtake Zone</p>
-                    <h2 class="cinematic-title">Now summarize the chaos.</h2>
-                    <p>The proxy chart compresses movement into one score: higher values mean the race order changed more often, even if the cause was strategy instead of a clean pass.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="chaos" class="chapter chapter-content" data-chapter="chaos" data-theme="chaos">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">04</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Chaos</p>
-                        <h2 class="chapter-title">Position-Change Proxy</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        This compares how much the race order moved around at each circuit. Higher values suggest
-                        more passing, pit-stop reshuffling, incidents, or recovery drives.
-                    </p>
-                </div>
-                <div class="legend-row" id="position-proxy-legend"></div>
-                <div class="chart-shell content-card">
-                    <svg id="position-proxy-chart" viewBox="0 0 1080 420" aria-label="Position change proxy"></svg>
-                </div>
-            </div>
-        </section>
-
-        <section class="cinematic-transition cinematic-transition-caution" data-theme="disruption" data-vehicle="kart" data-variant="caution" aria-label="Transition into incident timeline">
-            <div class="cinematic-stage">
-                <div class="cinematic-layers" aria-hidden="true">
-                    <div class="layer layer-bg"></div>
-                    <div class="layer layer-track"></div>
-                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-vehicle-wrap">
-                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
-                        <img class="layer-vehicle" src="assets/images/cinematic/kart-stylized.svg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="layer layer-smoke"><img src="assets/images/cinematic/tire-smoke.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-fx"></div>
-                    <div class="layer layer-wipe"></div>
-                </div>
-                <div class="cinematic-copy">
-                    <p class="cinematic-label">Caution Lap</p>
-                    <h2 class="cinematic-title">Race control changes the story.</h2>
-                    <p>A Safety Car or red flag can erase gaps and reset strategy. The timeline shows where those neutralized laps happened.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="disruption" class="chapter chapter-content" data-chapter="disruption" data-theme="disruption">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">05</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Disruption</p>
-                        <h2 class="chapter-title">Incident and Neutralization Timeline</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        Each row is one race and each block is one lap. Green means normal racing; yellow, Safety
-                        Car, VSC, and red flag blocks mark caution or stoppage periods.
-                    </p>
-                </div>
-                <div class="legend-row" id="timeline-legend"></div>
-                <div class="chart-shell content-card">
-                    <svg id="timeline-chart" viewBox="0 0 1080 360" aria-label="Incident and neutralization timeline"></svg>
-                </div>
-            </div>
-        </section>
-
-        <section class="cinematic-transition cinematic-transition-finale" data-theme="scorecard" data-vehicle="f1" data-variant="finale" aria-label="Transition into final scorecard">
-            <div class="cinematic-stage">
-                <div class="cinematic-layers" aria-hidden="true">
-                    <div class="layer layer-bg"></div>
-                    <div class="layer layer-track"></div>
-                    <div class="layer layer-streaks"><img src="assets/images/cinematic/motion-streaks.svg" alt="" loading="lazy" decoding="async"></div>
-                    <div class="layer layer-vehicle-wrap">
-                        <img class="layer-shadow" src="assets/images/cinematic/f1-silhouette-shadow.svg" alt="" loading="lazy" decoding="async">
-                        <img class="layer-vehicle" src="assets/images/cinematic/f1-silhouette-red.svg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="layer layer-smoke"></div>
-                    <div class="layer layer-fx"></div>
-                    <div class="layer layer-wipe"></div>
-                </div>
-                <div class="cinematic-copy">
-                    <p class="cinematic-label">Final Lap</p>
-                    <h2 class="cinematic-title">Finish with the scorecard.</h2>
-                    <p>The last chart puts every circuit and metric in one grid so the 2025 to 2026 changes are easy to scan at presentation speed.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="scorecard" class="chapter chapter-content" data-chapter="scorecard" data-theme="scorecard">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">06</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Scorecard</p>
-                        <h2 class="chapter-title">Final Circuit Scorecard</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        Each cell compares 2026 with 2025 at the same circuit. The color shows whether the number
-                        increased or decreased; the text gives the exact 2025 to 2026 change.
-                    </p>
-                </div>
-                <div class="legend-row" id="scorecard-legend"></div>
-                <div class="chart-shell content-card">
-                    <svg id="scorecard-chart" viewBox="0 0 1080 470" aria-label="Circuit scorecard"></svg>
-                </div>
-            </div>
-        </section>
-
-        <section id="methodology" class="chapter chapter-content chapter-method" data-chapter="methodology" data-theme="method">
-            <div class="chapter-inner">
-                <div class="chapter-header">
-                    <span class="chapter-num" aria-hidden="true">07</span>
-                    <div class="chapter-heading">
-                        <p class="chapter-kicker">Method</p>
-                        <h2 class="chapter-title">Methodology</h2>
-                    </div>
-                </div>
-                <div class="section-copy">
-                    <p class="chapter-lede">
-                        The analysis uses FastF1 race-session data, then summarizes each race into a small set of
-                        presentation-friendly measures. D3.js renders the charts directly in the page so every view
-                        can be inspected with tooltips, while GSAP ScrollTrigger coordinates the cinematic scroll
-                        moments between chapters.
-                    </p>
-                </div>
-                <div class="methodology-grid">
-                    <article class="method-card content-card">
-                        <h3>Data</h3>
-                        <p>FastF1 provided lap timing, position, speed-trap, and session status data for Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, and Great Britain across 2025 and 2026.</p>
-                    </article>
-                    <article class="method-card content-card">
-                        <h3>Metrics</h3>
-                        <p>Green-flag lap pace, fastest lap, clean-lap speed trap, neutralized laps, DNFs, and a position-change proxy were derived for comparison.</p>
-                    </article>
-                    <article class="method-card content-card">
-                        <h3>Visualization</h3>
-                        <p>D3.js powers the bars, step charts, slope graph, timeline heatmap, scorecard, legends, and interactive tooltips.</p>
-                    </article>
-                    <article class="method-card content-card">
-                        <h3>Story Layer</h3>
-                        <p>GSAP ScrollTrigger and Lenis drive pinned cinematic transitions, chapter color shifts, and scroll-scrubbed motion across the story.</p>
-                    </article>
+                    </details>
+                    <details>
+                        <summary>Pace definitions</summary>
+                        <p>Median pace is the median of each driver's best accurate green-flag lap. Speed trap is the median of each driver's maximum speed-trap reading on an accurate green lap. Both reduce one-off noise, but neither controls weather, tires or track evolution.</p>
+                    </details>
+                    <details>
+                        <summary>Running-order movement</summary>
+                        <p>For each driver, absolute position changes are summed only across consecutive observed laps, then normalized per 100 driver-lap transitions. Pit cycles, retirements and Safety Cars count; this is deliberately labelled movement, never overtakes.</p>
+                    </details>
+                    <details>
+                        <summary>Race-control states</summary>
+                        <p>Caution-affected laps include local yellow, VSC, Safety Car and red flag. Full neutralization excludes local-yellow-only laps. Each state is sampled on the P1 car's lap clock, preventing lapped cars' asynchronous personal lap numbers from smearing one incident across adjacent race laps.</p>
+                    </details>
+                    <details>
+                        <summary>Limits and sources</summary>
+                        <ul>
+                            <li>Descriptive same-circuit comparison; no causal identification.</li>
+                            <li>Weather, tire compound, track evolution, strategy and field composition are not controlled.</li>
+                            <li><a href="https://docs.fastf1.dev/" rel="noreferrer">FastF1 documentation</a></li>
+                            <li><a href="https://www.formula1.com/en/results/2026/races" rel="noreferrer">Official 2026 race results</a></li>
+                        </ul>
+                    </details>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="footer-parallax" data-parallax="0.12" aria-hidden="true">
-            <img src="assets/images/footer-f1-silhouette.png" alt="" width="1200" height="400" loading="lazy" decoding="async">
+        <div class="footer-media" aria-hidden="true">
+            <img src="assets/images/footer-f1-landscape.png" alt="" width="1920" height="960" loading="lazy" decoding="async">
         </div>
         <div class="footer-inner">
-            <div class="footer-copy">
-                <p class="footer-title">From DRS to Mario Mushrooms</p>
-                <p>
-                    Built by Alejandro Gonzalez with FastF1, D3.js, GSAP, Lenis, Three.js, and cinematic scroll energy for the final lap.
-                </p>
+            <div>
+                <p class="footer-title">Regulation Delta</p>
+                <p class="footer-copy">A data story by Alejandro Gonzalez · FastF1 + D3 · 2025 / 2026 matched-circuit release · Independent educational visualization, not affiliated with Formula 1.</p>
             </div>
-            <div class="footer-meta" aria-label="Project credits">
-                <span>FastF1 data</span>
-                <span>D3.js charts</span>
-                <span>GSAP motion</span>
-                <span>2025 vs 2026</span>
-            </div>
-            <a class="magnetic footer-cta" href="#hero">Back to start</a>
+            <a class="back-to-start" href="#start">Run another lap ↑</a>
         </div>
     </footer>
 
-    <script src="js/charts.js?v=cinematic-2"></script>
-    <script src="js/motion-charts.js?v=cinematic-2"></script>
-    <script src="js/motion-transitions.js?v=cinematic-2"></script>
-    <script src="js/motion.js?v=cinematic-2"></script>
-    <script type="module" src="js/webgl-bg.js?v=cinematic-2"></script>
+    <noscript><p>This story needs JavaScript to render the interactive charts. The methodology and editorial conclusion remain available above.</p></noscript>
+    <script src="js/charts-v2.js?v=1"></script>
+    <script src="js/course.js?v=1"></script>
+    <script src="js/motion-v2.js?v=1"></script>
     <script>
-        if (window.F1Charts && window.F1Charts.init()) {
+        (function () {
+            const chartsReady = window.F1Charts && window.F1Charts.init();
+            if (!chartsReady) {
+                document.documentElement.classList.add("charts-unavailable");
+            }
             window.F1Motion && window.F1Motion.init();
-        }
+        }());
     </script>
 </body>
 </html>

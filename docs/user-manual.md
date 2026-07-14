@@ -1,279 +1,86 @@
 # User Manual
 
-Project: **From DRS to Mario Mushrooms**  
-Author: Alejandro Gonzalez  
-Final deliverable date: May 2026
+Project: **Regulation Delta: The Ghost Lap**
+Author: Alejandro Gonzalez
+Current release: July 2026
 
-## 1. Project Summary
+## What this is
 
-This project is a static data visualization website comparing Formula 1 race data from the 2025 and 2026 seasons. It focuses on Australia, China, Japan, Miami, Canada, Monaco, Barcelona, and Austria and compares pace, straight-line speed, race-position movement, incidents, neutralization periods, and circuit-level metric changes.
+This zero-build data story compares matched Formula 1 Grands Prix from 2025 and 2026. Scrolling follows a continuous course through pace, running-order movement, race-control states, the complete scorecard and a final verdict.
 
-The website is designed for viewers who may not already follow Formula 1. Each chart includes a short explanation, legends, formatted numbers, and hover tooltips.
+The analysis is descriptive. Same-circuit pairing helps, but weather, tires, track evolution, strategy, incidents and field composition are not controlled, so the site does not claim that the regulations caused every difference.
 
-Live project URL:
+## Run locally
 
-```text
-https://alejandrospot2.github.io/F1/
-```
-
-## 2. Deliverable Folder Map
-
-The final submission folder is organized as:
-
-```text
-final_deliverable/
-  report/
-    Final_Project_Report.pdf
-    latex_source/
-  slides/
-    Final_Project_Slides.pptx
-    rendered_slide_previews/
-  demo_video/
-    ADD_DEMO_VIDEO_HERE.txt
-  code_and_data/
-    project_site/
-  user_manual/
-    User_Manual.md
-```
-
-The video is not included yet. Add the recorded demo video into `final_deliverable/demo_video/` before zipping and submitting to Canvas.
-
-## 3. How to Run the Website
-
-### Recommended Local Run
-
-1. Open a terminal.
-2. Change into the project site folder:
-
-```powershell
-cd final_deliverable\code_and_data\project_site
-```
-
-3. Start a local web server:
+From the repository root:
 
 ```powershell
 python -m http.server 4173
 ```
 
-4. Open this URL in a browser:
+Open `http://localhost:4173/` in a modern browser. Internet access is needed for the D3, GSAP and Google Fonts CDN files; the data and image assets are local.
 
-```text
-http://localhost:4173/index.html
-```
+The historical deployment target is `https://alejandrospot2.github.io/F1/`. Verify the published branch before sharing it.
 
-Use `http://localhost` instead of opening the file directly. This is the most reliable way to load the site assets and mirrors how the project was tested.
+## Main interactions
 
-### Direct Open Fallback
+- Use the top navigation to jump between track sectors.
+- Switch the pace board among median driver-best lap, fastest green lap and speed-trap summary.
+- Choose a circuit in the running-order section.
+- Scrub the race lap by lap.
+- Hover, focus or tap a driver to spotlight them; click or press Enter to lock the highlight, and press Escape to clear it.
+- Switch the marshal-light ribbon between all caution states and full neutralization only.
+- Open the race-control table for a keyboard- and screen-reader-friendly lap-by-lap view.
+- Scroll the exact scorecard horizontally on small screens.
+- Reduced-motion preferences disable progressive car movement and non-essential animation.
 
-If Python is not available, open `index.html` directly in a browser. The static assets use relative paths, so the page should still load, but local server mode is preferred.
+Every SVG chart has a screen-reader summary or table. Controls are real buttons and the lap scrubber supplies an accessible value description.
 
-## 4. Dependencies and Versions
+## Data and corrected metrics
 
-The website itself does not require a build step or npm install. It is plain HTML, CSS, JavaScript, D3, and static data.
-
-Tested local tools:
-
-| Dependency | Version / Source | Used For |
-|---|---:|---|
-| Python | 3.12.13 | Local server and data rebuild script |
-| FastF1 | 3.8.1 | Downloading Formula 1 session data |
-| pandas | 2.3.3 | Cleaning and transforming race data |
-| D3.js | v7 CDN script | Rendering the charts |
-| Scrollama | CDN script from unpkg | Scroll-triggered transition state |
-| MiKTeX / pdfTeX | MiKTeX 24.1 | Compiling the LaTeX report |
-| Node.js | v24.14.0 | Presentation/report utility scripts |
-
-Python dependencies are listed in `requirements.txt`:
-
-```powershell
-pip install -r requirements.txt
-```
-
-The website currently loads D3 and Scrollama from CDNs, so internet access is recommended when running the page locally.
-
-## 5. How to Rebuild the Data
-
-The deliverable includes the cleaned dataset used by the website:
+The canonical generated files are:
 
 ```text
 assets/data/alpha-release.json
 js/alpha-release-data.js
 ```
 
-To regenerate the data from FastF1:
+Rebuild both with:
 
 ```powershell
-cd final_deliverable\code_and_data\project_site
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python scripts\build_alpha_release_data.py
+python scripts/build_alpha_release_data.py
 ```
 
-The script rebuilds:
+FastF1 creates or refreshes `.fastf1_cache/` during the build.
 
-```text
-assets/data/alpha-release.json
-js/alpha-release-data.js
-```
-
-FastF1 will create a local `.fastf1_cache/` folder when the script runs. That cache is not included in the deliverable folder to keep the submission smaller. The cleaned JSON data used by the charts is included.
-
-## 6. Data Sources and Metrics
-
-Data source:
-
-```text
-FastF1 Python API
-```
-
-Included races:
-
-```text
-2025 Australian Grand Prix
-2025 Chinese Grand Prix
-2025 Japanese Grand Prix
-2025 Miami Grand Prix
-2025 Canadian Grand Prix
-2025 Monaco Grand Prix
-2025 Spanish Grand Prix
-2025 Austrian Grand Prix
-2026 Australian Grand Prix
-2026 Chinese Grand Prix
-2026 Japanese Grand Prix
-2026 Miami Grand Prix
-2026 Canadian Grand Prix
-2026 Monaco Grand Prix
-2026 Barcelona-Catalunya Grand Prix
-2026 Austrian Grand Prix
-```
-
-Derived metrics:
-
-| Metric | Meaning |
+| Metric | Definition |
 |---|---|
-| Median best lap | Median of drivers' best clean lap times in seconds |
-| Fastest lap | Fastest clean lap in the race data |
-| Median speed trap | Median straight-line speed-trap value |
-| Position-change proxy | Sum of absolute lap-to-lap position changes across drivers |
-| Neutralized laps | Laps marked as yellow, VSC, Safety Car, or red flag |
-| DNFs | Drivers not classified as finishers |
+| Median driver-best lap | Median of each driver's best accurate green-flag lap |
+| Fastest green lap | Fastest accurate green-flag lap in the race sample |
+| Speed-trap summary | Median of each driver's maximum clean-lap speed-trap reading |
+| Movement / 100 driver-laps | Absolute position-slot changes across consecutive observed laps, normalized by observed transitions |
+| Caution-affected laps | P1-clock race laps with local yellow, VSC, Safety Car or red flag |
+| Full-neutralization laps | P1-clock race laps with VSC, Safety Car or red flag; local-yellow-only laps excluded |
+| Not officially classified | Official nonnumeric classifications, with unclassified, DSQ, DNS and DNQ states retained separately |
 
-The position-change proxy is not a pure overtake count. It also captures pit-stop reshuffling, retirements, Safety Car effects, and recovery drives.
+Running-order movement is not an overtake count. Strategy, pit stops, retirements, recovery drives and race-control events all contribute.
 
-## 7. Website Sections
-
-The site contains these major sections:
-
-1. **Hero / Overview**  
-   Introduces the project and the race-comparison question.
-
-2. **Circuit Comparison Bars**  
-   Compares lap-time and speed-trap values across 2025 and 2026.
-
-3. **Lap-by-Lap Position Step Charts**  
-   Shows how leading drivers moved through each race. The top row is 2025 and the bottom row is 2026.
-
-4. **Position-Change Proxy**  
-   Uses a slope graph to compare running-order volatility by circuit.
-
-5. **Incident and Neutralization Timeline**  
-   Shows green-flag running, yellow flags, VSC, Safety Car, and red flag states by lap.
-
-6. **Final Circuit Scorecard**  
-   Summarizes 2026 minus 2025 metric deltas by circuit.
-
-7. **Methodology / Footer**  
-   Explains the data pipeline and libraries used.
-
-## 8. Interactions
-
-Supported interactions:
-
-- Use the top navigation links to jump to major chart sections.
-- Scroll through the page to view arcade-style transition sections.
-- Hover over chart marks, bars, cells, and points to see tooltips.
-- Use browser zoom if presenting on a projector.
-
-There are no keyboard shortcuts or hidden controls.
-
-Accessibility notes:
-
-- The site uses text descriptions before each chart.
-- Legends are included for chart colors.
-- The CSS respects reduced-motion preferences for continuous animation.
-- For best readability, use a modern desktop browser such as Chrome, Edge, or Firefox.
-
-## 9. How to Rebuild the Report
-
-The final report PDF is already included:
+## Site files
 
 ```text
-final_deliverable/report/Final_Project_Report.pdf
+index.html
+css/ghost-lap.css
+js/charts-v2.js
+js/course.js
+js/motion-v2.js
+scripts/build_alpha_release_data.py
 ```
 
-The LaTeX source is also included in:
+The older `site.css`, `charts.js`, transition scripts and WebGL background remain as historical work but are not loaded by the new page.
 
-```text
-final_deliverable/report/latex_source/
-```
+## Troubleshooting
 
-To rebuild the report from the LaTeX source:
+If the page is unstyled, confirm the server is running from the repository root and that `css/ghost-lap.css` returns successfully. If charts are missing, check network access for D3 and confirm `js/alpha-release-data.js` loads before `js/charts-v2.js`.
 
-```powershell
-cd final_deliverable\report\latex_source
-pdflatex -interaction=nonstopmode report.tex
-bibtex report
-pdflatex -interaction=nonstopmode report.tex
-pdflatex -interaction=nonstopmode report.tex
-```
-
-The source uses the IEEE conference format via:
-
-```latex
-\documentclass[conference]{IEEEtran}
-```
-
-## 10. Known Limitations
-
-- The project is a visualization comparison, not a causal proof that every difference was caused by 2026 regulations.
-- The position-change proxy includes pit stops and race events, not only on-track overtakes.
-- D3 and Scrollama are loaded from CDNs; local viewing works best with internet access.
-- Rebuilding the data requires FastF1 API access and can take time on the first run because FastF1 builds a cache.
-
-## 11. Troubleshooting
-
-### The page is unstyled or charts do not render
-
-Make sure you are running from:
-
-```text
-final_deliverable/code_and_data/project_site
-```
-
-Then open:
-
-```text
-http://localhost:4173/index.html
-```
-
-Also confirm that internet access is available for the D3 and Scrollama CDN scripts.
-
-### Python command is not found
-
-Install Python 3.12 or use another local static server. For example, VS Code's Live Server extension can serve the folder.
-
-### FastF1 rebuild fails
-
-Check internet access, then rerun:
-
-```powershell
-pip install -r requirements.txt
-python scripts\build_alpha_release_data.py
-```
-
-FastF1 may take several minutes on the first run because it downloads and caches session data.
-
-### Report does not compile locally
-
-Use the included `Final_Project_Report.pdf` for submission. If rebuilding is required, install MiKTeX or use Overleaf and upload `report.tex`, `references.bib`, and the `figures/` folder.
+If a FastF1 rebuild fails for a recent race, connect to the internet and retry so the session cache can be completed. Once cached, subsequent builds can reuse the local timing data.
