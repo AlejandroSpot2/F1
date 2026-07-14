@@ -4,6 +4,7 @@
     const DATA = window.ALPHA_RELEASE_DATA;
     const SEASONS = [2025, 2026];
     const SEASON_COLORS = { 2025: "#ff4a36", 2026: "#c7ff36" };
+    const PAPER_SEASON_COLORS = { 2025: "#c82e22", 2026: "#4d6a05" };
     const TRACK_COLORS = {
         Green: "#d8ded2",
         Yellow: "#f0c83b",
@@ -216,6 +217,8 @@
             return defs.attr("data-pattern-prefix");
         }
         const prefix = `${svg.attr("id") || "chart"}-pattern`;
+        const paper = svg.node() && svg.node().closest(".chapter-paper");
+        const colors = paper ? PAPER_SEASON_COLORS : SEASON_COLORS;
         defs = svg.append("defs")
             .attr("data-patterns", "true")
             .attr("data-pattern-prefix", prefix);
@@ -225,7 +228,7 @@
             .attr("patternUnits", "userSpaceOnUse")
             .attr("width", 8)
             .attr("height", 8);
-        dot.append("rect").attr("width", 8).attr("height", 8).attr("fill", SEASON_COLORS[2025]);
+        dot.append("rect").attr("width", 8).attr("height", 8).attr("fill", colors[2025]);
         dot.append("circle").attr("cx", 2).attr("cy", 2).attr("r", 1.25).attr("fill", "#5f160f");
         dot.append("circle").attr("cx", 6).attr("cy", 6).attr("r", 1.25).attr("fill", "#5f160f");
 
@@ -235,13 +238,50 @@
             .attr("width", 8)
             .attr("height", 8)
             .attr("patternTransform", "rotate(45)");
-        hatch.append("rect").attr("width", 8).attr("height", 8).attr("fill", SEASON_COLORS[2026]);
+        hatch.append("rect").attr("width", 8).attr("height", 8).attr("fill", colors[2026]);
         hatch.append("line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 8).attr("stroke", "#566d13").attr("stroke-width", 2);
         return prefix;
     }
 
     function seasonFill(year, prefix) {
         return year === 2025 ? `url(#${prefix}-2025-dots)` : `url(#${prefix}-2026-hatch)`;
+    }
+
+    function appendDitherBridge(rows, oldX, newX, rowY) {
+        const rowNode = rows.node();
+        const paper = rowNode && rowNode.ownerSVGElement && rowNode.ownerSVGElement.closest(".chapter-paper");
+        const colors = paper ? PAPER_SEASON_COLORS : SEASON_COLORS;
+        rows.each(function (datum, rowIndex) {
+            const start = oldX(datum);
+            const end = newX(datum);
+            const center = rowY(datum);
+            const count = 72;
+            const points = d3.range(count).map((pointIndex) => {
+                const t = pointIndex / Math.max(1, count - 1);
+                const wave = Math.sin((pointIndex + 1) * (rowIndex + 2) * 0.77);
+                const lift = Math.cos((pointIndex + 3) * (rowIndex + 1) * 0.41);
+                return {
+                    x: start + (end - start) * t + wave * 2.8,
+                    y: center + lift * (3 + (pointIndex % 4)),
+                    season: t < 0.5 ? 2025 : 2026,
+                    size: pointIndex % 9 === 0 ? 2.2 : 1.25,
+                    opacity: 0.24 + ((pointIndex * 7 + rowIndex * 3) % 10) / 22
+                };
+            });
+            d3.select(this).append("g")
+                .attr("class", "dither-bridge")
+                .attr("aria-hidden", "true")
+                .selectAll("rect")
+                .data(points)
+                .join("rect")
+                .attr("class", (point) => `dither-point season-${point.season}`)
+                .attr("x", (point) => point.x)
+                .attr("y", (point) => point.y)
+                .attr("width", (point) => point.size)
+                .attr("height", (point) => point.size)
+                .attr("fill", (point) => colors[point.season])
+                .attr("opacity", (point) => point.opacity);
+        });
     }
 
     function clearAndSize(selector, width, height) {
@@ -407,10 +447,19 @@
             .attr("x2", (pair) => x(pair.newRace.metrics[metricKey]))
             .attr("y1", (pair) => y(pair.circuit) + y.bandwidth() / 2)
             .attr("y2", (pair) => y(pair.circuit) + y.bandwidth() / 2)
-            .attr("stroke", "rgba(17,18,15,.42)")
-            .attr("stroke-width", 3);
+            .attr("stroke", "currentColor")
+            .attr("stroke-opacity", 0.34)
+            .attr("stroke-width", 2);
+
+        appendDitherBridge(
+            rows,
+            (pair) => x(pair.oldRace.metrics[metricKey]),
+            (pair) => x(pair.newRace.metrics[metricKey]),
+            (pair) => y(pair.circuit) + y.bandwidth() / 2
+        );
 
         rows.append("circle")
+            .attr("class", "season-mark season-2025")
             .attr("cx", (pair) => x(pair.oldRace.metrics[metricKey]))
             .attr("cy", (pair) => y(pair.circuit) + y.bandwidth() / 2)
             .attr("r", 8)
@@ -419,6 +468,7 @@
             .attr("stroke-width", 1.5);
 
         rows.append("rect")
+            .attr("class", "season-mark season-2026")
             .attr("x", (pair) => x(pair.newRace.metrics[metricKey]) - 8)
             .attr("y", (pair) => y(pair.circuit) + y.bandwidth() / 2 - 8)
             .attr("width", 16)
@@ -739,11 +789,19 @@
             .attr("x1", (pair) => x(pair.oldValue)).attr("x2", (pair) => x(pair.newValue))
             .attr("y1", (pair) => y(pair.circuit) + y.bandwidth() / 2)
             .attr("y2", (pair) => y(pair.circuit) + y.bandwidth() / 2)
-            .attr("stroke", "rgba(17,18,15,.42)").attr("stroke-width", 3);
+            .attr("stroke", "currentColor").attr("stroke-opacity", 0.34).attr("stroke-width", 2);
+        appendDitherBridge(
+            rows,
+            (pair) => x(pair.oldValue),
+            (pair) => x(pair.newValue),
+            (pair) => y(pair.circuit) + y.bandwidth() / 2
+        );
         rows.append("circle")
+            .attr("class", "season-mark season-2025")
             .attr("cx", (pair) => x(pair.oldValue)).attr("cy", (pair) => y(pair.circuit) + y.bandwidth() / 2)
             .attr("r", 8).attr("fill", seasonFill(2025, patternPrefix)).attr("stroke", "#11120f");
         rows.append("rect")
+            .attr("class", "season-mark season-2026")
             .attr("x", (pair) => x(pair.newValue) - 8).attr("y", (pair) => y(pair.circuit) + y.bandwidth() / 2 - 8)
             .attr("width", 16).attr("height", 16).attr("fill", seasonFill(2026, patternPrefix)).attr("stroke", "#11120f");
         rows.append("text")

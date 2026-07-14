@@ -10,6 +10,7 @@
 node_modules/
 .tmp-playwright/
 .playwright-mcp/
+.playwright-cli/
 .superpowers/
 .miktex/
 .tex-appdata/
