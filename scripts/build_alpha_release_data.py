@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -69,8 +70,26 @@ def classify_track_status(value: str) -> str:
     return "Green"
 
 
-def is_dnf(classified_position: object) -> bool:
-    return not str(classified_position).isdigit()
+def classification_bucket(classified_position: object, status: object) -> str:
+    """Group official result states without mislabelling every non-classification as a DNF."""
+    classified_text = "" if pd.isna(classified_position) else str(classified_position).strip()
+    if classified_text.isdigit():
+        return "classified"
+    try:
+        classified_number = float(classified_text)
+        if classified_number.is_integer() and classified_number > 0:
+            return "classified"
+    except (TypeError, ValueError):
+        pass
+
+    status_text = "" if pd.isna(status) else str(status).strip().lower()
+    if "disqual" in status_text:
+        return "disqualified"
+    if "did not start" in status_text or "withdraw" in status_text:
+        return "didNotStart"
+    if "did not qualify" in status_text:
+        return "didNotQualify"
+    return "unclassified"
 
 
 def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
@@ -82,16 +101,24 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
     laps["LapTimeSeconds"] = to_seconds(laps["LapTime"])
     laps["TrackState"] = laps["TrackStatus"].apply(classify_track_status)
 
-    valid_laps = laps[
+    timed_laps = laps[
         laps["LapTimeSeconds"].notna()
-        & laps["Position"].notna()
         & laps["LapNumber"].notna()
         & laps["IsAccurate"].fillna(False)
     ].copy()
 
-    clean_laps = valid_laps[valid_laps["TrackState"] == "Green"].copy()
+    clean_laps = timed_laps[timed_laps["TrackState"] == "Green"].copy()
     if clean_laps.empty:
-        clean_laps = valid_laps.copy()
+        clean_laps = timed_laps.copy()
+
+    # Position sampling and lap timing answer different questions. Requiring an
+    # accurate lap time here used to drop starts, pit laps and late-race laps
+    # from the running-order story.
+    position_laps = laps[
+        laps["Driver"].notna()
+        & laps["Position"].notna()
+        & laps["LapNumber"].notna()
+    ].copy()
 
     best_laps = (
         clean_laps.groupby("Driver", as_index=False)
@@ -107,30 +134,76 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
     median_best_lap_sec = float(best_laps["bestLapSec"].median())
     median_speed_trap = float(best_laps["maxSpeedST"].dropna().median())
 
-    position_change_proxy = 0.0
-    for _, driver_laps in valid_laps.groupby("Driver"):
-        # This is a movement proxy, not a clean-overtake counter. Pit stops,
-        # retirements, Safety Cars, and recovery drives all contribute.
-        ordered = driver_laps.sort_values("LapNumber")
-        position_change_proxy += ordered["Position"].diff().abs().fillna(0).sum()
+    position_change_total = 0.0
+    position_transition_count = 0
+    for _, driver_laps in position_laps.groupby("Driver"):
+        # This is a movement proxy, not an overtake counter. Count only adjacent
+        # observed laps, then normalize by the number of driver-lap transitions
+        # so races of different length and field size are more comparable.
+        ordered = (
+            driver_laps.sort_values("LapNumber")
+            .drop_duplicates(subset=["LapNumber"], keep="last")
+        )
+        lap_step = ordered["LapNumber"].diff()
+        position_step = ordered["Position"].diff().abs()
+        consecutive = lap_step.eq(1) & position_step.notna()
+        position_change_total += float(position_step.loc[consecutive].sum())
+        position_transition_count += int(consecutive.sum())
+
+    position_change_rate = (
+        position_change_total / position_transition_count * 100
+        if position_transition_count
+        else 0.0
+    )
 
     status_laps = laps[laps["LapNumber"].notna() & laps["TrackStatus"].notna()].copy()
+    status_laps["PositionNumeric"] = pd.to_numeric(
+        status_laps["Position"], errors="coerce"
+    )
     max_lap = int(status_laps["LapNumber"].max())
     status_rows = []
     for lap_number in range(1, max_lap + 1):
-        # Several drivers can report status values on the same lap; combine them
-        # before classification so a single race-control event marks the lap.
-        lap_statuses = status_laps.loc[status_laps["LapNumber"] == lap_number, "TrackStatus"]
-        combined = "".join(sorted({str(value) for value in lap_statuses.dropna()}))
+        # FastF1's lap number belongs to each individual car. Unioning every
+        # driver's status for lap N smears an incident across adjacent race laps
+        # once cars are lapped. Use the car running P1 as the canonical race-lap
+        # clock; if that row is absent, fall back to the highest-running sampled
+        # car for that lap instead of unioning asynchronous personal laps.
+        lap_samples = status_laps.loc[
+            status_laps["LapNumber"] == lap_number
+        ].sort_values(["PositionNumeric", "Time"], na_position="last")
+        leader_samples = lap_samples.loc[lap_samples["PositionNumeric"] == 1]
+        canonical_status = ""
+        if not leader_samples.empty:
+            canonical_status = leader_samples.iloc[0]["TrackStatus"]
+        elif not lap_samples.empty:
+            canonical_status = lap_samples.iloc[0]["TrackStatus"]
         status_rows.append(
             {
                 "lap": lap_number,
-                "state": classify_track_status(combined),
+                "state": classify_track_status(canonical_status),
             }
         )
 
-    neutralized_lap_count = sum(1 for row in status_rows if row["state"] != "Green")
-    dnf_count = int(results["ClassifiedPosition"].apply(is_dnf).sum())
+    caution_lap_count = sum(1 for row in status_rows if row["state"] != "Green")
+    neutralized_states = {"VSC", "Safety Car", "Red Flag"}
+    neutralized_lap_count = sum(1 for row in status_rows if row["state"] in neutralized_states)
+
+    classification_breakdown = {
+        "classified": 0,
+        "unclassified": 0,
+        "disqualified": 0,
+        "didNotStart": 0,
+        "didNotQualify": 0,
+    }
+    for _, result in results.iterrows():
+        bucket = classification_bucket(result.get("ClassifiedPosition"), result.get("Status"))
+        classification_breakdown[bucket] += 1
+    not_classified_count = sum(
+        count for key, count in classification_breakdown.items() if key != "classified"
+    )
+    drivers_completing_lap_count = int(
+        pd.to_numeric(results.get("Laps"), errors="coerce").fillna(0).gt(0).sum()
+    )
 
     top_finishers = (
         results.sort_values("Position")
@@ -142,22 +215,40 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
     step_drivers = []
     for idx, row in top_finishers.iterrows():
         abbreviation = row["Abbreviation"]
-        color = str(row.get("TeamColor") or "").strip()
+        raw_color = row.get("TeamColor")
+        color = "" if pd.isna(raw_color) else str(raw_color).strip()
         color = f"#{color}" if color else DEFAULT_COLORS[idx % len(DEFAULT_COLORS)]
 
         driver_positions = (
-            valid_laps.loc[valid_laps["Driver"] == abbreviation, ["LapNumber", "Position"]]
+            position_laps.loc[position_laps["Driver"] == abbreviation, ["LapNumber", "Position"]]
             .sort_values("LapNumber")
-            .drop_duplicates(subset=["LapNumber"])
+            .drop_duplicates(subset=["LapNumber"], keep="last")
         )
+
+        completed_laps = 0 if pd.isna(row.get("Laps")) else int(row.get("Laps"))
+        grid_position = 0 if pd.isna(row.get("GridPosition")) else int(row.get("GridPosition"))
+        if completed_laps > 0:
+            final_row = pd.DataFrame(
+                [{"LapNumber": completed_laps, "Position": int(row["Position"])}]
+            )
+            driver_positions = (
+                pd.concat([driver_positions, final_row], ignore_index=True)
+                .sort_values("LapNumber")
+                .drop_duplicates(subset=["LapNumber"], keep="last")
+            )
 
         step_drivers.append(
             {
                 "driver": abbreviation,
                 "team": row["TeamName"],
                 "finalPosition": int(row["Position"]),
-                "gridPosition": int(row["GridPosition"]),
+                "gridPosition": grid_position,
                 "color": color,
+                "positionObservationCount": int(len(driver_positions)),
+                "positionCoverage": round(
+                    len(driver_positions) / completed_laps if completed_laps else 0.0,
+                    3,
+                ),
                 "positions": [
                     {
                         "lap": int(lap),
@@ -179,10 +270,15 @@ def build_race_payload(year: int, event_name: str, circuit: str) -> dict:
             "medianBestLapSec": round(median_best_lap_sec, 3),
             "fastestLapSec": round(fastest_lap_sec, 3),
             "medianSpeedTrap": round(median_speed_trap, 2),
-            "positionChangeProxy": round(float(position_change_proxy), 1),
+            "positionChangeTotal": round(position_change_total, 1),
+            "positionTransitionCount": position_transition_count,
+            "positionChangeRate": round(position_change_rate, 2),
+            "cautionLapCount": caution_lap_count,
             "neutralizedLapCount": neutralized_lap_count,
-            "dnfCount": dnf_count,
+            "notClassifiedCount": not_classified_count,
+            "driversCompletingLapCount": drivers_completing_lap_count,
         },
+        "classificationBreakdown": classification_breakdown,
         "statusTimeline": status_rows,
         "topFinishers": step_drivers,
     }
@@ -197,9 +293,10 @@ def build_scorecard(races: list[dict]) -> list[dict]:
         ("medianBestLapSec", "Median best lap (s)"),
         ("fastestLapSec", "Fastest lap (s)"),
         ("medianSpeedTrap", "Median speed trap (km/h)"),
-        ("positionChangeProxy", "Position-change proxy"),
-        ("neutralizedLapCount", "Neutralized laps"),
-        ("dnfCount", "DNFs"),
+        ("positionChangeRate", "Movement / 100 driver-lap transitions"),
+        ("cautionLapCount", "Caution-affected laps"),
+        ("neutralizedLapCount", "SC/VSC/red-flag laps"),
+        ("notClassifiedCount", "Not officially classified"),
     ]
 
     scorecard = []
@@ -220,16 +317,100 @@ def build_scorecard(races: list[dict]) -> list[dict]:
     return scorecard
 
 
+def build_summary(races: list[dict]) -> dict:
+    by_circuit: dict[str, dict[int, dict]] = {}
+    for race in races:
+        by_circuit.setdefault(race["circuit"], {})[race["year"]] = race
+
+    paired = {
+        circuit: seasons
+        for circuit, seasons in by_circuit.items()
+        if 2025 in seasons and 2026 in seasons
+    }
+
+    def deltas(metric_key: str) -> list[float]:
+        return [
+            seasons[2026]["metrics"][metric_key] - seasons[2025]["metrics"][metric_key]
+            for seasons in paired.values()
+        ]
+
+    def mean(values: list[float]) -> float:
+        return sum(values) / len(values) if values else 0.0
+
+    pace_deltas = deltas("medianBestLapSec")
+    fastest_deltas = deltas("fastestLapSec")
+    speed_deltas = deltas("medianSpeedTrap")
+    movement_deltas = deltas("positionChangeRate")
+
+    def season_total(metric_key: str, year: int) -> float:
+        return sum(
+            seasons[year]["metrics"][metric_key]
+            for seasons in paired.values()
+        )
+
+    return {
+        "circuitCount": len(paired),
+        "raceCount": len(paired) * 2,
+        "seasons": [2025, 2026],
+        "circuits": list(paired.keys()),
+        "pace": {
+            "slowerCircuits": sum(delta > 0 for delta in pace_deltas),
+            "fasterCircuits": sum(delta < 0 for delta in pace_deltas),
+            "meanDeltaSec": round(mean(pace_deltas), 3),
+            "fastestLapMeanDeltaSec": round(mean(fastest_deltas), 3),
+        },
+        "speedTrap": {
+            "lowerCircuits": sum(delta < 0 for delta in speed_deltas),
+            "higherCircuits": sum(delta > 0 for delta in speed_deltas),
+            "meanDeltaKmh": round(mean(speed_deltas), 2),
+        },
+        "movement": {
+            "lowerCircuits": sum(delta < 0 for delta in movement_deltas),
+            "higherCircuits": sum(delta > 0 for delta in movement_deltas),
+            "meanDeltaPer100": round(mean(movement_deltas), 2),
+        },
+        "raceControl": {
+            "cautionLaps2025": int(season_total("cautionLapCount", 2025)),
+            "cautionLaps2026": int(season_total("cautionLapCount", 2026)),
+            "neutralizedLaps2025": int(season_total("neutralizedLapCount", 2025)),
+            "neutralizedLaps2026": int(season_total("neutralizedLapCount", 2026)),
+        },
+        "classification": {
+            "notClassified2025": int(season_total("notClassifiedCount", 2025)),
+            "notClassified2026": int(season_total("notClassifiedCount", 2026)),
+        },
+    }
+
+
 def main() -> None:
     ensure_cache()
     races = [build_race_payload(*event) for event in EVENTS]
 
     payload = {
-        "projectTitle": "From DRS to Mario Mushrooms",
-        "subtitle": "A comparison of nine shared Formula 1 circuits in 2025 and 2026",
+        "schemaVersion": 2,
+        "projectTitle": "Regulation Delta: The Ghost Lap",
+        "subtitle": "A matched-circuit comparison of Formula 1 in 2025 and 2026",
         "generatedFrom": "FastF1",
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "fastf1Version": fastf1.__version__,
+        "analysisScope": "Matched race sessions; descriptive comparison, not causal attribution",
         "races": races,
         "scorecard": build_scorecard(races),
+        "summary": build_summary(races),
+        "metricDefinitions": {
+            "medianBestLapSec": "Median of each driver's best accurate green-flag lap.",
+            "fastestLapSec": "Fastest accurate green-flag lap in the race sample.",
+            "medianSpeedTrap": "Median of each driver's maximum speed-trap reading on accurate green-flag laps.",
+            "positionChangeRate": "Absolute position-slot movement per 100 consecutive observed driver-lap transitions; includes strategy, retirements and race-control effects, so it is not an overtake count.",
+            "cautionLapCount": "Leader-clock race laps with a local yellow, VSC, Safety Car or red flag state.",
+            "neutralizedLapCount": "Leader-clock race laps under VSC, Safety Car or red flag; local yellow-only laps are excluded.",
+            "notClassifiedCount": "Drivers without a numeric official classification, separated into unclassified, disqualified, DNS and DNQ categories in each race payload.",
+        },
+        "caveats": [
+            "Weather, tire choice, track evolution, strategy and field composition are not controlled.",
+            "Matched circuits reveal association; they do not isolate the regulations as the cause.",
+            "Running-order movement is a normalized proxy, not a clean-overtake counter.",
+        ],
     }
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
