@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-    <script src="js/alpha-release-data.js?v=ghost-lap-1"></script>
+    <script src="js/alpha-release-data.js?v=ghost-lap-2"></script>
 </head>
 <body>
     <a class="skip-link" href="#grid">Skip to the evidence</a>
@@ -69,14 +69,14 @@
                 <img class="hero-car" src="assets/images/terminal-slipstream-car.png" alt="" width="2048" height="1152" fetchpriority="high" decoding="async">
                 <canvas id="hero-ascii-car"></canvas>
                 <pre class="hero-telemetry">+0.22  [DRS]  338.4
-1.742 [Δ]    8/9
+2.142 [Δ]   10/11
 00:52 [LAP]  GHOST
-76&gt;77 [YEL]  SIGNAL</pre>
+80&gt;89 [YEL]  SIGNAL</pre>
             </div>
 
             <div class="hero-grid">
                 <div class="hero-copy">
-                    <p class="hero-context"><span data-summary="circuitCount">9</span> matched circuits · <span data-summary="raceCount">18</span> races · data through Great Britain</p>
+                    <p class="hero-context"><span data-summary="circuitCount">11</span> matched circuits · <span data-summary="raceCount">22</span> races · data through Hungary</p>
                     <h1 aria-label="New cars. Same circuits. Better racing?">
                         <span>New cars.</span>
                         <span>Same circuits.</span>
@@ -106,7 +106,7 @@
                     <h2>Same asphalt.<br>Different year.</h2>
                     <p>Same circuits, one year apart. That controls for track layout—not weather, tires, teams, strategy or incidents—so the result is a pattern, not a laboratory verdict.</p>
                     <div class="finding">
-                        <strong data-summary="circuitCount">9</strong>
+                        <strong data-summary="circuitCount">11</strong>
                         <span>matched circuit pairs in this release</span>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="chart-note">Matched circuits: <span data-summary="circuits">Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria and Great Britain</span>.</p>
+                    <p class="chart-note">Matched circuits: <span data-summary="circuits">Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, Great Britain, Belgium and Hungary</span>.</p>
                 </div>
             </div>
             <div class="ascii-ribbon" aria-hidden="true" data-ribbon="CLOCK">[01]---CLOCK---ΔT---SECTOR---GREEN---ACCURATE---[01]---CLOCK---ΔT---SECTOR---GREEN---ACCURATE---</div>
@@ -158,7 +158,7 @@
             <p aria-hidden="true">01</p>
             <div>
                 <span>THE CLOCK</span>
-                <strong>8 / 9 SLOWER</strong>
+                <strong>10 / 11 SLOWER</strong>
             </div>
             <pre aria-hidden="true">....::::++++####@@@@####++++::::....
 2025 ----------------------&gt; 2026
@@ -171,9 +171,9 @@
                 <div class="chapter-intro">
                     <p class="sector-code">SECTOR 01 / PACE</p>
                     <h2>Mostly slower.<br>Not universally.</h2>
-                    <p>Median driver-best green-flag pace slowed at <span data-summary="paceSlowerCircuits">8</span> of <span data-summary="circuitCount">9</span> circuits. Australia is the exception; speed-trap change is more mixed.</p>
+                    <p>Median driver-best green-flag pace slowed at <span data-summary="paceSlowerCircuits">10</span> of <span data-summary="circuitCount">11</span> circuits. Australia is the exception; speed-trap change is more mixed.</p>
                     <div class="finding finding-dark">
-                        <strong><span data-summary="paceMeanDeltaSec">+1.742</span>s</strong>
+                        <strong><span data-summary="paceMeanDeltaSec">+2.142</span>s</strong>
                         <span>mean paired change in median driver-best lap</span>
                     </div>
                 </div>
@@ -205,7 +205,7 @@
             <p aria-hidden="true">02</p>
             <div>
                 <span>THE PACK</span>
-                <strong>8 / 9 LOWER</strong>
+                <strong>10 / 11 LOWER</strong>
             </div>
             <pre aria-hidden="true">P01 &gt; P03 &gt; P02 &gt; P07 &gt; P04
 | PIT | SC | PASS? | RET | RECOVERY |
@@ -218,9 +218,9 @@ P01 &gt; P02 &gt; P02 &gt; P05 &gt; P03</pre>
                 <div class="chapter-intro">
                     <p class="sector-code">SECTOR 02 / RUNNING ORDER</p>
                     <h2>The order usually moved less.</h2>
-                    <p>The normalized movement proxy fell at <span data-summary="movementLowerCircuits">8</span> of <span data-summary="circuitCount">9</span> circuits. Miami breaks the pattern. Scrub each paired race to see how its eventual top five unfolded.</p>
+                    <p>The normalized movement proxy fell at <span data-summary="movementLowerCircuits">10</span> of <span data-summary="circuitCount">11</span> circuits. Miami breaks the pattern. Scrub each paired race to see how its eventual top five unfolded.</p>
                     <div class="finding">
-                        <strong data-summary="movementMeanDeltaPer100">−5.11</strong>
+                        <strong data-summary="movementMeanDeltaPer100">−4.30</strong>
                         <span>mean position slots / 100 driver-laps versus 2025</span>
                     </div>
                     <div class="caveat-strip"><b>Signal note:</b> movement is not overtaking. Pit stops, retirements, recovery drives and race-control resets all move the order.</div>
@@ -263,7 +263,7 @@ P01 &gt; P02 &gt; P02 &gt; P05 &gt; P03</pre>
             <p aria-hidden="true">03</p>
             <div>
                 <span>THE FLAGS</span>
-                <strong>76 &gt; 77 / 56 &gt; 55</strong>
+                <strong>80 &gt; 89 / 60 &gt; 64</strong>
             </div>
             <pre aria-hidden="true">GREEN.GREEN.YELLOW.YELLOW.VSC.SC.GREEN
 LOCAL != NEUTRALIZED
@@ -275,10 +275,10 @@ GREEN.GREEN.RED.RED.SC.GREEN.GREEN</pre>
             <div class="chapter-layout">
                 <div class="chapter-intro">
                     <p class="sector-code">SECTOR 03 / RACE CONTROL</p>
-                    <h2>More caution.<br>Less neutralization.</h2>
-                    <p>Caution-affected laps rose from <span data-summary="cautionLaps2025">76</span> to <span data-summary="cautionLaps2026">77</span>. Count only VSC, Safety Car and red flags, and the change reverses: <span data-summary="neutralizedLaps2025">56</span> to <span data-summary="neutralizedLaps2026">55</span>.</p>
+                    <h2>More caution.<br>More neutralization.</h2>
+                    <p>Caution-affected laps rose from <span data-summary="cautionLaps2025">80</span> to <span data-summary="cautionLaps2026">89</span>. Count only VSC, Safety Car and red flags, and the same direction holds: <span data-summary="neutralizedLaps2025">60</span> to <span data-summary="neutralizedLaps2026">64</span>.</p>
                     <div class="finding finding-dark">
-                        <strong><span data-summary="neutralizedDelta">−1</span> lap</strong>
+                        <strong><span data-summary="neutralizedDelta">+4</span> laps</strong>
                         <span>full-neutralization change across matched races</span>
                     </div>
                 </div>
@@ -309,7 +309,7 @@ GREEN.GREEN.RED.RED.SC.GREEN.GREEN</pre>
             <div class="chapter-layout scorecard-layout">
                 <div class="chapter-intro">
                     <p class="sector-code">FINAL STRAIGHT / SCORECARD</p>
-                    <h2>Nine circuits.<br>Nine fingerprints.</h2>
+                    <h2>Eleven circuits.<br>Eleven fingerprints.</h2>
                     <p>The complete comparison keeps direction neutral: an increase is not automatically an improvement, and a decrease is not automatically a failure.</p>
                 </div>
                 <div id="scorecard-table" class="scorecard-wrap" aria-live="polite"></div>
@@ -327,20 +327,20 @@ GREEN.GREEN.RED.RED.SC.GREEN.GREEN</pre>
                         <span>Rules did it?</span>
                         <span class="verdict-no">Not proven.</span>
                     </h2>
-                    <p>In this matched sample, 2026 was usually slower and the running order usually moved less. Any-caution laps rose slightly, while fully neutralized laps fell slightly. The era looks different. Calling the regulations the cause—or the racing better—would outrun the data.</p>
+                    <p>In this matched sample, 2026 was usually slower and the running order usually moved less. Any-caution laps and fully neutralized laps both rose. The era looks different. Calling the regulations the cause—or the racing better—would outrun the data.</p>
                 </div>
                 <dl class="verdict-board">
                     <div class="verdict-row">
                         <dt>PACE</dt>
-                        <dd><span data-summary="paceSlowerCircuits">8</span>/<span data-summary="circuitCount">9</span> slower</dd>
+                        <dd><span data-summary="paceSlowerCircuits">10</span>/<span data-summary="circuitCount">11</span> slower</dd>
                     </div>
                     <div class="verdict-row">
                         <dt>ORDER</dt>
-                        <dd><span data-summary="movementLowerCircuits">8</span>/<span data-summary="circuitCount">9</span> lower</dd>
+                        <dd><span data-summary="movementLowerCircuits">10</span>/<span data-summary="circuitCount">11</span> lower</dd>
                     </div>
                     <div class="verdict-row">
                         <dt>CONTROL</dt>
-                        <dd><span data-summary="neutralizedLaps2026">55</span> in 2026 (<span data-summary="neutralizedDelta">−1</span>)</dd>
+                        <dd><span data-summary="neutralizedLaps2026">64</span> in 2026 (<span data-summary="neutralizedDelta">+4</span>)</dd>
                     </div>
                     <div class="verdict-row">
                         <dt>CLAIM</dt>
@@ -360,7 +360,7 @@ GREEN.GREEN.RED.RED.SC.GREEN.GREEN</pre>
                 <div class="method-list">
                     <details open>
                         <summary>Sample and provenance</summary>
-                        <p>Race-session data comes from FastF1 <span data-summary="fastf1Version">3.8.1</span>. The current bundle contains <span data-summary="raceCount">18</span> races at <span data-summary="circuitCount">9</span> matched circuits through <span data-summary="latestCircuit">Great Britain</span>, generated <span data-summary="generatedDate">for this release</span>. The 2026 calendar is still in progress, so this is a snapshot rather than a whole-season verdict.</p>
+                        <p>Race-session data comes from FastF1 <span data-summary="fastf1Version">3.8.1</span>. The current bundle contains <span data-summary="raceCount">22</span> races at <span data-summary="circuitCount">11</span> matched circuits through <span data-summary="latestCircuit">Hungary</span>, generated <span data-summary="generatedDate">for this release</span>. The 2026 calendar is still in progress, so this is a snapshot rather than a whole-season verdict.</p>
                     </details>
                     <details>
                         <summary>Pace definitions</summary>
