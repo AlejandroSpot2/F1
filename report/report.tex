@@ -14,7 +14,7 @@ University Course Project}}
 \maketitle
 
 \begin{abstract}
-This project studies how Formula 1 races changed between the 2025 and 2026 seasons by turning FastF1 race-session data into a guided D3 visualization site. The report describes a static but interactive web approach that compares pace, straight-line speed, running-order volatility, and race disruption across Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, Great Britain, Belgium, and Hungary. It focuses on a reader who understands computing concepts but may not already know Formula 1 terminology, so the visualizations include short descriptions, legends, labels, and tooltips. The final system combines horizontal comparison bars, lap-by-lap position charts, a position-change slope graph, an incident timeline, and a cross-circuit scorecard. The report also discusses beta feedback, failed animation-heavy prototypes, data-validation issues, and future directions for a more complete scrollytelling version.
+This project studies how Formula 1 races changed between the 2025 and 2026 seasons by turning FastF1 race-session data into a guided D3 visualization site. The report describes a static but interactive web approach that compares pace, straight-line speed, running-order volatility, and race disruption across Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, Great Britain, Belgium, Hungary, and the Netherlands. It focuses on a reader who understands computing concepts but may not already know Formula 1 terminology, so the visualizations include short descriptions, legends, labels, and tooltips. The final system combines horizontal comparison bars, lap-by-lap position charts, a position-change slope graph, an incident timeline, and a cross-circuit scorecard. The report also discusses beta feedback, failed animation-heavy prototypes, data-validation issues, and future directions for a more complete scrollytelling version.
 \end{abstract}
 
 \section{Introduction}
@@ -51,13 +51,13 @@ D3 is the main implementation library because it supports direct control over ma
 
 The website is also a narrative visualization, although the final version is intentionally lighter than a full interactive article. Segel and Heer describe narrative visualization as a design space between author-driven and reader-driven presentation \cite{segel2010narrative}; this project sits in the middle by giving a fixed section order while still allowing hover inspection. Heer and Shneiderman's interaction taxonomy also informed the use of tooltips and guided details-on-demand rather than heavy filtering controls \cite{heer2012interactive}. Scrollama was considered and partly used for arcade-style transition hooks \cite{scrollama}, while d3-annotation was a relevant reference for future explanatory callouts even though the final site used simpler text blocks and captions \cite{d3annotation}.
 
-FastF1 supplied the underlying racing data through Python APIs for Formula 1 timing and session information \cite{fastf1docs}. Since the project compares eleven shared circuits in 2025 and 2026, FastF1 made it possible to rebuild the dataset as a repeatable local pipeline instead of manually collecting values from race summaries.
+FastF1 supplied the underlying racing data through Python APIs for Formula 1 timing and session information \cite{fastf1docs}. Since the project compares twelve shared circuits in 2025 and 2026, FastF1 made it possible to rebuild the dataset as a repeatable local pipeline instead of manually collecting values from race summaries.
 
 \section{Approach}
 The project uses a static data pipeline followed by a static web page. A Python script loads each race session with FastF1, extracts lap timing, track status, final classifications, speed-trap values, and lap-by-lap position data, then writes both a JSON file and a browser-ready JavaScript data bundle. The final page loads this bundle and renders every chart with D3.
 
 \subsection{Data and Derived Measures}
-The dataset includes Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, Great Britain, Belgium, and Hungary for 2025 and 2026. For each race, the pipeline derives median best lap time, fastest lap time, median speed-trap value, a position-change proxy, neutralized-lap count, official non-classification count, top finisher trajectories, and a lap-by-lap track-status timeline.
+The dataset includes Australia, China, Japan, Miami, Canada, Monaco, Barcelona, Austria, Great Britain, Belgium, Hungary, and the Netherlands for 2025 and 2026. For each race, the pipeline derives median best lap time, fastest lap time, median speed-trap value, a position-change proxy, neutralized-lap count, official non-classification count, top finisher trajectories, and a lap-by-lap track-status timeline.
 
 The position-change proxy is computed by summing absolute changes in recorded race position for each driver across consecutive laps. This is not the same as a clean-overtake count. It also captures pit-stop reshuffles, recovery drives, retirements, and Safety Car effects. That limitation is acceptable for this project because the goal is to compare how much the running order moved, not to formally classify every passing maneuver.
 
@@ -124,7 +124,7 @@ The most important visual problem was balancing personality with readability. Fo
 The final problem was audience knowledge. Beta feedback made it clear that many viewers did not know what they were looking at. This led to short descriptions before each chart, legends, clearer tooltips, and less precise numeric formatting where additional decimals did not add useful meaning.
 
 \section{Results}
-The final page covers eleven circuits and both seasons. The data pipeline produced twenty-two race payloads. The main numeric outcomes are summarized in Table~\ref{tab:metrics}. Australia became faster in median best lap time by about 1.000 seconds and had seven more median speed-trap km/h in 2026. Every other matched circuit was slower by median best lap, with Belgium showing the largest increase at 4.525 seconds. Monaco had the largest increase in fully neutralized laps, rising from 3 to 11.
+The final page covers twelve circuits and both seasons. The data pipeline produced twenty-four race payloads. The main numeric outcomes are summarized in Table~\ref{tab:metrics}. Australia became faster in median best lap time by about 1.000 seconds, while the other eleven matched circuits were slower; Belgium showed the largest increase at 4.525 seconds. Caution-affected laps increased from 96 to 97 across the matched races, while fully neutralized laps decreased from 75 to 69. Monaco had the largest increase in fully neutralized laps, rising from 3 to 11.
 
 \begin{table*}[t]
 \caption{Selected Race Metrics Derived from FastF1}
@@ -145,6 +145,7 @@ Race & Median Best Lap (s) & Fastest Lap (s) & Speed Trap (km/h) & Position Move
 2025 Great Britain & 90.818 & 89.337 & 323.0 & 402 & 14 & 5 \\
 2025 Belgium & 106.550 & 104.861 & 316.5 & 230 & 4 & 0 \\
 2025 Hungary & 80.581 & 79.409 & 309.5 & 355 & 0 & 1 \\
+2025 Netherlands & 73.815 & 72.271 & 323.0 & 307 & 15 & 2 \\
 2026 Australia & 83.901 & 82.091 & 303.0 & 190 & 7 & 6 \\
 2026 China & 96.676 & 95.275 & 338.5 & 275 & 4 & 7 \\
 2026 Japan & 94.001 & 92.432 & 298.0 & 215 & 6 & 2 \\
@@ -156,6 +157,7 @@ Race & Median Best Lap (s) & Fastest Lap (s) & Speed Trap (km/h) & Position Move
 2026 Great Britain & 93.649 & 91.777 & 330.5 & 258 & 7 & 2 \\
 2026 Belgium & 111.075 & 108.890 & 305.0 & 222 & 7 & 3 \\
 2026 Hungary & 83.932 & 82.000 & 338.0 & 362 & 2 & 3 \\
+2026 Netherlands & 76.134 & 74.230 & 321.0 & 423 & 5 & 5 \\
 \hline
 \end{tabular}
 \end{table*}
@@ -190,7 +192,7 @@ Final circuit scorecard & Objectives 1--4 & A compact comparison of every metric
 \subsection{Measuring Success}
 Success was measured by objective completion rather than by a single performance metric. The final site succeeds if it:
 \begin{enumerate}
-    \item Covers every planned race after adding Canada 2025 and 2026.
+    \item Covers every planned race after adding the latest completed 2025 and 2026 race pair.
     \item Provides a visualization for each major objective.
     \item Makes the charts understandable to viewers who do not already follow Formula 1.
     \item Incorporates beta feedback into concrete changes.
