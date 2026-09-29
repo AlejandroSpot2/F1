@@ -4,7 +4,7 @@
 
 The selected direction is **Terminal Slipstream**: a full-viewport, racetrack-like data narrative built from an original Three.js ASCII/glyph field, Bayer-dither layers, a generated wireframe race-car asset and red/lime timing-terminal graphics.
 
-The core editorial claim remains deliberately narrow: in the nine matched circuits currently available, 2026 usually ran slower and the running order usually moved less. Caution-affected laps rose by one while full-neutralization laps fell by one. That is evidence of a different-looking sample, not proof that the regulations caused the changes or made racing better.
+The core editorial claim remains deliberately narrow: in the fourteen matched circuits currently available, 2026 usually ran slower and the running order usually moved less. Caution-affected laps rose by ten while full-neutralization laps rose by one. That is evidence of a different-looking sample, not proof that the regulations caused the changes or made racing better. The 2026 Madrid race is excluded because there is no 2025 Madrid counterpart for a same-circuit comparison.
 
 ## Architecture
 

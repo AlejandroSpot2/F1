@@ -13,9 +13,14 @@
         ["Monaco", "#2f7d9a"],
         ["Barcelona", "#b0922e"],
         ["Austria", "#577c8e"],
-        ["Great Britain", "#8a5fb4"]
+        ["Great Britain", "#8a5fb4"],
+        ["Belgium", "#a55855"],
+        ["Hungary", "#d47745"],
+        ["Netherlands", "#d2a12e"],
+        ["Italy", "#b14d72"],
+        ["Azerbaijan", "#3f7f8f"]
     ]);
-    const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c", "#2f7d9a", "#b0922e", "#577c8e", "#8a5fb4"];
+    const circuitFallbackColors = ["#8f4f18", "#2f6f63", "#5a4a3b", "#7569a7", "#b35d2c", "#2f7d9a", "#b0922e", "#577c8e", "#8a5fb4", "#a55855", "#d47745", "#d2a12e", "#b14d72", "#3f7f8f"];
     const driverLineColors = new Map([
         ["RUS", "#006f60"],
         ["ANT", "#008d7b"]

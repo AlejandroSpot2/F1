@@ -2,7 +2,7 @@
 
 Project: **Regulation Delta: The Ghost Lap**
 Author: Alejandro Gonzalez
-Current release: July 2026
+Current release: September 2026
 
 ## What this is
 

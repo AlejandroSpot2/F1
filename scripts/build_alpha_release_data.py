@@ -26,6 +26,8 @@ EVENTS = [
     (2025, "Belgian Grand Prix", "Belgium"),
     (2025, "Hungarian Grand Prix", "Hungary"),
     (2025, "Dutch Grand Prix", "Netherlands"),
+    (2025, "Italian Grand Prix", "Italy"),
+    (2025, "Azerbaijan Grand Prix", "Azerbaijan"),
     (2026, "Australian Grand Prix", "Australia"),
     (2026, "Chinese Grand Prix", "China"),
     (2026, "Japanese Grand Prix", "Japan"),
@@ -38,6 +40,8 @@ EVENTS = [
     (2026, "Belgian Grand Prix", "Belgium"),
     (2026, "Hungarian Grand Prix", "Hungary"),
     (2026, "Dutch Grand Prix", "Netherlands"),
+    (2026, "Italian Grand Prix", "Italy"),
+    (2026, "Azerbaijan Grand Prix", "Azerbaijan"),
 ]
 
 # Fallback colors keep the step charts readable when FastF1 does not provide a
